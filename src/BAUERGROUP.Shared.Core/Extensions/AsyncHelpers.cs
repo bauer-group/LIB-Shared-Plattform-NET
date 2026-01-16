@@ -9,9 +9,9 @@ namespace BAUERGROUP.Shared.Core.Extensions
     public static class AsyncHelpers
     {
         /// <summary>
-        /// Execute's an async Task<T> method which has a void return value synchronously
+        /// Execute's an async Task method which has a void return value synchronously.
         /// </summary>
-        /// <param name="oTask">Task<T> method to execute</param>
+        /// <param name="oTask">Task method to execute.</param>
         public static void RunSync(Func<Task> oTask)
         {
             var oExistingContext = SynchronizationContext.Current;
@@ -41,11 +41,11 @@ namespace BAUERGROUP.Shared.Core.Extensions
         }
 
         /// <summary>
-        /// Execute's an async Task<T> method which has a T return type synchronously
+        /// Execute's an async Task method which has a T return type synchronously.
         /// </summary>
-        /// <typeparam name="T">Return Type</typeparam>
-        /// <param name="oTask">Task<T> method to execute</param>
-        /// <returns></returns>
+        /// <typeparam name="T">Return Type.</typeparam>
+        /// <param name="oTask">Task method to execute.</param>
+        /// <returns>The result of the task.</returns>
         public static T RunSync<T>(Func<Task<T>> oTask)
         {
             var oExistingContext = SynchronizationContext.Current;

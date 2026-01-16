@@ -8,12 +8,11 @@ using Sentry;
 namespace BAUERGROUP.Shared.Core.ErrorTracking
 {
     /// <summary>
-    /// Sentry Error Tracking & Performance Monitoring
-    /// Einfache Integration analog zu BGLogger
-    ///
+    /// Sentry Error Tracking and Performance Monitoring.
+    /// Einfache Integration analog zu BGLogger.
     /// Verwendung:
-    /// - Standalone: BGErrorTracking.Init("DSN"); BGErrorTracking.CaptureException(ex);
-    /// - Via BGLogger: BGLogger.Configuration.ErrorTracking = true; (nach Init)
+    /// Standalone: BGErrorTracking.Init("DSN"); BGErrorTracking.CaptureException(ex);
+    /// Via BGLogger: BGLogger.Configuration.ErrorTracking = true; (nach Init).
     /// </summary>
     public sealed class BGErrorTracking
     {
