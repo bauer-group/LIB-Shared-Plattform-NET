@@ -274,7 +274,8 @@ For questions or issues:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-**Note**: Some dependencies (Stimulsoft) require separate commercial licenses. See [DEPENDENCY-LICENSES.md](DEPENDENCY-LICENSES.md) for details.
+**Note**: Some dependencies (Stimulsoft) require separate commercial licenses.
+See [DEPENDENCY-LICENSES.md](DEPENDENCY-LICENSES.md) for details.
 
 ---
 

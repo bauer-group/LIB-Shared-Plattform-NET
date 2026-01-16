@@ -15,13 +15,13 @@
 
     <!-- NuGet Package Metadata -->
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/bauer-group/LIB-Shared-Plattform-DOTNET</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/bauer-group/LIB-Shared-Plattform-DOTNET</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/bauer-group/LIB-Shared-Plattform-NET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/bauer-group/LIB-Shared-Plattform-NET</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <!-- Versioning -->
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>3.0.0</VersionPrefix>
 
     <!-- Assembly Signing -->
     <SignAssembly>true</SignAssembly>

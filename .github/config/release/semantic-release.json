@@ -10,10 +10,16 @@
       }
     ],
     [
+      "semantic-release-dotnet",
+      {
+        "paths": ["Directory.Build.props"]
+      }
+    ],
+    [
       "@semantic-release/git",
       {
-        "assets": ["CHANGELOG.md"],
-        "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
+        "assets": ["CHANGELOG.md", "Directory.Build.props"],
+        "message": "chore(release): ${nextRelease.version} [automated]\n\n${nextRelease.notes}"
       }
     ],
     "@semantic-release/github"
