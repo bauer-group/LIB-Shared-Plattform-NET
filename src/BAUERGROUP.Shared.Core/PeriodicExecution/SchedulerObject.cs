@@ -42,6 +42,15 @@ public class SchedulerObject : ISchedulerObject
         // Override in derived classes for periodic execution
     }
 
+#if NETSTANDARD2_0
+    /// <inheritdoc />
+    [Browsable(false)]
+    public virtual Task ExecuteAsync(CancellationToken cancellationToken = default)
+    {
+        return Task.Run(Execute, cancellationToken);
+    }
+#endif
+
     /// <inheritdoc />
     [Category("Steuerung")]
     [DisplayName("Ausführungsintervall")]

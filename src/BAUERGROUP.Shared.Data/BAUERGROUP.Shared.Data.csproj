@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFrameworks>net10.0;net8.0;netstandard2.0</TargetFrameworks>
     <PackageId>BAUERGROUP.Shared.Data</PackageId>
     <Description>Data persistence layer supporting SQLite, LiteDB, and in-memory storage with integrated caching infrastructure.</Description>
   </PropertyGroup>

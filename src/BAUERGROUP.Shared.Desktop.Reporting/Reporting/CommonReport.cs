@@ -16,7 +16,11 @@ namespace BAUERGROUP.Shared.Desktop.Reporting.Reporting;
 public class CommonReport : IDisposable
 {
     private static bool _licenseApplied;
+#if NET9_0_OR_GREATER
     private static readonly Lock _licenseLock = new();
+#else
+    private static readonly object _licenseLock = new();
+#endif
 
     /// <summary>
     /// Gets the underlying report.

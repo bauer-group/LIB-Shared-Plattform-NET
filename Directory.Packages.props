@@ -54,6 +54,10 @@
     <!-- Reporting (Stimulsoft) - Version bleibt wegen Lizenz! -->
     <PackageVersion Include="Stimulsoft.Dashboards.Win" Version="2022.1.2" />
     <PackageVersion Include="Stimulsoft.Reports.Wpf" Version="2022.1.2" />
+    <!-- Polyfills for netstandard2.0 / net8.0 -->
+    <PackageVersion Include="PolySharp" Version="1.15.0" />
+    <PackageVersion Include="System.Text.Json" Version="8.0.5" />
+    <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
     <!-- Testing -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageVersion Include="xunit" Version="2.9.2" />

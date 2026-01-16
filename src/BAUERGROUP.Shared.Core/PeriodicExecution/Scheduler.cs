@@ -101,7 +101,16 @@ public class Scheduler : IScheduler
         {
             try
             {
+#if NET6_0_OR_GREATER
                 await Task.WhenAll(tasksToWait).WaitAsync(TimeSpan.FromSeconds(30), cancellationToken);
+#else
+                var allTasks = Task.WhenAll(tasksToWait);
+                var completedTask = await Task.WhenAny(allTasks, Task.Delay(TimeSpan.FromSeconds(30), cancellationToken));
+                if (completedTask != allTasks)
+                {
+                    BGLogger.Warn("Scheduler stop timed out waiting for jobs to complete");
+                }
+#endif
             }
             catch (TimeoutException)
             {
@@ -135,7 +144,11 @@ public class Scheduler : IScheduler
     /// <inheritdoc />
     public void RegisterJob(ISchedulerObject job)
     {
+#if NET6_0_OR_GREATER
         ArgumentNullException.ThrowIfNull(job);
+#else
+        if (job == null) throw new ArgumentNullException(nameof(job));
+#endif
 
         lock (_lock)
         {
@@ -149,7 +162,11 @@ public class Scheduler : IScheduler
     /// <inheritdoc />
     public void UnregisterJob(ISchedulerObject job)
     {
+#if NET6_0_OR_GREATER
         ArgumentNullException.ThrowIfNull(job);
+#else
+        if (job == null) throw new ArgumentNullException(nameof(job));
+#endif
 
         lock (_lock)
         {

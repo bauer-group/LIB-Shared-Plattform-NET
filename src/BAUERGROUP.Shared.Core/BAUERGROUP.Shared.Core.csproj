@@ -1,16 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFrameworks>net10.0;net8.0;netstandard2.0</TargetFrameworks>
     <PackageId>BAUERGROUP.Shared.Core</PackageId>
     <Description>Enterprise-grade core library providing logging infrastructure, file system utilities, periodic task scheduling, extension methods, and resilience patterns for .NET applications.</Description>
   </PropertyGroup>
 
+  <!-- Common packages (all TFMs) -->
   <ItemGroup>
     <PackageReference Include="CsvHelper" />
     <PackageReference Include="HtmlAgilityPack" />
     <PackageReference Include="NLog" />
     <PackageReference Include="NLog.Extensions.Logging" />
-    <PackageReference Include="NLog.WindowsEventLog" />
     <PackageReference Include="NLog.Targets.Mail" />
     <PackageReference Include="NLog.Targets.Network" />
     <PackageReference Include="NLog.Targets.Trace" />
@@ -20,8 +21,19 @@
     <PackageReference Include="Sentry" />
     <PackageReference Include="Sentry.NLog" />
     <PackageReference Include="SharpZipLib" />
-  <PackageReference Include="System.Configuration.ConfigurationManager" VersionOverride="10.0.2" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
     <PackageReference Include="System.Runtime.Caching" />
+  </ItemGroup>
+
+  <!-- Windows-only packages -->
+  <ItemGroup Condition="!$(TargetFramework.StartsWith('netstandard'))">
+    <PackageReference Include="NLog.WindowsEventLog" />
+  </ItemGroup>
+
+  <!-- netstandard2.0 polyfills -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Text.Json" VersionOverride="8.0.5" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" VersionOverride="8.0.0" />
   </ItemGroup>
 
 </Project>

@@ -26,7 +26,11 @@ public interface ISchedulerObject
     /// Executes the job asynchronously.
     /// </summary>
     /// <param name="cancellationToken">Cancellation token.</param>
+#if NETSTANDARD2_0
+    Task ExecuteAsync(CancellationToken cancellationToken = default);
+#else
     Task ExecuteAsync(CancellationToken cancellationToken = default) => Task.Run(Execute, cancellationToken);
+#endif
 
     /// <summary>
     /// Gets or sets the interval between executions.

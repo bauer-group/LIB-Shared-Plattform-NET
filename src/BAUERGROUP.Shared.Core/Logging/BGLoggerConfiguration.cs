@@ -44,7 +44,9 @@ namespace BAUERGROUP.Shared.Core.Logging
             Console = false;
             ConsoleColored = false;
             Memory = false;
+#if !NETSTANDARD2_0
             Eventlog = false;
+#endif
             Trace = false;
             Debugger = false;
             LogReceiverService = false;
@@ -263,6 +265,7 @@ namespace BAUERGROUP.Shared.Core.Logging
             }
         }
 
+#if !NETSTANDARD2_0
         public Boolean Eventlog
         {
             set
@@ -286,6 +289,7 @@ namespace BAUERGROUP.Shared.Core.Logging
                 return Targets.AllTargets.Contains(TargetEventlog);
             }
         }
+#endif
 
         public Boolean Trace
         {
@@ -548,8 +552,10 @@ namespace BAUERGROUP.Shared.Core.Logging
             TargetMemory = new MemoryTarget();
             TargetMemory.Layout = TargetFile.Layout;
 
+#if !NETSTANDARD2_0
             TargetEventlog = new EventLogTarget();
-            TargetMemory.Layout = TargetFile.Layout;
+            TargetEventlog.Layout = TargetFile.Layout;
+#endif
 
             TargetTrace = new TraceTarget();
             TargetTrace.Layout = TargetFile.Layout;
@@ -624,7 +630,9 @@ namespace BAUERGROUP.Shared.Core.Logging
             LoggingRuleConsole = new LoggingRule("*", LogLevel.Trace, TargetConsole);
             LoggingRuleConsoleColored = new LoggingRule("*", LogLevel.Trace, TargetConsoleColored);            
             LoggingRuleMemory = new LoggingRule("*", LogLevel.Trace, TargetMemory);
+#if !NETSTANDARD2_0
             LoggingRuleEventlog = new LoggingRule("*", LogLevel.Info, TargetEventlog);
+#endif
             LoggingRuleTrace = new LoggingRule("*", LogLevel.Trace, TargetTrace);
             LoggingRuleDebugger = new LoggingRule("*", LogLevel.Debug, TargetDebugger);
             LoggingRuleLogReceiverService = new LoggingRule("*", LogLevel.Error, TargetLogReceiverService);
@@ -641,7 +649,9 @@ namespace BAUERGROUP.Shared.Core.Logging
         protected ConsoleTarget TargetConsole { get; private set; }
         protected ColoredConsoleTarget TargetConsoleColored { get; private set; }        
         protected MemoryTarget TargetMemory { get; private set; }
+#if !NETSTANDARD2_0
         protected EventLogTarget TargetEventlog { get; private set; }
+#endif
         protected TraceTarget TargetTrace { get; private set; }
         protected DebuggerTarget TargetDebugger { get; private set; }
         protected WebServiceTarget TargetLogReceiverService { get; private set; }
@@ -656,7 +666,9 @@ namespace BAUERGROUP.Shared.Core.Logging
         protected LoggingRule LoggingRuleConsoleColored { get; private set; }
         protected LoggingRule LoggingRuleDebugString { get; private set; }
         protected LoggingRule LoggingRuleMemory { get; private set; }
+#if !NETSTANDARD2_0
         protected LoggingRule LoggingRuleEventlog { get; private set; }
+#endif
         protected LoggingRule LoggingRuleTrace { get; private set; }
         protected LoggingRule LoggingRuleDebugger { get; private set; }
         protected LoggingRule LoggingRuleLogReceiverService { get; private set; }
