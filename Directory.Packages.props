@@ -20,7 +20,7 @@
     <PackageVersion Include="SQLitePCLRaw.bundle_e_sqlcipher" Version="2.1.10" />
     <PackageVersion Include="System.Runtime.Caching" Version="10.0.2" />
     <!-- File Processing -->
-    <PackageVersion Include="CsvHelper" Version="33.0.1" />
+    <PackageVersion Include="CsvHelper" Version="33.1.0" />
     <PackageVersion Include="SharpZipLib" Version="1.4.2" />
     <PackageVersion Include="HtmlAgilityPack" Version="1.11.71" />
     <!-- HTTP / API -->
