@@ -5,59 +5,49 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
     <!-- Assembly Info -->
     <Authors>BAUER GROUP Development Team</Authors>
     <Company>BAUER GROUP</Company>
     <Copyright>Copyright ©2003-2026 BAUER GROUP</Copyright>
     <Product>BAUER GROUP Shared Components</Product>
     <Description>Library for BAUER GROUP Shared Components for .NET. This Component is a Part of our Enterprise Business Framework.</Description>
-
     <!-- NuGet Package Metadata -->
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/bauer-group/LIB-Shared-Plattform-NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/bauer-group/LIB-Shared-Plattform-NET</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-
     <!-- Versioning -->
     <VersionPrefix>3.0.0</VersionPrefix>
-
     <!-- Assembly Signing -->
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)build\BAUERGROUP.Shared.snk</AssemblyOriginatorKeyFile>
-
     <!-- Build Configuration -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
-
     <!-- Central Package Management -->
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-
     <!-- Source Link for better debugging -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-
     <!-- Deterministic builds for reproducibility -->
     <Deterministic>true</Deterministic>
     <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+    <Version>2.0.1</Version>
   </PropertyGroup>
-
   <!-- Shared Icons and Assets -->
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)assets\ApplicationIcon.png" Pack="true" PackagePath="\" Link="ApplicationIcon.png" Visible="false" />
-    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" Link="README.md" Condition="Exists('$(MSBuildThisFileDirectory)README.md')" />
+    <None Include="$(MSBuildThisFileDirectory)assets\ApplicationIcon.png" Pack="true" PackagePath="\" Link="ApplicationIcon.png" Visible="false"/>
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" Link="README.md" Condition="Exists('$(MSBuildThisFileDirectory)README.md')"/>
   </ItemGroup>
-
   <PropertyGroup>
     <PackageIcon>ApplicationIcon.png</PackageIcon>
     <ApplicationIcon>$(MSBuildThisFileDirectory)assets\Application.ico</ApplicationIcon>
   </PropertyGroup>
-
   <!-- Source Link -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All"/>
   </ItemGroup>
 </Project>
