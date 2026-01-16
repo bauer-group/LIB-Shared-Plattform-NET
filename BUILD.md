@@ -142,6 +142,78 @@ dotnet build -c Release -p:ContinuousIntegrationBuild=true
 
 ---
 
+## GitHub Actions Workflow
+
+The repository includes a comprehensive GitHub Actions workflow for automated CI/CD.
+
+Das Repository enthält einen umfassenden GitHub Actions Workflow für automatisierte CI/CD.
+
+### Features / Funktionen
+
+| Feature | Description / Beschreibung |
+| ------- | -------------------------- |
+| **PR Validation** | Build and test on every pull request / Build und Test bei jedem Pull Request |
+| **Semantic Versioning** | Automatic version bumps based on conventional commits / Automatische Versionierung basierend auf Conventional Commits |
+| **Release Creation** | Automatic GitHub releases with changelog / Automatische GitHub Releases mit Changelog |
+| **NuGet Publishing** | Publish to NuGet.org and GitHub Packages / Veröffentlichung auf NuGet.org und GitHub Packages |
+| **Assembly Signing** | Strong-name signing with SNK key / Strong-Name Signierung mit SNK-Schlüssel |
+| **Dependabot** | Automatic dependency updates / Automatische Dependency-Updates |
+
+### Conventional Commits
+
+Use conventional commit messages for automatic versioning:
+
+Verwende Conventional Commit Messages für automatische Versionierung:
+
+| Prefix | Version Bump | Example / Beispiel |
+| ------ | ------------ | ------------------ |
+| `feat:` | Minor (1.x.0) | `feat: add new helper method` |
+| `fix:` | Patch (1.0.x) | `fix: correct null handling` |
+| `feat!:` | Major (x.0.0) | `feat!: breaking API change` |
+| `BREAKING CHANGE:` | Major (x.0.0) | `refactor: update API\n\nBREAKING CHANGE: method renamed` |
+
+### Required Secrets / Erforderliche Secrets
+
+Configure these secrets in your GitHub repository settings:
+
+Diese Secrets müssen in den GitHub Repository-Einstellungen konfiguriert werden:
+
+| Secret | Description / Beschreibung |
+| ------ | -------------------------- |
+| `NUGET_API_KEY` | API key for NuGet.org publishing / API-Schlüssel für NuGet.org Veröffentlichung |
+| `DOTNET_SIGNKEY_BASE64` | Base64-encoded SNK file for assembly signing / Base64-kodierte SNK-Datei für Assembly-Signierung |
+
+### Setup NuGet API Key / NuGet API-Schlüssel einrichten
+
+1. Go to [NuGet.org API Keys](https://www.nuget.org/account/apikeys) / Zu NuGet.org API Keys gehen
+2. Create new API key with push permissions / Neuen API-Schlüssel mit Push-Rechten erstellen
+3. Add as GitHub Secret `NUGET_API_KEY` / Als GitHub Secret `NUGET_API_KEY` hinzufügen
+
+### Setup Assembly Signing Key / SNK-Schlüssel einrichten
+
+```bash
+# Generate new SNK key / Neuen SNK-Schlüssel generieren
+sn -k BAUERGROUP.Shared.snk
+
+# Convert to Base64 for GitHub Secret / In Base64 für GitHub Secret konvertieren
+# Linux/macOS:
+base64 -w 0 BAUERGROUP.Shared.snk > key.b64
+
+# Windows PowerShell:
+[Convert]::ToBase64String([IO.File]::ReadAllBytes("BAUERGROUP.Shared.snk"))
+```
+
+### Manual Workflow Trigger / Manueller Workflow-Start
+
+You can manually trigger the workflow with optional parameters:
+
+Der Workflow kann manuell mit optionalen Parametern gestartet werden:
+
+- **force-release**: Create release even without conventional commits / Release erstellen auch ohne Conventional Commits
+- **version-override**: Specify exact version (e.g., `1.2.3`) / Exakte Version angeben (z.B. `1.2.3`)
+
+---
+
 ## Visual Studio Code
 
 VS Code configuration is included in the `.vscode` folder.

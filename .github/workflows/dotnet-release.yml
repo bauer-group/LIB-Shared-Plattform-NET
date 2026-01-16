@@ -1,0 +1,149 @@
+# =============================================================================
+# Release Workflow - LIB-Shared-Plattform-DOTNET
+# =============================================================================
+# Complete CI/CD workflow for the shared platform libraries using reusable
+# workflows from bauer-group/automation-templates:
+# - PR validation (build & test)
+# - Semantic versioning (conventional commits)
+# - Automatic release creation
+# - NuGet publishing to NuGet.org and GitHub Packages
+# - Assembly signing with SNK key
+# - Platform matrix for Windows-specific TFMs (net10.0-windows)
+#
+# Uses conventional commits for automatic version bumping:
+# - feat: -> minor version bump
+# - fix: -> patch version bump
+# - feat!: or BREAKING CHANGE: -> major version bump
+#
+# Required Secrets:
+# - NUGET_API_KEY: API key for NuGet.org publishing
+# - DOTNET_SIGNKEY_BASE64: Base64-encoded SNK key for assembly signing
+# =============================================================================
+
+name: 🚀 Release & Publish
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '.github/**'
+      - '*.md'
+      - 'docs/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - '*.sln'
+      - 'Directory.Build.props'
+      - 'Directory.Packages.props'
+  workflow_dispatch:
+    inputs:
+      force-release:
+        description: 'Force create release (even without conventional commits)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  # ============================================
+  # Validation (runs on all triggers)
+  # ============================================
+  validate:
+    name: 🔨 Build & Test
+    uses: bauer-group/automation-templates/.github/workflows/dotnet-build.yml@main
+    with:
+      project-path: 'BAUERGROUP.Shared.Plattform.sln'
+      dotnet-version: '10.0.x'
+      run-tests: true
+      collect-coverage: true
+      # Windows runner required for net10.0-windows TFMs
+      runs-on: 'windows-latest'
+    secrets: inherit
+
+  # ============================================
+  # Semantic Release (only on main branch push)
+  # ============================================
+  release:
+    name: 📦 Create Release
+    needs: validate
+    if: |
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      github.event_name == 'workflow_dispatch'
+    uses: bauer-group/automation-templates/.github/workflows/modules-semantic-release.yml@main
+    with:
+      target-branch: 'main'
+      force-release: ${{ inputs.force-release || false }}
+    secrets: inherit
+
+  # ============================================
+  # Publish NuGet Packages (after release)
+  # ============================================
+  publish:
+    name: 📤 Publish to NuGet & GitHub
+    needs: release
+    if: needs.release.outputs.release-created == 'true'
+    uses: bauer-group/automation-templates/.github/workflows/dotnet-publish-library.yml@main
+    with:
+      project-path: 'BAUERGROUP.Shared.Plattform.sln'
+      dotnet-version: '10.0.x'
+
+      # Version from semantic-release
+      release-version: ${{ needs.release.outputs.version }}
+
+      # Platform matrix for Windows TFMs (net10.0-windows)
+      enable-platform-matrix: true
+      runs-on: 'ubuntu-latest'
+      runs-on-windows: 'windows-latest'
+
+      # Assembly signing
+      sign-assembly: true
+
+      # Publishing
+      push-to-nuget: true
+      push-to-github: true
+      nuget-auth-method: 'api-key'
+
+      # Package options
+      include-symbols: true
+      include-source: true
+      deterministic-build: true
+
+      # Update version in project files
+      update-project-version: true
+    secrets: inherit
+
+  # ============================================
+  # PR Package Validation (only on pull requests)
+  # ============================================
+  pr-validate:
+    name: 📋 Validate Package (PR)
+    needs: validate
+    if: github.event_name == 'pull_request'
+    uses: bauer-group/automation-templates/.github/workflows/dotnet-publish-library.yml@main
+    with:
+      project-path: 'BAUERGROUP.Shared.Plattform.sln'
+      dotnet-version: '10.0.x'
+
+      # Preview version for PR
+      version-suffix: 'pr'
+
+      # Platform matrix for Windows TFMs
+      enable-platform-matrix: true
+      runs-on: 'ubuntu-latest'
+      runs-on-windows: 'windows-latest'
+
+      # Build and validate package
+      create-package: true
+      include-symbols: true
+
+      # Don't publish
+      push-to-nuget: false
+      push-to-github: false
+    secrets: inherit
