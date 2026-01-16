@@ -66,6 +66,8 @@ jobs:
       collect-coverage: true
       # Windows runner required for net10.0-windows TFMs
       runs-on: 'windows-latest'
+      # SNK path must match AssemblyOriginatorKeyFile in Directory.Build.props
+      snk-file-path: 'build/BAUERGROUP.Shared.snk'
     secrets: inherit
 
   # ============================================
