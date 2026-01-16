@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>BAUERGROUP.Shared.Core</PackageId>
+    <Description>Enterprise-grade core library providing logging infrastructure, file system utilities, periodic task scheduling, extension methods, and resilience patterns for .NET applications.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" />
+    <PackageReference Include="HtmlAgilityPack" />
+    <PackageReference Include="NLog" />
+    <PackageReference Include="NLog.Extensions.Logging" />
+    <PackageReference Include="NLog.WindowsEventLog" />
+    <PackageReference Include="Polly" />
+    <PackageReference Include="Polly.Extensions" />
+    <PackageReference Include="Sentry" />
+    <PackageReference Include="Sentry.NLog" />
+    <PackageReference Include="SharpZipLib" />
+    <PackageReference Include="System.Runtime.Caching" />
+  </ItemGroup>
+
+</Project>

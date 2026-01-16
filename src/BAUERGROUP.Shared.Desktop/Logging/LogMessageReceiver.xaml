@@ -1,0 +1,15 @@
+﻿<Window x:Class="BAUERGROUP.Shared.Desktop.Logging.LogMessageReceiver"
+        x:ClassModifier="public"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BAUERGROUP.Shared.Desktop.Logging"
+        xmlns:behaviours="clr-namespace:BAUERGROUP.Shared.Desktop.Behaviours"
+        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"        
+        mc:Ignorable="d"
+        Title="BAUER GROUP - Log Message Viewer" Height="400" Width="800" ResizeMode="CanResize" ShowInTaskbar="False" Icon="/BAUERGROUP.Shared.Desktop;component/Images/Application.ico" WindowStartupLocation="Manual" Topmost="True" Left="5" Top="5">
+    <Grid x:Name="grContainer">
+        <local:LogMessageReceiverControl x:Name="ucLogMessages" HorizontalAlignment="Left" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=grContainer, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=grContainer, Mode=OneWay}"/>
+    </Grid>
+</Window>

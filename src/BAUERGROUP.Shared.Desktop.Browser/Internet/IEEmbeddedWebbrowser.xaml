@@ -1,0 +1,10 @@
+﻿<Window x:Class="BAUERGROUP.Shared.Desktop.Browser.Internet.IEEmbeddedWebbrowser"
+        x:ClassModifier="internal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:BAUERGROUP.Shared.Desktop.Browser.Internet"
+        Title="BAUER GROUP - Internet Browser" Height="600" Width="800" ResizeMode="CanResize" ShowInTaskbar="False" Icon="/BAUERGROUP.Shared.Desktop;component/Images/Application.ico" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Grid>
+        <local:IEWebbrowserControl x:Name="ucWebrowser" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top"/>
+    </Grid>
+</Window>

@@ -1,0 +1,82 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+
+namespace BAUERGROUP.Shared.Core.Extensions
+{
+    public static class MD5Helper
+    {
+        //Source: http://msdn.microsoft.com/de-de/library/system.security.cryptography.md5%28v=vs.110%29.aspx
+
+        private static String PrepareMD5HashResult(Byte[] hashBytes)
+        {
+            //Create a new Stringbuilder to collect the bytes and create a string.            
+            StringBuilder stringBuilder = new StringBuilder();
+
+            //Loop through each byte of the hashed data and format each one as a hexadecimal string.
+            for (int i = 0; i < hashBytes.Length; i++)
+            {
+                stringBuilder.Append(hashBytes[i].ToString("x2", CultureInfo.InvariantCulture));
+            }
+
+            //Return the hexadecimal string
+            return stringBuilder.ToString();
+        }
+
+        public static String GetMD5Hash(this String sInput, Encoding oEncoding = null)
+        {
+            //Convert the input string to a byte array and compute the hash.
+            Byte[] hashBytes = MD5.Create().ComputeHash(oEncoding == null ? Encoding.ASCII.GetBytes(sInput) : oEncoding.GetBytes(sInput));
+
+            return PrepareMD5HashResult(hashBytes);
+        }
+
+        public static Boolean VerifyMD5Hash(String sInput, String sMD5Hash)
+        {
+            //Hash the input.
+            String hashOfInput = GetMD5Hash(sInput);
+
+            //Create a StringComparer an compare the hashes.
+            StringComparer stringComparer = StringComparer.OrdinalIgnoreCase;
+
+            if (0 == stringComparer.Compare(hashOfInput, sMD5Hash))
+                return true;
+            else
+                return false;
+        }
+
+        public static Boolean VerifyMD5Hash(Stream sInput, String sMD5Hash)
+        {
+            //Hash the input.
+            String hashOfInput = GetMD5Hash(sInput);
+
+            //Create a StringComparer an compare the hashes.
+            StringComparer stringComparer = StringComparer.OrdinalIgnoreCase;
+
+            if (0 == stringComparer.Compare(hashOfInput, sMD5Hash))
+                return true;
+            else
+                return false;
+        }
+
+        public static String GetMD5Hash(this Stream sInput)
+        {
+            //Convert the input string to a byte array and compute the hash.
+            Byte[] hashBytes = MD5.Create().ComputeHash(sInput);
+
+            return PrepareMD5HashResult(hashBytes);
+        }
+
+        public static String GetMD5HashFromFile(String sFilename)
+        {
+            using (var fileStream = File.OpenRead(sFilename))
+            {
+                return fileStream.GetMD5Hash();
+            }
+        }
+    }
+}

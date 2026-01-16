@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <PackageId>BAUERGROUP.Shared.Desktop.Browser</PackageId>
+    <Description>Embedded Chromium browser controls powered by CefSharp for WPF desktop applications with full-screen support and JavaScript interop.</Description>
+    <Platforms>x86;x64;AnyCPU</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CefSharp.Common.NETCore" />
+    <PackageReference Include="CefSharp.OffScreen.NETCore" />
+    <PackageReference Include="CefSharp.Wpf.NETCore" />
+    <PackageReference Include="Microsoft.Web.WebView2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BAUERGROUP.Shared.Desktop\BAUERGROUP.Shared.Desktop.csproj" />
+  </ItemGroup>
+
+  <!-- CefSharp RuntimeIdentifier Configuration -->
+  <PropertyGroup Condition="'$(PlatformTarget)' == 'x86'">
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x86</RuntimeIdentifier>
+    <SelfContained Condition="'$(SelfContained)' == ''">false</SelfContained>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(PlatformTarget)' == 'x64'">
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+    <SelfContained Condition="'$(SelfContained)' == ''">false</SelfContained>
+  </PropertyGroup>
+
+</Project>

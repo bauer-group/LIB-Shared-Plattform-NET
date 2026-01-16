@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <PackageId>BAUERGROUP.Shared.Desktop</PackageId>
+    <Description>Windows Presentation Foundation (WPF) infrastructure including UI helpers, dialog management, Windows services integration, and printing support.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
+    <PackageReference Include="Microsoft.Win32.SystemEvents" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
+    <PackageReference Include="System.Data.Odbc" />
+    <PackageReference Include="System.Data.SqlClient" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" />
+    <PackageReference Include="System.Text.Encoding.CodePages" />
+    <PackageReference Include="System.Collections.Immutable" />
+    <PackageReference Include="ReactiveUI" />
+    <PackageReference Include="Splat" />
+    <PackageReference Include="Splat.NLog" />
+    <PackageReference Include="System.Reactive" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BAUERGROUP.Shared.Core\BAUERGROUP.Shared.Core.csproj" />
+  </ItemGroup>
+
+</Project>

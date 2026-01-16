@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>BAUERGROUP.Shared.Cloud</PackageId>
+    <Description>Cloud service SDK integrations including Cloudinary media management, Remove.bg background removal, and Fixer.io currency exchange rates.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CloudinaryDotNet" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BAUERGROUP.Shared.API\BAUERGROUP.Shared.API.csproj" />
+  </ItemGroup>
+
+</Project>

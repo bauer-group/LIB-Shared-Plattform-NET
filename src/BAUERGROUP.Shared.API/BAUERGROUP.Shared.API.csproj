@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>BAUERGROUP.Shared.API</PackageId>
+    <Description>HTTP client infrastructure with resilient REST API consumption, automatic retry policies, and efficient file download capabilities.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RestSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BAUERGROUP.Shared.Core\BAUERGROUP.Shared.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>BAUERGROUP.Shared.Data</PackageId>
+    <Description>Data persistence layer supporting SQLite, LiteDB, and in-memory storage with integrated caching infrastructure.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiteDB" />
+    <PackageReference Include="NMemory" />
+    <PackageReference Include="sqlite-net-pcl" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BAUERGROUP.Shared.Core\BAUERGROUP.Shared.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <PackageId>BAUERGROUP.Shared.Desktop.Reporting</PackageId>
+    <Description>Report generation and visualization powered by Stimulsoft Reports with WPF designer and viewer integration.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Stimulsoft Version bleibt wegen Lizenz auf 2022.1.2 -->
+    <PackageReference Include="Stimulsoft.Dashboards.Win" />
+    <PackageReference Include="Stimulsoft.Reports.Wpf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BAUERGROUP.Shared.Desktop\BAUERGROUP.Shared.Desktop.csproj" />
+  </ItemGroup>
+
+</Project>
