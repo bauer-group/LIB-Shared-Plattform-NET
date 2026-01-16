@@ -6,9 +6,9 @@
     <!-- Build & Source Link -->
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     <!-- Core / Utilities -->
-    <PackageVersion Include="NLog" Version="5.3.4" />
+    <PackageVersion Include="NLog" Version="6.0.7" />
     <PackageVersion Include="NLog.Extensions.Logging" Version="5.3.14" />
-    <PackageVersion Include="NLog.WindowsEventLog" Version="5.3.4" />
+    <PackageVersion Include="NLog.WindowsEventLog" Version="6.0.7" />
     <PackageVersion Include="Polly" Version="8.5.0" />
     <PackageVersion Include="Polly.Extensions" Version="8.5.0" />
     <PackageVersion Include="Sentry" Version="5.0.0" />
