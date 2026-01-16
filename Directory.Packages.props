@@ -43,8 +43,8 @@
     <PackageVersion Include="System.Text.Encoding.CodePages" Version="9.0.0" />
     <PackageVersion Include="System.Collections.Immutable" Version="9.0.0" />
     <!-- CefSharp (Chromium Embedded Framework) -->
-    <PackageVersion Include="CefSharp.Common.NETCore" Version="131.3.50" />
-    <PackageVersion Include="CefSharp.OffScreen.NETCore" Version="131.3.50" />
+    <PackageVersion Include="CefSharp.Common.NETCore" Version="143.0.90" />
+    <PackageVersion Include="CefSharp.OffScreen.NETCore" Version="143.0.90" />
     <PackageVersion Include="CefSharp.Wpf.NETCore" Version="131.3.50" />
     <!-- Reporting (Stimulsoft) - Version bleibt wegen Lizenz! -->
     <PackageVersion Include="Stimulsoft.Dashboards.Win" Version="2022.1.2" />
