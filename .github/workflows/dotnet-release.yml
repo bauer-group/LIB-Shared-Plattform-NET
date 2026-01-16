@@ -103,6 +103,9 @@ jobs:
       runs-on: 'ubuntu-latest'
       runs-on-windows: 'windows-latest'
 
+      # Tests already ran in validate job
+      run-tests: false
+
       # Assembly signing
       sign-assembly: true
 
@@ -139,6 +142,9 @@ jobs:
       enable-platform-matrix: true
       runs-on: 'ubuntu-latest'
       runs-on-windows: 'windows-latest'
+
+      # Tests already ran in validate job
+      run-tests: false
 
       # Build and validate package
       create-package: true

@@ -11,6 +11,10 @@
     <PackageReference Include="NLog" />
     <PackageReference Include="NLog.Extensions.Logging" />
     <PackageReference Include="NLog.WindowsEventLog" />
+    <PackageReference Include="NLog.Targets.Mail" />
+    <PackageReference Include="NLog.Targets.Network" />
+    <PackageReference Include="NLog.Targets.Trace" />
+    <PackageReference Include="NLog.Targets.WebService" />
     <PackageReference Include="Polly" />
     <PackageReference Include="Polly.Extensions" />
     <PackageReference Include="Sentry" />

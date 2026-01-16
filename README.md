@@ -278,17 +278,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## Changelog
-
-### Version 10.0.0
-
-- Initial release targeting .NET 10
-- Migration from .NET Standard 2.0
-- System.Text.Json integration (replaced ServiceStack.Text/Newtonsoft.Json)
-- Official Sentry.NLog integration
-- Central Package Management
-- Strong-named assemblies
-
----
-
 **BAUER GROUP** - *Building Better Software Together*

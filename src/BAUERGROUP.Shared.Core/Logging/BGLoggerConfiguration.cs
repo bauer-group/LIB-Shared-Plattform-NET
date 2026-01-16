@@ -514,9 +514,9 @@ namespace BAUERGROUP.Shared.Core.Logging
             TargetFile.Layout = @"${longdate::universalTime=true} - ${level:uppercase=true}: ${message}${onexception:${newline}EXCEPTION DETAILS\:${newline}${exception:format=ToString}}";
             TargetFile.FileName = @"${specialfolder:CommonApplicationData}\${gdc:item=ApplicationName}\Logging\${gdc:item=ApplicationName}.log";
             TargetFile.KeepFileOpen = true;
-            TargetFile.ArchiveFileName = @"${specialfolder:CommonApplicationData}\${gdc:item=ApplicationName}\Logging\${gdc:item=ApplicationName}.{#:yyyy-MM-dd}.log";
-            TargetFile.ArchiveNumbering = ArchiveNumberingMode.Date;
-            TargetFile.ArchiveDateFormat = "yyyy-MM-dd";
+            // NLog 6.0: Neue Archive-Konfiguration mit ArchiveSuffixFormat
+            TargetFile.ArchiveFileName = @"${specialfolder:CommonApplicationData}\${gdc:item=ApplicationName}\Logging\${gdc:item=ApplicationName}.{#}.log";
+            TargetFile.ArchiveSuffixFormat = "yyyy-MM-dd";
             TargetFile.ArchiveEvery = FileArchivePeriod.Day;
             TargetFile.MaxArchiveFiles = 30;
             TargetFile.Encoding = Encoding.Unicode;
@@ -536,7 +536,7 @@ namespace BAUERGROUP.Shared.Core.Logging
             TargetMail.SmtpServer = @"support.bauer-group.com";
             TargetMail.Layout = TargetFile.Layout;
 
-            TargetLogViewer = new NLogViewerTarget();
+            TargetLogViewer = new Log4JXmlTarget();
             TargetLogViewer.Address = String.Format("udp://127.0.0.1:{0}", NLogViewerPort);
 
             TargetConsole = new ConsoleTarget();
@@ -637,7 +637,7 @@ namespace BAUERGROUP.Shared.Core.Logging
         protected DebugTarget TargetDebug { get; private set; }
         protected NetworkTarget TargetNetwork { get; private set; }
         protected MailTarget TargetMail { get; private set; }
-        protected NLogViewerTarget TargetLogViewer { get; private set; }
+        protected Log4JXmlTarget TargetLogViewer { get; private set; }
         protected ConsoleTarget TargetConsole { get; private set; }
         protected ColoredConsoleTarget TargetConsoleColored { get; private set; }        
         protected MemoryTarget TargetMemory { get; private set; }
