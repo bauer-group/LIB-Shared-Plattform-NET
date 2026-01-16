@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "ms-dotnettools.csharp",
+    "ms-dotnettools.csdevkit",
+    "ms-dotnettools.dotnet-interactive-vscode",
+    "formulahendry.dotnet-test-explorer",
+    "kreativ-software.csharpextensions",
+    "patcx.vscode-nuget-gallery",
+    "jmrog.vscode-nuget-package-manager",
+    "fernandoescolar.vscode-solution-explorer",
+    "ryanluker.vscode-coverage-gutters",
+    "eamodio.gitlens",
+    "editorconfig.editorconfig"
+  ]
+}

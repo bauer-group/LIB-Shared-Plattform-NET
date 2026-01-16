@@ -1,0 +1,25 @@
+{
+  "dotnet.defaultSolution": "BAUERGROUP.Shared.Plattform.sln",
+  "omnisharp.enableRoslynAnalyzers": true,
+  "omnisharp.enableEditorConfigSupport": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/.vs": true,
+    "**/TestResults": true,
+    "**/artifacts": true
+  },
+  "search.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/TestResults": true
+  },
+  "coverage-gutters.coverageFileNames": [
+    "coverage.cobertura.xml",
+    "lcov.info"
+  ]
+}

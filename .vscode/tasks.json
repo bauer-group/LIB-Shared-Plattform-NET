@@ -1,0 +1,77 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["build", "${workspaceFolder}/BAUERGROUP.Shared.Plattform.sln", "/property:GenerateFullPaths=true", "/consoleloggerparameters:NoSummary;ForceNoAlign"],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "build (Release)",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["build", "${workspaceFolder}/BAUERGROUP.Shared.Plattform.sln", "-c", "Release", "/property:GenerateFullPaths=true", "/consoleloggerparameters:NoSummary;ForceNoAlign"],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "clean",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["clean", "${workspaceFolder}/BAUERGROUP.Shared.Plattform.sln"],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "restore",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["restore", "${workspaceFolder}/BAUERGROUP.Shared.Plattform.sln"],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "test",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["test", "${workspaceFolder}/BAUERGROUP.Shared.Plattform.sln", "--no-build"],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "dependsOn": "build"
+    },
+    {
+      "label": "test (with coverage)",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "test",
+        "${workspaceFolder}/BAUERGROUP.Shared.Plattform.sln",
+        "--collect:XPlat Code Coverage",
+        "--results-directory",
+        "${workspaceFolder}/TestResults"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "watch",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["watch", "build", "--project", "${workspaceFolder}/BAUERGROUP.Shared.Plattform.sln"],
+      "problemMatcher": "$msCompile",
+      "isBackground": true
+    },
+    {
+      "label": "pack",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["pack", "${workspaceFolder}/BAUERGROUP.Shared.Plattform.sln", "-c", "Release", "-o", "${workspaceFolder}/artifacts"],
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

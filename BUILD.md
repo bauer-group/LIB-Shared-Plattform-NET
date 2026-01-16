@@ -142,6 +142,45 @@ dotnet build -c Release -p:ContinuousIntegrationBuild=true
 
 ---
 
+## Visual Studio Code
+
+VS Code configuration is included in the `.vscode` folder.
+
+VS Code Konfiguration ist im `.vscode` Ordner enthalten.
+
+### Keyboard Shortcuts / Tastaturkürzel
+
+| Shortcut | Action / Aktion |
+| -------- | --------------- |
+| `Ctrl+Shift+B` | Build (default task) / Bauen (Standard-Task) |
+| `Ctrl+Shift+T` | Run tests / Tests ausführen |
+| `F5` | Start debugging / Debuggen starten |
+
+### Recommended Extensions / Empfohlene Erweiterungen
+
+Open VS Code and accept the recommended extensions, or run:
+
+VS Code öffnen und empfohlene Erweiterungen akzeptieren, oder ausführen:
+
+```bash
+code --install-extension ms-dotnettools.csharp
+code --install-extension ms-dotnettools.csdevkit
+code --install-extension fernandoescolar.vscode-solution-explorer
+code --install-extension ryanluker.vscode-coverage-gutters
+```
+
+### Available Tasks / Verfügbare Tasks
+
+- `build` - Build solution (Debug) / Solution bauen (Debug)
+- `build (Release)` - Build solution (Release) / Solution bauen (Release)
+- `test` - Run all tests / Alle Tests ausführen
+- `test (with coverage)` - Run tests with coverage / Tests mit Coverage ausführen
+- `pack` - Create NuGet packages / NuGet-Pakete erstellen
+- `clean` - Clean build artifacts / Build-Artefakte löschen
+- `restore` - Restore dependencies / Abhängigkeiten wiederherstellen
+
+---
+
 ## Troubleshooting / Fehlerbehebung
 
 ### Build fails / Build schlägt fehl
