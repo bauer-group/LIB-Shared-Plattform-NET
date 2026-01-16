@@ -16,6 +16,7 @@
     <PackageReference Include="Sentry" />
     <PackageReference Include="Sentry.NLog" />
     <PackageReference Include="SharpZipLib" />
+  <PackageReference Include="System.Configuration.ConfigurationManager" VersionOverride="10.0.2" />
     <PackageReference Include="System.Runtime.Caching" />
   </ItemGroup>
 

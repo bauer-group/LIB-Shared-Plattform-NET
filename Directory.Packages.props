@@ -4,7 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Build & Source Link -->
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.102" />
     <!-- Core / Utilities -->
     <PackageVersion Include="NLog" Version="5.3.4" />
     <PackageVersion Include="NLog.Extensions.Logging" Version="5.3.14" />
@@ -18,7 +18,7 @@
     <PackageVersion Include="NMemory" Version="3.1.0" />
     <PackageVersion Include="sqlite-net-pcl" Version="1.9.172" />
     <PackageVersion Include="SQLitePCLRaw.bundle_e_sqlcipher" Version="2.1.10" />
-    <PackageVersion Include="System.Runtime.Caching" Version="9.0.0" />
+    <PackageVersion Include="System.Runtime.Caching" Version="10.0.2" />
     <!-- File Processing -->
     <PackageVersion Include="CsvHelper" Version="33.0.1" />
     <PackageVersion Include="SharpZipLib" Version="1.4.2" />
@@ -28,20 +28,20 @@
     <!-- Cloud Services -->
     <PackageVersion Include="CloudinaryDotNet" Version="1.27.1" />
     <!-- Reactive Extensions -->
-    <PackageVersion Include="System.Reactive" Version="6.0.1" />
+    <PackageVersion Include="System.Reactive" Version="6.1.0" />
     <PackageVersion Include="ReactiveUI" Version="20.1.63" />
     <PackageVersion Include="Splat" Version="15.2.22" />
     <PackageVersion Include="Splat.NLog" Version="15.2.22" />
     <!-- Windows Desktop (WPF/WinForms) -->
     <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
-    <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
-    <PackageVersion Include="Microsoft.Win32.SystemEvents" Version="9.0.0" />
-    <PackageVersion Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
-    <PackageVersion Include="System.Data.Odbc" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3650.58" />
+    <PackageVersion Include="Microsoft.Win32.SystemEvents" Version="10.0.2" />
+    <PackageVersion Include="System.Configuration.ConfigurationManager" Version="10.0.2" />
+    <PackageVersion Include="System.Data.Odbc" Version="10.0.2" />
     <PackageVersion Include="System.Data.SqlClient" Version="4.9.0" />
-    <PackageVersion Include="System.ServiceProcess.ServiceController" Version="9.0.0" />
-    <PackageVersion Include="System.Text.Encoding.CodePages" Version="9.0.0" />
-    <PackageVersion Include="System.Collections.Immutable" Version="9.0.0" />
+    <PackageVersion Include="System.ServiceProcess.ServiceController" Version="10.0.2" />
+    <PackageVersion Include="System.Text.Encoding.CodePages" Version="10.0.2" />
+    <PackageVersion Include="System.Collections.Immutable" Version="10.0.2" />
     <!-- CefSharp (Chromium Embedded Framework) -->
     <PackageVersion Include="CefSharp.Common.NETCore" Version="131.3.50" />
     <PackageVersion Include="CefSharp.OffScreen.NETCore" Version="131.3.50" />
@@ -50,7 +50,7 @@
     <PackageVersion Include="Stimulsoft.Dashboards.Win" Version="2022.1.2" />
     <PackageVersion Include="Stimulsoft.Reports.Wpf" Version="2022.1.2" />
     <!-- Testing -->
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageVersion Include="xunit" Version="2.9.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
     <PackageVersion Include="coverlet.collector" Version="6.0.2" />
