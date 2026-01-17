@@ -62,7 +62,7 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
         public void Create(TKey key, TValue value)
         {
             Delete(key);
-            Connection.Insert(new ConcurrentPersistentDictionaryStorage(TableName, ConvertKey2StorageFormat(key), ConvertValue2StorageFormat(value)));
+            Connection!.Insert(new ConcurrentPersistentDictionaryStorage(TableName, ConvertKey2StorageFormat(key), ConvertValue2StorageFormat(value)));
         }
 
         public void Update(TKey key, TValue value)
@@ -73,9 +73,9 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
         public void Delete(TKey key)
         {
             var storageKey = ConvertKey2StorageFormat(key);
-            var query = Connection.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == storageKey);
+            var query = Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == storageKey);
             foreach (var item in query)
-                Connection.Delete<ConcurrentPersistentDictionaryStorage>(item.ID);
+                Connection!.Delete<ConcurrentPersistentDictionaryStorage>(item.ID);
         }
 
         public TValue? Read(TKey key)
@@ -97,11 +97,11 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
         {
             var resultList = new List<TValue>();
 
-            var result = Connection.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName);
+            var result = Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName);
 
             foreach (var entry in result)
             {
-                resultList.Add(ConvertValue2RuntimeFormat(entry.Value));
+                resultList.Add(ConvertValue2RuntimeFormat(entry.Value)!);
             }
 
             return resultList;
@@ -110,11 +110,11 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
         public Dictionary<TKey, TValue> ReadWithKeys()
         {
             var resultDictionary = new Dictionary<TKey, TValue>();
-            var result = Connection.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName);
+            var result = Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName);
 
             foreach (var entry in result)
             {
-                resultDictionary.Add(ConvertKey2RuntimeFormat(entry.Key), ConvertValue2RuntimeFormat(entry.Value));
+                resultDictionary.Add(ConvertKey2RuntimeFormat(entry.Key)!, ConvertValue2RuntimeFormat(entry.Value)!);
             }
 
             return resultDictionary;
@@ -123,14 +123,14 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
         public bool Exists(TKey key)
         {
             var storageKey = ConvertKey2StorageFormat(key);
-            return Connection.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == storageKey).Count() > 0;
+            return Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == storageKey).Count() > 0;
         }
 
         public Int64 Count
         {
             get
             {
-                return Connection.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Count();
+                return Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Count();
             }
         }
 

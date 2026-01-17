@@ -26,7 +26,7 @@ namespace BAUERGROUP.Shared.Core.Streams
         public static Byte[] CopyToBytes(this Stream inputStream)
         {
             var fileBytes = new byte[inputStream.Length];
-            inputStream.Read(fileBytes, 0, (int)inputStream.Length);
+            ReadExactly(inputStream, fileBytes, 0, (int)inputStream.Length);
 
             return fileBytes;
         }
@@ -56,6 +56,24 @@ namespace BAUERGROUP.Shared.Core.Streams
             }
 
             return true;
+        }
+
+        private static void ReadExactly(Stream stream, byte[] buffer, int offset, int count)
+        {
+#if NETSTANDARD2_0
+            int totalRead = 0;
+            while (totalRead < count)
+            {
+                int bytesRead = stream.Read(buffer, offset + totalRead, count - totalRead);
+                if (bytesRead == 0)
+                {
+                    throw new EndOfStreamException("Unexpected end of stream.");
+                }
+                totalRead += bytesRead;
+            }
+#else
+            stream.ReadExactly(buffer, offset, count);
+#endif
         }
     }
 }

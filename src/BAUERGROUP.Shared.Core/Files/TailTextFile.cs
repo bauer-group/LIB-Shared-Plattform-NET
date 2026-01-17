@@ -28,9 +28,34 @@ public class TailTextFile : FileChangesMonitor
     public string ReadTail(ushort length = 1024)
     {
         using var fileStream = File.Open(_fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        fileStream.Seek(0 - length, SeekOrigin.End);
-        var bytes = new byte[length];
-        fileStream.Read(bytes, 0, length);
+
+        var actualLength = (int)Math.Min(length, fileStream.Length);
+        if (actualLength == 0)
+        {
+            return string.Empty;
+        }
+
+        fileStream.Seek(-actualLength, SeekOrigin.End);
+        var bytes = new byte[actualLength];
+        ReadExactly(fileStream, bytes, 0, actualLength);
         return Encoding.Default.GetString(bytes);
+    }
+
+    private static void ReadExactly(Stream stream, byte[] buffer, int offset, int count)
+    {
+#if NETSTANDARD2_0
+        int totalRead = 0;
+        while (totalRead < count)
+        {
+            int bytesRead = stream.Read(buffer, offset + totalRead, count - totalRead);
+            if (bytesRead == 0)
+            {
+                throw new EndOfStreamException("Unexpected end of stream.");
+            }
+            totalRead += bytesRead;
+        }
+#else
+        stream.ReadExactly(buffer, offset, count);
+#endif
     }
 }
