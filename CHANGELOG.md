@@ -1,3 +1,9 @@
+## [2.1.8](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v2.1.7...v2.1.8) (2026-01-17)
+
+### ♻️ Refactoring
+
+* improve file reading and downloading utilities with enhanced error handling and async support ([b7e8c1f](https://github.com/bauer-group/LIB-Shared-Plattform-NET/commit/b7e8c1fd6c9cd65263f86e19a4a11da45fa646bb))
+
 ## [2.1.7](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v2.1.6...v2.1.7) (2026-01-17)
 
 ### ♻️ Refactoring
