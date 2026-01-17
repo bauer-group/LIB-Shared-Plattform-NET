@@ -165,9 +165,13 @@ BAUERGROUP.Shared.Plattform/
 │   └── BAUERGROUP.Shared.Tests/          # Unit tests
 ├── assets/
 │   └── icons/                            # Shared icons
+├── docs/
+│   ├── BUILD.md                          # Build documentation
+│   ├── CHANGELOG.md                      # Version history
+│   ├── DEPENDENCY-LICENSES.md            # License analysis
+│   └── INSTALLATION.md                   # Installation guide
 ├── Directory.Build.props                 # Shared build configuration
 ├── Directory.Packages.props              # Central package management
-├── DEPENDENCY-LICENSES.md               # License analysis
 └── BAUERGROUP.Shared.Plattform.sln      # Solution file
 ```
 
@@ -229,7 +233,7 @@ Two Sentry integration options are available:
 
 ## Third-Party Licenses
 
-This project uses various open-source packages. See [DEPENDENCY-LICENSES.md](DEPENDENCY-LICENSES.md) for a complete license analysis.
+This project uses various open-source packages. See [DEPENDENCY-LICENSES.md](docs/DEPENDENCY-LICENSES.md) for a complete license analysis.
 
 ### Key Dependencies
 
@@ -275,7 +279,7 @@ For questions or issues:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 **Note**: Some dependencies (Stimulsoft) require separate commercial licenses.
-See [DEPENDENCY-LICENSES.md](DEPENDENCY-LICENSES.md) for details.
+See [DEPENDENCY-LICENSES.md](docs/DEPENDENCY-LICENSES.md) for details.
 
 ---
 

@@ -22,10 +22,14 @@ This document provides a comprehensive analysis of all NuGet package dependencie
 
 ### Conclusion
 
-✅ **No critical license collisions detected.** All dependencies are compatible with MIT license distribution, with the following notes:
+✅ **No critical license collisions.**
 
-1. **CefSharp (Chromium)**: LGPL 2.1 + BSD - Compatible when dynamically linked (which it is)
-2. **Stimulsoft**: Proprietary license - Users must acquire their own license from Stimulsoft
+Since all dependencies are **dynamically linked** (not statically), all licenses are unproblematic for use under MIT.
+
+**Notes:**
+
+1. **CefSharp (Chromium)**: BSD 3-Clause - Dynamically linked, no restrictions
+2. **Stimulsoft**: Proprietary license - Requires own license key (see below)
 
 ---
 
@@ -116,10 +120,14 @@ This document provides a comprehensive analysis of all NuGet package dependencie
 | Stimulsoft.Dashboards.Win | 2022.1.2 | **Proprietary** | ⚠️ Requires License |
 | Stimulsoft.Reports.Wpf | 2022.1.2 | **Proprietary** | ⚠️ Requires License |
 
-**Important:** Stimulsoft is a commercial product. Users of this library who wish to use the reporting features must:
-1. Acquire a valid Stimulsoft license from https://www.stimulsoft.com/
-2. The Stimulsoft packages are pinned to version 2022.1.2 due to licensing constraints
-3. Stimulsoft license is NOT included with this MIT-licensed library
+**Important:**
+
+Stimulsoft is a commercial product. To use the reporting features:
+
+1. Acquire your own Stimulsoft license: [stimulsoft.com](https://www.stimulsoft.com/)
+2. Set license key as environment variable:
+   - See: `.env.example` → `STIMULSOFT_LICENSE_KEY`
+3. Stimulsoft packages are pinned to version 2022.1.2
 
 ### Testing
 
@@ -181,7 +189,6 @@ Requires:
 - Not redistributable without proper licensing
 
 ---
-
 
 ## Generated Information
 

@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) BAUER GROUP
+Copyright (c) 2003-2026 BAUER GROUP
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,21 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
--------------------------------------------------------------------------------
-
-THIRD-PARTY NOTICES
-
-This software includes components from third-party libraries. For a complete
-list of dependencies and their licenses, see DEPENDENCY-LICENSES.md.
-
-IMPORTANT NOTICE REGARDING STIMULSOFT:
-
-The BAUERGROUP.Shared.Desktop.Reporting package includes integration with
-Stimulsoft Reports, which is a COMMERCIAL PRODUCT with a PROPRIETARY LICENSE.
-
-If you use the reporting functionality, you MUST obtain a valid Stimulsoft
-license from https://www.stimulsoft.com/. The Stimulsoft license is NOT
-covered by this MIT license and requires separate licensing.
-
-All other dependencies are compatible with the MIT license (MIT, BSD, Apache 2.0).
