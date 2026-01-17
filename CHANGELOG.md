@@ -1,3 +1,10 @@
+## [2.1.6](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v2.1.5...v2.1.6) (2026-01-17)
+
+### 🐛 Bug Fixes
+
+* update MIME type detection to return specific types and improve test cases ([a10b9af](https://github.com/bauer-group/LIB-Shared-Plattform-NET/commit/a10b9afa2a4e311196a431c7b74beb8f71c040d4))
+* update mime type handling to include application/octet-stream ([d45c912](https://github.com/bauer-group/LIB-Shared-Plattform-NET/commit/d45c912aaad6919926fda671653b7f6c8d9a8367))
+
 ## [2.1.5](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v2.1.4...v2.1.5) (2026-01-17)
 
 ### ♻️ Refactoring
