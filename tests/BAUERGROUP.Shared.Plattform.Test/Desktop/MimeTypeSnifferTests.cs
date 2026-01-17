@@ -12,7 +12,7 @@ public class MimeTypeSnifferTests
 
         var result = MimeTypeSniffer.GetMime(pngHeader);
 
-        result.Should().BeOneOf("image/png", "image/x-png", "application/octet-stream", "unknown/unknown");
+        result.Should().Be("image/png");
     }
 
     [Fact]
@@ -23,18 +23,18 @@ public class MimeTypeSnifferTests
 
         var result = MimeTypeSniffer.GetMime(jpegHeader);
 
-        result.Should().BeOneOf("image/jpeg", "image/pjpeg", "unknown/unknown");
+        result.Should().Be("image/jpeg");
     }
 
     [Fact]
     public void GetMime_WithGifHeader_ReturnsGifMimeType()
     {
-        // GIF file signature: 47 49 46 38 (GIF8)
+        // GIF file signature: 47 49 46 38 (GIF89a)
         var gifHeader = new byte[] { 0x47, 0x49, 0x46, 0x38, 0x39, 0x61 };
 
         var result = MimeTypeSniffer.GetMime(gifHeader);
 
-        result.Should().BeOneOf("image/gif", "unknown/unknown");
+        result.Should().Be("image/gif");
     }
 
     [Fact]
@@ -45,29 +45,28 @@ public class MimeTypeSnifferTests
 
         var result = MimeTypeSniffer.GetMime(pdfHeader);
 
-        result.Should().BeOneOf("application/pdf", "unknown/unknown");
+        result.Should().Be("application/pdf");
     }
 
     [Fact]
-    public void GetMime_WithUnknownHeader_ReturnsUnknown()
+    public void GetMime_WithUnknownHeader_ReturnsOctetStream()
     {
         // Random bytes that don't match any known signature
         var unknownHeader = new byte[] { 0x12, 0x34, 0x56, 0x78 };
 
         var result = MimeTypeSniffer.GetMime(unknownHeader);
 
-        // Should return unknown/unknown or a generic type
-        result.Should().NotBeNullOrEmpty();
+        result.Should().Be("application/octet-stream");
     }
 
     [Fact]
-    public void GetMime_WithEmptyArray_ReturnsResult()
+    public void GetMime_WithEmptyArray_ReturnsUnknown()
     {
         var emptyHeader = Array.Empty<byte>();
 
         var result = MimeTypeSniffer.GetMime(emptyHeader);
 
-        result.Should().NotBeNullOrEmpty();
+        result.Should().Be("unknown/unknown");
     }
 
     [Fact]
@@ -78,7 +77,7 @@ public class MimeTypeSnifferTests
 
         var result = MimeTypeSniffer.GetMime(htmlBytes);
 
-        result.Should().BeOneOf("text/html", "unknown/unknown");
+        result.Should().Be("text/html");
     }
 
     [Fact]
@@ -89,7 +88,7 @@ public class MimeTypeSnifferTests
 
         var result = MimeTypeSniffer.GetMime(zipHeader);
 
-        result.Should().BeOneOf("application/x-zip-compressed", "application/zip", "unknown/unknown");
+        result.Should().Be("application/zip");
     }
 
     [Fact]
@@ -100,6 +99,92 @@ public class MimeTypeSnifferTests
 
         var result = MimeTypeSniffer.GetMime(bmpHeader);
 
-        result.Should().BeOneOf("image/bmp", "image/x-bmp", "application/octet-stream", "unknown/unknown");
+        result.Should().Be("image/bmp");
+    }
+
+    [Fact]
+    public void GetMime_WithWebpHeader_ReturnsWebpMimeType()
+    {
+        // WebP file signature: RIFF....WEBP
+        var webpHeader = new byte[] { 0x52, 0x49, 0x46, 0x46, 0x00, 0x00, 0x00, 0x00, 0x57, 0x45, 0x42, 0x50 };
+
+        var result = MimeTypeSniffer.GetMime(webpHeader);
+
+        result.Should().Be("image/webp");
+    }
+
+    [Fact]
+    public void GetMime_WithMp3Header_ReturnsMp3MimeType()
+    {
+        // MP3 with ID3 tag
+        var mp3Header = new byte[] { 0x49, 0x44, 0x33, 0x04, 0x00, 0x00 };
+
+        var result = MimeTypeSniffer.GetMime(mp3Header);
+
+        result.Should().Be("audio/mpeg");
+    }
+
+    [Fact]
+    public void GetMime_WithGzipHeader_ReturnsGzipMimeType()
+    {
+        // Gzip signature: 1F 8B
+        var gzipHeader = new byte[] { 0x1F, 0x8B, 0x08, 0x00 };
+
+        var result = MimeTypeSniffer.GetMime(gzipHeader);
+
+        result.Should().Be("application/gzip");
+    }
+
+    [Fact]
+    public void GetMime_WithXmlHeader_ReturnsXmlMimeType()
+    {
+        // XML declaration
+        var xmlBytes = System.Text.Encoding.UTF8.GetBytes("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+
+        var result = MimeTypeSniffer.GetMime(xmlBytes);
+
+        result.Should().Be("application/xml");
+    }
+
+    [Fact]
+    public void GetMime_WithExeHeader_ReturnsExeMimeType()
+    {
+        // EXE/DLL signature: MZ
+        var exeHeader = new byte[] { 0x4D, 0x5A, 0x90, 0x00 };
+
+        var result = MimeTypeSniffer.GetMime(exeHeader);
+
+        result.Should().Be("application/x-msdownload");
+    }
+
+    [Fact]
+    public void GetMime_WithWoffHeader_ReturnsWoffMimeType()
+    {
+        // WOFF signature: wOFF
+        var woffHeader = new byte[] { 0x77, 0x4F, 0x46, 0x46 };
+
+        var result = MimeTypeSniffer.GetMime(woffHeader);
+
+        result.Should().Be("font/woff");
+    }
+
+    [Fact]
+    public void GetMimeOrDefault_WithEmptyArray_ReturnsOctetStream()
+    {
+        var emptyHeader = Array.Empty<byte>();
+
+        var result = MimeTypeSniffer.GetMimeOrDefault(emptyHeader);
+
+        result.Should().Be("application/octet-stream");
+    }
+
+    [Fact]
+    public void GetMime_WithPlainText_ReturnsTextPlain()
+    {
+        var textBytes = System.Text.Encoding.UTF8.GetBytes("Hello, this is plain text content.");
+
+        var result = MimeTypeSniffer.GetMime(textBytes);
+
+        result.Should().Be("text/plain");
     }
 }
