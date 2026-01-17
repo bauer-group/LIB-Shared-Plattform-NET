@@ -1,3 +1,9 @@
+## [2.1.7](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v2.1.6...v2.1.7) (2026-01-17)
+
+### ♻️ Refactoring
+
+* move MimeTypeSniffer to core and update tests for new namespace ([e2e3dd4](https://github.com/bauer-group/LIB-Shared-Plattform-NET/commit/e2e3dd4f023013f3eb4ffc4ab4ef5752bbdcd328))
+
 ## [2.1.6](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v2.1.5...v2.1.6) (2026-01-17)
 
 ### 🐛 Bug Fixes
