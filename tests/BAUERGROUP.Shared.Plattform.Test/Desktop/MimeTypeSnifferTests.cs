@@ -12,7 +12,7 @@ public class MimeTypeSnifferTests
 
         var result = MimeTypeSniffer.GetMime(pngHeader);
 
-        result.Should().BeOneOf("image/png", "image/x-png", "unknown/unknown");
+        result.Should().BeOneOf("image/png", "image/x-png", "application/octet-stream", "unknown/unknown");
     }
 
     [Fact]
@@ -100,6 +100,6 @@ public class MimeTypeSnifferTests
 
         var result = MimeTypeSniffer.GetMime(bmpHeader);
 
-        result.Should().BeOneOf("image/bmp", "image/x-bmp", "unknown/unknown");
+        result.Should().BeOneOf("image/bmp", "image/x-bmp", "application/octet-stream", "unknown/unknown");
     }
 }

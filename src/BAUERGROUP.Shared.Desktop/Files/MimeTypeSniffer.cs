@@ -49,13 +49,13 @@ namespace BAUERGROUP.Shared.Desktop.Files
         /// </remarks>
         [DllImport(@"urlmon.dll", CharSet = CharSet.Auto)]
         private extern static uint FindMimeFromData(
-                uint pBC,
+                IntPtr pBC,
                 [MarshalAs(UnmanagedType.LPStr)] string pwzUrl,
                 [MarshalAs(UnmanagedType.LPArray)] byte[] pBuffer,
                 uint cbSize,
                 [MarshalAs(UnmanagedType.LPStr)] string pwzMimeProposed,
                 uint dwMimeFlags,
-                out uint ppwzMimeOut,
+                out IntPtr ppwzMimeOut,
                 uint dwReserverd
         );
 
@@ -73,21 +73,20 @@ namespace BAUERGROUP.Shared.Desktop.Files
         {
             try
             {
-                uint mimetype;
-                uint result = FindMimeFromData(0,
+                IntPtr mimeTypePtr;
+                uint result = FindMimeFromData(IntPtr.Zero,
                                                 null!,
                                                 header,
                                                 (uint)header.Length,
                                                 null!,
                                                 FMFD_RETURNUPDATEDIMGMIMES,
-                                                out mimetype,
+                                                out mimeTypePtr,
                                                 RESERVED);
                 if (result != S_OK)
                 {
                     return UNKNOWN;
                 }
 
-                IntPtr mimeTypePtr = new IntPtr(mimetype);
                 string? mime = Marshal.PtrToStringUni(mimeTypePtr);
                 Marshal.FreeCoTaskMem(mimeTypePtr);
                 return mime ?? UNKNOWN;
