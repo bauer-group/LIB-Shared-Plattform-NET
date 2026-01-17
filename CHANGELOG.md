@@ -1,3 +1,9 @@
+## [2.1.9](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v2.1.8...v2.1.9) (2026-01-17)
+
+### ♻️ Refactoring
+
+* update warning suppression and improve thread safety in tests ([ae50cff](https://github.com/bauer-group/LIB-Shared-Plattform-NET/commit/ae50cffe226642ad0bc3537c020320933d7d90e3))
+
 ## [2.1.8](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v2.1.7...v2.1.8) (2026-01-17)
 
 ### ♻️ Refactoring
