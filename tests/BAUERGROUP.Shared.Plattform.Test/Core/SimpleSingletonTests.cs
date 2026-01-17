@@ -38,7 +38,7 @@ public class SimpleSingletonTests
     }
 
     [Fact]
-    public void Instance_IsThreadSafe()
+    public async Task Instance_IsThreadSafe()
     {
         var instances = new TestSingletonClass[100];
         var tasks = new Task[100];
@@ -52,7 +52,7 @@ public class SimpleSingletonTests
             });
         }
 
-        Task.WaitAll(tasks);
+        await Task.WhenAll(tasks);
 
         // All should be the same instance
         instances.All(i => ReferenceEquals(i, instances[0])).Should().BeTrue();

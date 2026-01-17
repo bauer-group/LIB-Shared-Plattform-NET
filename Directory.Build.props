@@ -32,7 +32,7 @@
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)build\BAUERGROUP.Shared.snk</AssemblyOriginatorKeyFile>
     <!-- Build Configuration -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <NoWarn>$(NoWarn);CS1591;NETSDK1206</NoWarn>
     <!-- Central Package Management -->
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <!-- Source Link for better debugging -->

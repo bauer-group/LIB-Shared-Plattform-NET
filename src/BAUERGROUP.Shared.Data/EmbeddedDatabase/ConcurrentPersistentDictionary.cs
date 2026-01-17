@@ -12,18 +12,17 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
 {
     public class ConcurrentPersistentDictionary<TKey, TValue> : IDisposable where TKey : IComparable<TKey>
     {
-        protected String FileName { get; private set; }
-        protected String TableName { get; private set; }
+        protected string FileName { get; private set; } = null!;
+        protected string TableName { get; private set; } = null!;
         protected SQLiteConnection? Connection { get; private set; }
 
-        public ConcurrentPersistentDictionary(String? dataStorageDirectory = null, String? databaseName = null, String? tableName = null)
+        public ConcurrentPersistentDictionary(string? dataStorageDirectory = null, string? databaseName = null, string? tableName = null)
         {
-            var directory = String.IsNullOrEmpty(dataStorageDirectory) ? ApplicationDatabaseFolder : dataStorageDirectory;
-            var dbName = String.IsNullOrEmpty(databaseName) ? @"Database" : databaseName;
-            var table = String.IsNullOrEmpty(tableName) ? dbName : tableName;
+            string directory = dataStorageDirectory ?? ApplicationDatabaseFolder;
+            string dbName = databaseName ?? "Database";
 
-            FileName = Path.Combine(directory, String.Format("{0}.db", dbName));
-            TableName = table;
+            FileName = Path.Combine(directory, $"{dbName}.db");
+            TableName = tableName ?? dbName;
 
             lock (ConcurrentPersistentDictionaryShared.GlobalLock)
             {
