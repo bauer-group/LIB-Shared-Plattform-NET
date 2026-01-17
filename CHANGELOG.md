@@ -1,3 +1,11 @@
+## [2.1.2](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v2.1.1...v2.1.2) (2026-01-17)
+
+### ♻️ Refactoring
+
+* Update nullable reference types project ([a4f03dc](https://github.com/bauer-group/LIB-Shared-Plattform-NET/commit/a4f03dc97382333c7ed7f2a3ab6020aee3364a6e))
+* Update nullable reference types project ([9224db2](https://github.com/bauer-group/LIB-Shared-Plattform-NET/commit/9224db249f80fe9266856f1d4a08aeae19bc2484))
+* Update nullable reference types project ([90cab37](https://github.com/bauer-group/LIB-Shared-Plattform-NET/commit/90cab37cc66683b58fb7efc8806283742e9c298e))
+
 ## [2.1.1](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v2.1.0...v2.1.1) (2026-01-17)
 
 ### ♻️ Refactoring
