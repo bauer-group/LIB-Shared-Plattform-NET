@@ -1,4 +1,4 @@
-﻿using BAUERGROUP.Shared.Core.Application;
+using BAUERGROUP.Shared.Core.Application;
 using BAUERGROUP.Shared.Data.EmbeddedDatabase.Internal;
 using BAUERGROUP.Shared.Core.Extensions;
 using System.Text.Json;
@@ -16,19 +16,19 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
         protected String TableName { get; private set; }
         protected SQLiteConnection? Connection { get; private set; }
 
-        public ConcurrentPersistentDictionary(String? sDataStorageDirectory = null, String? sDatabaseName = null, String? sTableName = null)
+        public ConcurrentPersistentDictionary(String? dataStorageDirectory = null, String? databaseName = null, String? tableName = null)
         {
-            var sDirectory = String.IsNullOrEmpty(sDataStorageDirectory) ? ApplicationDatabaseFolder : sDataStorageDirectory;
-            var sDBName = String.IsNullOrEmpty(sDatabaseName) ? @"Database" : sDatabaseName;
-            var sTable = String.IsNullOrEmpty(sTableName) ? sDBName : sTableName;
+            var directory = String.IsNullOrEmpty(dataStorageDirectory) ? ApplicationDatabaseFolder : dataStorageDirectory;
+            var dbName = String.IsNullOrEmpty(databaseName) ? @"Database" : databaseName;
+            var table = String.IsNullOrEmpty(tableName) ? dbName : tableName;
 
-            FileName = Path.Combine(sDirectory, String.Format("{0}.db", sDBName));
-            TableName = sTable;
+            FileName = Path.Combine(directory, String.Format("{0}.db", dbName));
+            TableName = table;
 
             lock (ConcurrentPersistentDictionaryShared.GlobalLock)
             {
-                Connection = new SQLiteConnection(FileName, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.SharedCache);                
-                Connection.CreateTable<ConcurrentPersistentDictionaryStorage>();                
+                Connection = new SQLiteConnection(FileName, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.SharedCache);
+                Connection.CreateTable<ConcurrentPersistentDictionaryStorage>();
             }
         }
 
@@ -38,7 +38,7 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
             {
                 if (Connection == null)
                     return;
-                
+
                 Connection.Close();
                 Connection.Dispose();
                 Connection = null;
@@ -53,39 +53,39 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
             }
         }
 
-        protected static void CreatePath(String sPath)
+        protected static void CreatePath(String path)
         {
-            if (!Directory.Exists(sPath))
-                Directory.CreateDirectory(sPath);
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
         }
 
-        public void Create(TKey oKey, TValue oValue)
-        {            
-            Delete(oKey);
-            Connection.Insert(new ConcurrentPersistentDictionaryStorage(TableName, ConvertKey2StorageFormat(oKey), ConvertValue2StorageFormat(oValue)));            
-        }
-
-        public void Update(TKey oKey, TValue oValue)
-        {            
-            Create(oKey, oValue);           
-        }
-
-        public void Delete(TKey oKey)
+        public void Create(TKey key, TValue value)
         {
-            var sKey = ConvertKey2StorageFormat(oKey);
-            var oQuery = Connection.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == sKey);
-            foreach (var oItem in oQuery)
-                Connection.Delete<ConcurrentPersistentDictionaryStorage>(oItem.ID);
+            Delete(key);
+            Connection.Insert(new ConcurrentPersistentDictionaryStorage(TableName, ConvertKey2StorageFormat(key), ConvertValue2StorageFormat(value)));
         }
 
-        public TValue? Read(TKey oKey)
+        public void Update(TKey key, TValue value)
+        {
+            Create(key, value);
+        }
+
+        public void Delete(TKey key)
+        {
+            var storageKey = ConvertKey2StorageFormat(key);
+            var query = Connection.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == storageKey);
+            foreach (var item in query)
+                Connection.Delete<ConcurrentPersistentDictionaryStorage>(item.ID);
+        }
+
+        public TValue? Read(TKey key)
         {
             try
             {
-                var sKey = ConvertKey2StorageFormat(oKey);
-                var oResult = Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == sKey).Single();
+                var storageKey = ConvertKey2StorageFormat(key);
+                var result = Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == storageKey).Single();
 
-                return JsonSerializer.Deserialize<TValue>(oResult.Value);
+                return JsonSerializer.Deserialize<TValue>(result.Value);
             }
             catch (InvalidOperationException)
             {
@@ -95,35 +95,35 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
 
         public List<TValue> Read()
         {
-            var oResultList = new List<TValue>();
+            var resultList = new List<TValue>();
 
-            var oResult = Connection.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName);
+            var result = Connection.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName);
 
-            foreach (var oEntry in oResult)
+            foreach (var entry in result)
             {
-                oResultList.Add(ConvertValue2RuntimeFormat(oEntry.Value));
+                resultList.Add(ConvertValue2RuntimeFormat(entry.Value));
             }
 
-            return oResultList;
+            return resultList;
         }
 
         public Dictionary<TKey, TValue> ReadWithKeys()
         {
-            var oResultDictionary = new Dictionary<TKey, TValue>();
-            var oResult = Connection.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName);
+            var resultDictionary = new Dictionary<TKey, TValue>();
+            var result = Connection.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName);
 
-            foreach (var oEntry in oResult)
+            foreach (var entry in result)
             {
-                oResultDictionary.Add(ConvertKey2RuntimeFormat(oEntry.Key), ConvertValue2RuntimeFormat(oEntry.Value));                
+                resultDictionary.Add(ConvertKey2RuntimeFormat(entry.Key), ConvertValue2RuntimeFormat(entry.Value));
             }
-            
-            return oResultDictionary;
+
+            return resultDictionary;
         }
 
-        public bool Exists(TKey oKey)
+        public bool Exists(TKey key)
         {
-            var sKey = ConvertKey2StorageFormat(oKey);
-            return Connection.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == sKey).Count() > 0;
+            var storageKey = ConvertKey2StorageFormat(key);
+            return Connection.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == storageKey).Count() > 0;
         }
 
         public Int64 Count
@@ -134,24 +134,24 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
             }
         }
 
-        private String ConvertKey2StorageFormat(TKey oKey)
+        private String ConvertKey2StorageFormat(TKey key)
         {
-            return ObjectHelper.SerializeToJSON<TKey>(oKey);
+            return ObjectHelper.SerializeToJSON<TKey>(key);
         }
 
-        private TKey? ConvertKey2RuntimeFormat(String sKey)
+        private TKey? ConvertKey2RuntimeFormat(String key)
         {
-            return ObjectHelper.DeserializeFromJSON<TKey>(sKey);
+            return ObjectHelper.DeserializeFromJSON<TKey>(key);
         }
 
-        private String ConvertValue2StorageFormat(TValue oValue)
+        private String ConvertValue2StorageFormat(TValue value)
         {
-            return ObjectHelper.SerializeToJSON<TValue>(oValue);
+            return ObjectHelper.SerializeToJSON<TValue>(value);
         }
 
-        private TValue? ConvertValue2RuntimeFormat(String sValue)
+        private TValue? ConvertValue2RuntimeFormat(String value)
         {
-            return ObjectHelper.DeserializeFromJSON<TValue>(sValue);
+            return ObjectHelper.DeserializeFromJSON<TValue>(value);
         }
     }
 }

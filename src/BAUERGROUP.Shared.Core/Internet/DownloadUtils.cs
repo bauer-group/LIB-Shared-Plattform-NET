@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,18 +10,18 @@ namespace BAUERGROUP.Shared.Core.Internet
 {
     public static class DownloadUtils
     {
-        public static Stream DownloadContentToStream(String sURL, Boolean bAcceptInvalidCertificates = false)
+        public static Stream DownloadContentToStream(String url, Boolean acceptInvalidCertificates = false)
         {
-            HttpWebRequest httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(sURL);
+            HttpWebRequest httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
             httpWebRequest.AllowAutoRedirect = true;
             httpWebRequest.AllowWriteStreamBuffering = true;
 
-            if (bAcceptInvalidCertificates)
+            if (acceptInvalidCertificates)
                 httpWebRequest.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
 
             HttpWebResponse httpWebReponse = (HttpWebResponse)httpWebRequest.GetResponse();
             var httpStream = httpWebReponse.GetResponseStream();
-            
+
             //Download the content and copy it to an memory stream, to have an seekable stream
             var memoryStream = httpStream.CopyToMemoryStream();
 
@@ -32,9 +32,9 @@ namespace BAUERGROUP.Shared.Core.Internet
             return memoryStream;
         }
 
-        public static Stream DownloadContentToStream(Uri oURL)
+        public static Stream DownloadContentToStream(Uri url)
         {
-            return DownloadContentToStream(oURL.AbsoluteUri);
+            return DownloadContentToStream(url.AbsoluteUri);
         }
     }
 }

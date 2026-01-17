@@ -1,4 +1,4 @@
-﻿using CloudinaryDotNet;
+using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using System;
 using System.Collections.Generic;
@@ -10,17 +10,17 @@ namespace BAUERGROUP.Shared.Cloud.CloudinaryClient
     {
         protected CloudinaryImageManagerConfiguration Configuration { get; private set; }
         protected Cloudinary Client { get; private set; } = null!;
-        public CloudinaryImageManager(CloudinaryImageManagerConfiguration oConfiguration)
+        public CloudinaryImageManager(CloudinaryImageManagerConfiguration configuration)
         {
-            Configuration = oConfiguration;
+            Configuration = configuration;
 
             Initalize();
         }
 
         private void Initalize()
         {
-            var oAccount = new Account(Configuration.Name, Configuration.APIKey, Configuration.APISecret);
-            Client = new Cloudinary(oAccount);
+            var account = new Account(Configuration.Name, Configuration.APIKey, Configuration.APISecret);
+            Client = new Cloudinary(account);
         }
 
         public void Dispose()
@@ -28,25 +28,25 @@ namespace BAUERGROUP.Shared.Cloud.CloudinaryClient
 
         }
 
-        public String ToCloudinaryUID(Guid gUniqueIdentifier)
+        public String ToCloudinaryUID(Guid uniqueIdentifier)
         {
-            return String.Format("{0}/{1:N}", Configuration.Project, gUniqueIdentifier);
+            return String.Format("{0}/{1:N}", Configuration.Project, uniqueIdentifier);
         }
 
-        public String UploadImage(String sFilenameOrURL, Guid gUniqueIdentifier, List<Transformation>? oTransformations = null)
+        public String UploadImage(String filenameOrUrl, Guid uniqueIdentifier, List<Transformation>? transformations = null)
         {
-            return UploadImage(sFilenameOrURL, gUniqueIdentifier.ToString("N"), oTransformations);
+            return UploadImage(filenameOrUrl, uniqueIdentifier.ToString("N"), transformations);
         }
 
-        public String UploadImage(String sFilenameOrURL, String sUniqueIdentifier, List<Transformation>? oTransformations = null)
+        public String UploadImage(String filenameOrUrl, String uniqueIdentifier, List<Transformation>? transformations = null)
         {
             var uploadParameters = new ImageUploadParams()
             {
-                File = new FileDescription(sFilenameOrURL),
+                File = new FileDescription(filenameOrUrl),
                 Folder = Configuration.Project,
-                PublicId = sUniqueIdentifier,
+                PublicId = uniqueIdentifier,
 
-                EagerTransforms = oTransformations,
+                EagerTransforms = transformations,
 
                 ImageMetadata = true,
                 Exif = true,
@@ -62,13 +62,13 @@ namespace BAUERGROUP.Shared.Cloud.CloudinaryClient
             return uploadResult.Url.AbsoluteUri;
         }
 
-        public String UploadVideo(String sFilenameOrURL, String sUniqueIdentifier)
+        public String UploadVideo(String filenameOrUrl, String uniqueIdentifier)
         {
             var uploadParameters = new VideoUploadParams()
             {
-                File = new FileDescription(sFilenameOrURL),
+                File = new FileDescription(filenameOrUrl),
                 Folder = Configuration.Project,
-                PublicId = sUniqueIdentifier,
+                PublicId = uniqueIdentifier,
 
                 ImageMetadata = true,
 
@@ -80,16 +80,16 @@ namespace BAUERGROUP.Shared.Cloud.CloudinaryClient
             return uploadResult.PublicId;
         }
 
-        public Boolean Delete(Guid gUniqueIdentifier)
+        public Boolean Delete(Guid uniqueIdentifier)
         {
-            return Delete(ToCloudinaryUID(gUniqueIdentifier));
+            return Delete(ToCloudinaryUID(uniqueIdentifier));
         }
 
-        public Boolean Delete(String sUniqueIdentifier)
+        public Boolean Delete(String uniqueIdentifier)
         {
             var deleteParameters = new DelResParams()
             {
-                PublicIds = new List<String>() { sUniqueIdentifier },
+                PublicIds = new List<String>() { uniqueIdentifier },
                 Invalidate = true,
                 KeepOriginal = false,
             };
@@ -111,23 +111,23 @@ namespace BAUERGROUP.Shared.Cloud.CloudinaryClient
             return deleteResult.Partial == false;
         }
 
-        public Resource[] List(String? sUniqueIdentifier = null, CloudinaryContentType eType = CloudinaryContentType.Image)
+        public Resource[] List(String? uniqueIdentifier = null, CloudinaryContentType contentType = CloudinaryContentType.Image)
         {
             var listParameters = new ListResourcesParams()
             {
                 MaxResults = 500,
-                ResourceType = eType == CloudinaryContentType.Image ? ResourceType.Image : ResourceType.Video
+                ResourceType = contentType == CloudinaryContentType.Image ? ResourceType.Image : ResourceType.Video
             };
 
-            var listResult = String.IsNullOrWhiteSpace(sUniqueIdentifier) ? Client.ListResources(listParameters) : Client.ListResourcesByPublicIds(new[] { sUniqueIdentifier });
+            var listResult = String.IsNullOrWhiteSpace(uniqueIdentifier) ? Client.ListResources(listParameters) : Client.ListResourcesByPublicIds(new[] { uniqueIdentifier });
 
             var existingRessources = listResult.Resources;
             return existingRessources;
         }
 
-        public Resource[] List(Guid gUniqueIdentifier, CloudinaryContentType eType = CloudinaryContentType.Image)
+        public Resource[] List(Guid uniqueIdentifier, CloudinaryContentType contentType = CloudinaryContentType.Image)
         {
-            return List(ToCloudinaryUID(gUniqueIdentifier), eType);
+            return List(ToCloudinaryUID(uniqueIdentifier), contentType);
         }
 
         public UsageResult ServiceUsage()
@@ -135,75 +135,75 @@ namespace BAUERGROUP.Shared.Cloud.CloudinaryClient
             return Client.GetUsage();
         }
 
-        public Url GetImageTransformation(Transformation oTransformation)
+        public Url GetImageTransformation(Transformation transformation)
         {
-            return Client.Api.UrlImgUp.Transform(oTransformation);
+            return Client.Api.UrlImgUp.Transform(transformation);
         }
 
-        public Url GetImageTransformation(UInt16 iWidth, UInt16 iHeight, Boolean bCrop = true, CloudinaryImageFormat eFormat = CloudinaryImageFormat.Original)
+        public Url GetImageTransformation(UInt16 width, UInt16 height, Boolean crop = true, CloudinaryImageFormat format = CloudinaryImageFormat.Original)
         {
-            var oTransformation = new Transformation().Width(iWidth).Height(iHeight);
+            var transformation = new Transformation().Width(width).Height(height);
 
-            switch (eFormat)
+            switch (format)
             {
                 case CloudinaryImageFormat.PNG:
-                    oTransformation = oTransformation.FetchFormat("png");
+                    transformation = transformation.FetchFormat("png");
                     break;
 
                 case CloudinaryImageFormat.JPEG:
-                    oTransformation = oTransformation.FetchFormat("jpg");
+                    transformation = transformation.FetchFormat("jpg");
                     break;
             }
 
-            return GetImageTransformation(bCrop ? oTransformation.Crop("fill") : oTransformation);
+            return GetImageTransformation(crop ? transformation.Crop("fill") : transformation);
         }
 
-        public String ToURL(Url oTransformation, String sUniqueIdentifier, Boolean bSSL = true)
+        public String ToURL(Url transformation, String uniqueIdentifier, Boolean useSSL = true)
         {
-            return oTransformation.Secure(bSSL).BuildUrl(sUniqueIdentifier);
+            return transformation.Secure(useSSL).BuildUrl(uniqueIdentifier);
         }
 
-        public String ToImageTag(Url oTransformation, String sUniqueIdentifier, StringDictionary? oParameters = null, Boolean bSSL = true)
+        public String ToImageTag(Url transformation, String uniqueIdentifier, StringDictionary? parameters = null, Boolean useSSL = true)
         {
-            return oTransformation.Secure(bSSL).BuildImageTag(sUniqueIdentifier, oParameters);
+            return transformation.Secure(useSSL).BuildImageTag(uniqueIdentifier, parameters);
         }
 
-        public String ToURL(String sUniqueIdentifier, Boolean bSSL = true)
+        public String ToURL(String uniqueIdentifier, Boolean useSSL = true)
         {
-            return Client.Api.UrlImgUp.Secure(bSSL).BuildUrl(sUniqueIdentifier);
+            return Client.Api.UrlImgUp.Secure(useSSL).BuildUrl(uniqueIdentifier);
         }
 
-        public String ToImageTag(String sUniqueIdentifier, StringDictionary? oParameters = null, Boolean bSSL = true)
+        public String ToImageTag(String uniqueIdentifier, StringDictionary? parameters = null, Boolean useSSL = true)
         {
-            return Client.Api.UrlImgUp.Secure(bSSL).BuildImageTag(sUniqueIdentifier, oParameters);
+            return Client.Api.UrlImgUp.Secure(useSSL).BuildImageTag(uniqueIdentifier, parameters);
         }
 
-        public String ToURL(Url oTransformation, Guid gUniqueIdentifier, Boolean bSSL = true)
+        public String ToURL(Url transformation, Guid uniqueIdentifier, Boolean useSSL = true)
         {
-            return ToURL(oTransformation, ToCloudinaryUID(gUniqueIdentifier), bSSL);
+            return ToURL(transformation, ToCloudinaryUID(uniqueIdentifier), useSSL);
         }
 
-        public String ToImageTag(Url oTransformation, Guid gUniqueIdentifier, StringDictionary? oParameters = null, Boolean bSSL = true)
+        public String ToImageTag(Url transformation, Guid uniqueIdentifier, StringDictionary? parameters = null, Boolean useSSL = true)
         {
-            return ToImageTag(oTransformation, ToCloudinaryUID(gUniqueIdentifier), oParameters, bSSL);
+            return ToImageTag(transformation, ToCloudinaryUID(uniqueIdentifier), parameters, useSSL);
         }
 
-        public String ToURL(Guid gUniqueIdentifier, Boolean bSSL = true)
+        public String ToURL(Guid uniqueIdentifier, Boolean useSSL = true)
         {
-            return ToURL(ToCloudinaryUID(gUniqueIdentifier), bSSL);
+            return ToURL(ToCloudinaryUID(uniqueIdentifier), useSSL);
         }
 
-        public String ToImageTag(Guid gUniqueIdentifier, StringDictionary? oParameters = null, Boolean bSSL = true)
+        public String ToImageTag(Guid uniqueIdentifier, StringDictionary? parameters = null, Boolean useSSL = true)
         {
-            return ToImageTag(ToCloudinaryUID(gUniqueIdentifier), oParameters, bSSL);
+            return ToImageTag(ToCloudinaryUID(uniqueIdentifier), parameters, useSSL);
         }
 
-        public static StringDictionary GetImageTagParameters(String sName)
+        public static StringDictionary GetImageTagParameters(String name)
         {
-            var oParameters = new StringDictionary();
-            oParameters.Add(new KeyValuePair<String, String>("alt", sName));
+            var parameters = new StringDictionary();
+            parameters.Add(new KeyValuePair<String, String>("alt", name));
 
-            return oParameters;
+            return parameters;
         }
     }
 }

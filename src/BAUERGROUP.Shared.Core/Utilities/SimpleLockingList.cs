@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,20 +7,20 @@ namespace BAUERGROUP.Shared.Core.Utilities
 {
     public class SimpleLockingList: LockingList<DateTime>
     {
-        public SimpleLockingList(String sName)
-            : base(sName)
+        public SimpleLockingList(String name)
+            : base(name)
         {
 
         }
 
-        public void Add(String sCode, TimeSpan tsExpiration)
+        public void Add(String code, TimeSpan expiration)
         {
-            this.Add(sCode, DateTime.UtcNow.Add(tsExpiration), tsExpiration, true);
+            this.Add(code, DateTime.UtcNow.Add(expiration), expiration, true);
         }
 
-        public DateTime GetUnlockTime(String sCode)
+        public DateTime GetUnlockTime(String code)
         {
-            return this.Get(sCode)!;
+            return this.Get(code)!;
         }
     }
 }

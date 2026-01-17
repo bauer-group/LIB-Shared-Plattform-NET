@@ -1,4 +1,4 @@
-﻿using BAUERGROUP.Shared.Desktop.Dialogs;
+using BAUERGROUP.Shared.Desktop.Dialogs;
 using BAUERGROUP.Shared.Desktop.Logging;
 using System;
 using System.Windows;
@@ -11,20 +11,20 @@ namespace BAUERGROUP.Shared.Desktop
     /// </summary>
     public static class WPFToolbox
     {
-        public static Boolean ShowInputBox(ref String sData, String sCaption = @"Eingabe")
+        public static Boolean ShowInputBox(ref String data, String caption = @"Eingabe")
         {
-            return InputBox.Show(ref sData, sCaption);
+            return InputBox.Show(ref data, caption);
         }
 
-        public static void LogMessageReceiverWindow(String? sTitle = null, Window? oOwner = null, Boolean bWait = false)
+        public static void LogMessageReceiverWindow(String? title = null, Window? owner = null, Boolean wait = false)
         {
-            var wLogMessageWindow = new LogMessageReceiver(sTitle);
-            wLogMessageWindow.Owner = oOwner;
+            var logMessageWindow = new LogMessageReceiver(title);
+            logMessageWindow.Owner = owner;
 
-            if (bWait)
-                wLogMessageWindow.ShowDialog();
+            if (wait)
+                logMessageWindow.ShowDialog();
             else
-                wLogMessageWindow.Show();
+                logMessageWindow.Show();
         }
     }
 }

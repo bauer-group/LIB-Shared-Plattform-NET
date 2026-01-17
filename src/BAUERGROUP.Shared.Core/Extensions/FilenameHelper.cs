@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -7,14 +7,14 @@ namespace BAUERGROUP.Shared.Core.Extensions
 {
     public static class FilenameHelper
     {
-        public static String ToValidFilename(this String sInput, Char sReplacement = '_')
+        public static String ToValidFilename(this String input, Char replacement = '_')
         {
-            foreach (var cInvalid in Path.GetInvalidFileNameChars())
+            foreach (var invalidChar in Path.GetInvalidFileNameChars())
             {
-                sInput = sInput.Replace(cInvalid, sReplacement);
+                input = input.Replace(invalidChar, replacement);
             }
 
-            return sInput;
+            return input;
         }
     }
 }

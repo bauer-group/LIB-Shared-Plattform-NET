@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -11,8 +11,8 @@ namespace BAUERGROUP.Shared.Core.Events
     {
         #region Events
         public event PropertyChangedEventHandler? PropertyChanged;
-        
-        protected void OnPropertyChanged(String sName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(sName));
+
+        protected void OnPropertyChanged(String name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         #endregion
     }
 }

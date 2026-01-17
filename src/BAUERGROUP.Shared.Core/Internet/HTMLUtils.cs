@@ -1,4 +1,4 @@
-﻿using HtmlAgilityPack;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,23 +13,23 @@ namespace BAUERGROUP.Shared.Core.Internet
 
         }
 
-        public static HTMLUtils FromURI(Uri oUri)            
+        public static HTMLUtils FromURI(Uri uri)
         {
-            var oWebsite = new HtmlWeb();
-            return (HTMLUtils)oWebsite.Load(oUri);
+            var website = new HtmlWeb();
+            return (HTMLUtils)website.Load(uri);
         }
 
-        public static HTMLUtils FromURL(String sURL)
+        public static HTMLUtils FromURL(String url)
         {
-            var oWebsite = new HtmlWeb();
-            return (HTMLUtils)oWebsite.Load(sURL);
+            var website = new HtmlWeb();
+            return (HTMLUtils)website.Load(url);
         }
 
-        public static HTMLUtils FromFile(String sFilename)
+        public static HTMLUtils FromFile(String filename)
         {
-            var oHTML = new HtmlDocument();
-            oHTML.Load(sFilename);
-            return (HTMLUtils)oHTML;
+            var html = new HtmlDocument();
+            html.Load(filename);
+            return (HTMLUtils)html;
         }
     }
 }

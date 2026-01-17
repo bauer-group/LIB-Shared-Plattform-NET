@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,16 +8,16 @@ namespace BAUERGROUP.Shared.Desktop.Dialogs
 {
     public static class InputBox
     {
-        public static Boolean Show(ref String sData, String sCaption = @"Eingabe")
+        public static Boolean Show(ref String data, String caption = @"Eingabe")
         {
-            var oDialog = new InputForm();
-            oDialog.Title = sCaption;
-            oDialog.Data = sData;
+            var dialog = new InputForm();
+            dialog.Title = caption;
+            dialog.Data = data;
 
-            var bResult = oDialog.ShowDialog() ?? false;
-            sData = oDialog.Data;
+            var result = dialog.ShowDialog() ?? false;
+            data = dialog.Data;
 
-            return bResult;
+            return result;
         }
     }
 }

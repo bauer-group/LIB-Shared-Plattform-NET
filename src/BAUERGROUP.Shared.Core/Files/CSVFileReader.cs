@@ -1,4 +1,4 @@
-﻿using CsvHelper;
+using CsvHelper;
 using CsvHelper.Configuration;
 using System;
 using System.Collections.Generic;
@@ -14,24 +14,24 @@ namespace BAUERGROUP.Shared.Core.Files
         protected StreamReader? _sr;
         protected CsvReader? _cr;
 
-        public CSVFileReader(String sFileName, Encoding? oEncoding = null, String sDelimiter = @";", Char sQuote = '"', Boolean bQuoteAllFields = true, CultureInfo? oCulture = null, Boolean bHasHeader = true)
+        public CSVFileReader(String fileName, Encoding? encoding = null, String delimiter = @";", Char quote = '"', Boolean quoteAllFields = true, CultureInfo? culture = null, Boolean hasHeader = true)
         {
-            _sr = new StreamReader(sFileName, oEncoding == null ? Encoding.Unicode : oEncoding, true);
-            _cr = new CsvReader(_sr, new CsvConfiguration(oCulture == null ? CultureInfo.CurrentCulture : oCulture)
+            _sr = new StreamReader(fileName, encoding == null ? Encoding.Unicode : encoding, true);
+            _cr = new CsvReader(_sr, new CsvConfiguration(culture == null ? CultureInfo.CurrentCulture : culture)
             {
-                HasHeaderRecord = bHasHeader,
+                HasHeaderRecord = hasHeader,
                 Comment = '#',
                 AllowComments = true,
-                Delimiter = sDelimiter,
-                Encoding = oEncoding == null ? Encoding.Unicode : oEncoding,
-                Quote = sQuote,
-                ShouldQuote = (quote) => bQuoteAllFields,
+                Delimiter = delimiter,
+                Encoding = encoding == null ? Encoding.Unicode : encoding,
+                Quote = quote,
+                ShouldQuote = (q) => quoteAllFields,
                 ShouldSkipRecord = (record) => record.Row.Parser.Record?.All(String.IsNullOrWhiteSpace) ?? false,
                 TrimOptions = TrimOptions.Trim | TrimOptions.InsideQuotes,
-                IgnoreBlankLines = true,                
+                IgnoreBlankLines = true,
             });
         }
-        
+
         public void Dispose()
         {
             if (_sr == null)

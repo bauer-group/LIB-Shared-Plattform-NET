@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,58 +7,58 @@ namespace BAUERGROUP.Shared.Core.Utilities
 {
     public static class GenericMapping
     {
-        public static Dictionary<String, String> GetStringMappingDefinition(List<String> sRawInput, char cSeparator = ',', bool bRemoveEmptyKeys = true)
+        public static Dictionary<String, String> GetStringMappingDefinition(List<String> rawInput, char separator = ',', bool removeEmptyKeys = true)
         {
             Dictionary<String, String> entryMapping = new Dictionary<String, String>();
-            foreach (var i in sRawInput)
+            foreach (var i in rawInput)
             {
                 if (String.IsNullOrWhiteSpace(i))
                     continue;
 
-                var s = i.Trim().Split(cSeparator);
+                var s = i.Trim().Split(separator);
                 if (s.Length != 2)
                     throw new FormatException(String.Format("Wrong mapping configuration: {0}", i.Trim()));
 
-                var sKey = s[0].Trim();
-                var sValue = s[1].Trim();
+                var key = s[0].Trim();
+                var value = s[1].Trim();
 
-                if ((String.IsNullOrWhiteSpace(sKey)) && (bRemoveEmptyKeys))
+                if ((String.IsNullOrWhiteSpace(key)) && (removeEmptyKeys))
                     continue;
 
                 try
                 {
-                    entryMapping.Add(sKey, sValue);
+                    entryMapping.Add(key, value);
                 }
                 catch (FormatException ex)
                 {
-                    throw new FormatException(String.Format("Wrong format in configuration: {0},{1}", sKey, sValue), ex);
+                    throw new FormatException(String.Format("Wrong format in configuration: {0},{1}", key, value), ex);
                 }
             }
 
             return entryMapping;
         }
 
-        public static String ReplaceFieldContent(Dictionary<String, String> dictionaryMapping, string sInput)
+        public static String ReplaceFieldContent(Dictionary<String, String> dictionaryMapping, string input)
         {
             if (dictionaryMapping.Count == 0)
-                return sInput;
+                return input;
 
-            var sReplacementString = dictionaryMapping.Where(p => p.Key.ToUpper() == sInput.ToUpper()).Select(q => q.Value).FirstOrDefault();
-            if (sReplacementString == null)
-                return sInput;
+            var replacementString = dictionaryMapping.Where(p => p.Key.ToUpper() == input.ToUpper()).Select(q => q.Value).FirstOrDefault();
+            if (replacementString == null)
+                return input;
 
-            return sReplacementString;
+            return replacementString;
         }
 
-        public static Dictionary<Int32, String> GetIntMappingDefinition(List<String> sRawInput, char cSeparator = ',')
+        public static Dictionary<Int32, String> GetIntMappingDefinition(List<String> rawInput, char separator = ',')
         {
             Dictionary<int, string> entryMapping = new Dictionary<int, string>();
-            foreach (var i in sRawInput)
+            foreach (var i in rawInput)
             {
                 if (String.IsNullOrWhiteSpace(i))
                     continue;
 
-                var s = i.Trim().Split(cSeparator);
+                var s = i.Trim().Split(separator);
                 if (s.Length != 2)
                     throw new FormatException(String.Format("Wrong mapping configuration: {0}", i.Trim()));
 
@@ -75,16 +75,16 @@ namespace BAUERGROUP.Shared.Core.Utilities
             return entryMapping;
         }
 
-        public static List<Tuple<Int32, String>> GetMultipleIntMappingDefinition(List<String> sRawInput, char cSeparator = ',')
+        public static List<Tuple<Int32, String>> GetMultipleIntMappingDefinition(List<String> rawInput, char separator = ',')
         {
             List<Tuple<int, string>> entryMapping = new List<Tuple<int, string>>();
 
-            foreach (var i in sRawInput)
+            foreach (var i in rawInput)
             {
                 if (String.IsNullOrWhiteSpace(i))
                     continue;
 
-                var s = i.Trim().Split(cSeparator);
+                var s = i.Trim().Split(separator);
                 if (s.Length != 2)
                     throw new FormatException(String.Format("Wrong mapping configuration: {0}", i.Trim()));
 
@@ -101,32 +101,32 @@ namespace BAUERGROUP.Shared.Core.Utilities
             return entryMapping;
         }
 
-        public static List<Tuple<String, String>> GetMultipleStringMappingDefinition(List<String> sRawInput, char cSeparator = ',', bool bRemoveEmptyKeys = true)
+        public static List<Tuple<String, String>> GetMultipleStringMappingDefinition(List<String> rawInput, char separator = ',', bool removeEmptyKeys = true)
         {
             List<Tuple<String, String>> entryMapping = new List<Tuple<String, String>>();
 
-            foreach (var i in sRawInput)
+            foreach (var i in rawInput)
             {
                 if (String.IsNullOrWhiteSpace(i))
                     continue;
 
-                var s = i.Trim().Split(cSeparator);
+                var s = i.Trim().Split(separator);
                 if (s.Length != 2)
                     throw new FormatException(String.Format("Wrong mapping configuration: {0}", i.Trim()));
 
-                var sKey = s[0].Trim();
-                var sValue = s[1].Trim();
+                var key = s[0].Trim();
+                var value = s[1].Trim();
 
-                if ((String.IsNullOrWhiteSpace(sKey)) && (bRemoveEmptyKeys))
+                if ((String.IsNullOrWhiteSpace(key)) && (removeEmptyKeys))
                     continue;
 
                 try
                 {
-                    entryMapping.Add(new Tuple<String, String>(sKey, sValue));
+                    entryMapping.Add(new Tuple<String, String>(key, value));
                 }
                 catch (FormatException ex)
                 {
-                    throw new FormatException(String.Format("Wrong format in configuration: {0},{1}", sKey, sValue, ex));
+                    throw new FormatException(String.Format("Wrong format in configuration: {0},{1}", key, value, ex));
                 }
             }
 

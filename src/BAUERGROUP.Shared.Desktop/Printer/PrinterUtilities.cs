@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Printing;
 using System.Windows.Controls;
@@ -8,21 +8,21 @@ namespace BAUERGROUP.Shared.Desktop.Printer
 {
     public static class PrinterUtilities
     {
-        public static Boolean SelectPrinter(out String? sName)
+        public static Boolean SelectPrinter(out String? name)
         {
-            var pDialog = new WpfPrintDialog();
-            pDialog.PageRangeSelection = PageRangeSelection.AllPages;
-            pDialog.UserPageRangeEnabled = false;
+            var printDialog = new WpfPrintDialog();
+            printDialog.PageRangeSelection = PageRangeSelection.AllPages;
+            printDialog.UserPageRangeEnabled = false;
 
-            var pdResult = pDialog.ShowDialog();
+            var dialogResult = printDialog.ShowDialog();
 
-            if (pdResult == true)
+            if (dialogResult == true)
             {
-                sName = pDialog.PrintQueue.Name;
+                name = printDialog.PrintQueue.Name;
                 return true;
             }
 
-            sName = null;
+            name = null;
             return false;
         }
 

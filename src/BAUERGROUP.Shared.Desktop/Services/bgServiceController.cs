@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,11 +15,11 @@ namespace BAUERGROUP.Shared.Desktop.Services
         #region Internal
         private CancellationTokenSource _cts;
 
-        public bgServiceController(string sName) :
-            base(sName)
+        public bgServiceController(string name) :
+            base(name)
         {
-            if (!IsInstalled(sName))
-                throw new InvalidOperationException(String.Format("Service {0} is not installed.", sName));
+            if (!IsInstalled(name))
+                throw new InvalidOperationException(String.Format("Service {0} is not installed.", name));
 
             _cts = new CancellationTokenSource();
 
@@ -41,14 +41,14 @@ namespace BAUERGROUP.Shared.Desktop.Services
                     if (_previousStatus != Status)
                     {
                         _previousStatus = Status;
-                        OnPropertyChanged("ServiceStatus");                        
+                        OnPropertyChanged("ServiceStatus");
                     }
 
                     Thread.Sleep(1000);
                 }
             }, _cts.Token);
         }
-        
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
@@ -60,20 +60,20 @@ namespace BAUERGROUP.Shared.Desktop.Services
         #region Events
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string sName)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
-            var oMethod = PropertyChanged;
+            var handler = PropertyChanged;
 
-            if (oMethod == null)
+            if (handler == null)
                 return;
 
-            oMethod(this, new PropertyChangedEventArgs(sName));
+            handler(this, new PropertyChangedEventArgs(propertyName));
         }
-        #endregion        
+        #endregion
 
-        public static bool IsInstalled(string sName)
+        public static bool IsInstalled(string name)
         {
-            return ServiceController.GetServices().FirstOrDefault(p => p.ServiceName == sName) != null;                
+            return ServiceController.GetServices().FirstOrDefault(p => p.ServiceName == name) != null;
         }
     }
 }

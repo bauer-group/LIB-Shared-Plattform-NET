@@ -1,4 +1,4 @@
-﻿using Polly;
+using Polly;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,7 +23,7 @@ namespace BAUERGROUP.Shared.Core.Resilience
                 .Handle<Exception>()
                 .Retry(2);
 
-            var oResult = p1.ExecuteAndCapture(() => { });            
+            var result = p1.ExecuteAndCapture(() => { });
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using RestSharp;
+using RestSharp;
 using RestSharp.Serializers.Json;
 using System;
 using System.Collections.Generic;
@@ -15,20 +15,20 @@ namespace BAUERGROUP.Shared.Cloud.FixerIO
         protected FixerIOConfiguration Configuration { get; private set; }
         protected RestClient Client { get; private set; }
 
-        public FixerIOClient(String sAPIKey) :
-            this (new FixerIOConfiguration(sAPIKey))
+        public FixerIOClient(String apiKey) :
+            this (new FixerIOConfiguration(apiKey))
         {
-            
+
         }
 
-        public FixerIOClient(FixerIOConfiguration oConfiguration)
+        public FixerIOClient(FixerIOConfiguration configuration)
         {
-            Configuration = oConfiguration;
+            Configuration = configuration;
 
             Validate();
 
-            var oClientOptions = new RestClientOptions(Configuration.URL)
-            {                
+            var clientOptions = new RestClientOptions(Configuration.URL)
+            {
                 Timeout = TimeSpan.FromMilliseconds(Configuration.Timeout > 0 ? Configuration.Timeout : 3 * 1000),
                 ThrowOnAnyError = true,
                 AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate,
@@ -36,7 +36,7 @@ namespace BAUERGROUP.Shared.Cloud.FixerIO
                 Proxy = Configuration.Proxy
             };
 
-            Client = new RestClient(oClientOptions,
+            Client = new RestClient(clientOptions,
                 configureSerialization: s => s.UseSystemTextJson(new JsonSerializerOptions()
                 {
                     PropertyNameCaseInsensitive = true,
@@ -73,11 +73,11 @@ namespace BAUERGROUP.Shared.Cloud.FixerIO
             Client.Dispose();
         }
 
-        protected async Task<T> ExceptionHandlerAsync<T>(Func<Task<T>> oAction)
+        protected async Task<T> ExceptionHandlerAsync<T>(Func<Task<T>> action)
         {
             try
             {
-                return await oAction();
+                return await action();
             }
             catch (Exception ex)
             {
@@ -85,17 +85,17 @@ namespace BAUERGROUP.Shared.Cloud.FixerIO
             }
         }
 
-        protected async Task<T?> Get<T>(String sResource, params Parameter[] oParameters)
+        protected async Task<T?> Get<T>(String resource, params Parameter[] parameters)
         {
             return await ExceptionHandlerAsync(async () =>
             {
-                var oRequest = new RestRequest(sResource);
-                oRequest.AddParameter("access_key", Configuration.APIKey);
+                var request = new RestRequest(resource);
+                request.AddParameter("access_key", Configuration.APIKey);
 
-                foreach (var oParameter in oParameters)
-                    oRequest.AddParameter(oParameter);
+                foreach (var parameter in parameters)
+                    request.AddParameter(parameter);
 
-                return await Client.GetAsync<T>(oRequest);
+                return await Client.GetAsync<T>(request);
             });
         }
 
@@ -109,17 +109,17 @@ namespace BAUERGROUP.Shared.Cloud.FixerIO
             return await Get<FixerIODataRates>("latest");
         }
 
-        public async Task<FixerIODataRates?> GetLatestRates(String sBaseCurrency)
+        public async Task<FixerIODataRates?> GetLatestRates(String baseCurrency)
         {
-            return await Get<FixerIODataRates>("latest", Parameter.CreateParameter("base", sBaseCurrency, ParameterType.GetOrPost));
+            return await Get<FixerIODataRates>("latest", Parameter.CreateParameter("base", baseCurrency, ParameterType.GetOrPost));
         }
 
-        public async Task<FixerIODataRates?> GetHistoricalRates(DateTime dtDate, String? sBaseCurrency = null)
+        public async Task<FixerIODataRates?> GetHistoricalRates(DateTime date, String? baseCurrency = null)
         {
-            if (sBaseCurrency == null)
-                return await Get<FixerIODataRates>($"{dtDate:yyyy-MM-dd}");
+            if (baseCurrency == null)
+                return await Get<FixerIODataRates>($"{date:yyyy-MM-dd}");
 
-            return await Get<FixerIODataRates>($"{dtDate:yyyy-MM-dd}", Parameter.CreateParameter("base", sBaseCurrency, ParameterType.GetOrPost));
+            return await Get<FixerIODataRates>($"{date:yyyy-MM-dd}", Parameter.CreateParameter("base", baseCurrency, ParameterType.GetOrPost));
         }
     }
 }

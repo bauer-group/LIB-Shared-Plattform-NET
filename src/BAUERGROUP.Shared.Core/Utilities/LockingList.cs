@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
@@ -11,53 +11,53 @@ namespace BAUERGROUP.Shared.Core.Utilities
         private MemoryCache _mc;
         public event EventHandler? Updated;
 
-        public LockingList(String sName)
+        public LockingList(String name)
         {
-            _mc = new MemoryCache(sName);            
+            _mc = new MemoryCache(name);
         }
-        
+
         public void Dispose()
         {
             _mc.Dispose();
         }
 
-        public bool Add(String sCode, T oValue, TimeSpan tsExpiration, Boolean bOverwrite = false)
+        public bool Add(String code, T value, TimeSpan expiration, Boolean overwrite = false)
         {
-            var bResult = false;
+            var result = false;
 
-            if (bOverwrite)
+            if (overwrite)
             {
-                _mc.Set(sCode, oValue, new CacheItemPolicy() { AbsoluteExpiration = DateTime.UtcNow.Add(tsExpiration) });
-                bResult = true;
+                _mc.Set(code, value, new CacheItemPolicy() { AbsoluteExpiration = DateTime.UtcNow.Add(expiration) });
+                result = true;
             }
             else
             {
-                bResult = _mc.Add(sCode, oValue, new CacheItemPolicy() { AbsoluteExpiration = DateTime.UtcNow.Add(tsExpiration) });
+                result = _mc.Add(code, value, new CacheItemPolicy() { AbsoluteExpiration = DateTime.UtcNow.Add(expiration) });
             }
 
             UpdatedListEvent();
-            return bResult;
+            return result;
         }
 
-        public bool IsExists(String sCode)
+        public bool IsExists(String code)
         {
-            return _mc.Contains(sCode);
+            return _mc.Contains(code);
         }
 
-        public T? Get(String sCode)
+        public T? Get(String code)
         {
-            return ((T?)_mc.Get(sCode));
+            return ((T?)_mc.Get(code));
         }
 
-        public T? Remove(String sCode)
+        public T? Remove(String code)
         {
-            T? oResult = default;
+            T? result = default;
 
-            if (IsExists(sCode))
-                oResult = (T?)_mc.Remove(sCode);
+            if (IsExists(code))
+                result = (T?)_mc.Remove(code);
 
             UpdatedListEvent();
-            return oResult;
+            return result;
         }
 
         public Int64 Count

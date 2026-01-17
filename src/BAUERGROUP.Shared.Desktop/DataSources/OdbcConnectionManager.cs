@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Data.Odbc;
@@ -11,7 +11,7 @@ namespace BAUERGROUP.Shared.Desktop.DataSources
     {
         public enum DataSourceType
         {
-            System = 0, 
+            System = 0,
             User = 1
         }
 
@@ -22,72 +22,72 @@ namespace BAUERGROUP.Shared.Desktop.DataSources
 
             for (int i = 0; i < systemDSNList.Count; i++)
             {
-                var sDSNName = systemDSNList.GetKey(i) as String;
-                var oDSNType = systemDSNList.GetByIndex(i);
+                var dsnName = systemDSNList.GetKey(i) as String;
+                var dsnTypeValue = systemDSNList.GetByIndex(i);
 
-                if (sDSNName == null || oDSNType == null)
+                if (dsnName == null || dsnTypeValue == null)
                     continue;
 
-                DataSourceType eDSNType = (DataSourceType)oDSNType;
+                DataSourceType dsnType = (DataSourceType)dsnTypeValue;
 
                 try
                 {
-                    userDSNList.Add(sDSNName, eDSNType);
+                    userDSNList.Add(dsnName, dsnType);
                 }
                 catch
                 {
                     // An exception can be thrown if the key being added is a duplicate. So we just catch it here and have to ignore it.
                 }
-            }            
+            }
 
-            return userDSNList;            
+            return userDSNList;
         }
 
-        public static SortedList GetDataSourceNames(DataSourceType eType)
+        public static SortedList GetDataSourceNames(DataSourceType type)
         {
             SortedList dsnList = new SortedList();
 
-            var rkSoftware = (eType == DataSourceType.System ? Registry.LocalMachine : Registry.CurrentUser).OpenSubKey("Software");
+            var softwareKey = (type == DataSourceType.System ? Registry.LocalMachine : Registry.CurrentUser).OpenSubKey("Software");
 
-            if (rkSoftware != null)
+            if (softwareKey != null)
             {
-                var rkODBC = rkSoftware.OpenSubKey("ODBC");
+                var odbcKey = softwareKey.OpenSubKey("ODBC");
 
-                if (rkODBC != null)
+                if (odbcKey != null)
                 {
-                    var rkODBCINI = rkODBC.OpenSubKey("ODBC.INI");
+                    var odbcIniKey = odbcKey.OpenSubKey("ODBC.INI");
 
-                    if (rkODBCINI != null)
+                    if (odbcIniKey != null)
                     {
-                        var rkODBCDSN = rkODBCINI.OpenSubKey("ODBC Data Sources");
+                        var odbcDsnKey = odbcIniKey.OpenSubKey("ODBC Data Sources");
 
-                        if (rkODBCDSN != null)
+                        if (odbcDsnKey != null)
                         {
-                            foreach (string sName in rkODBCDSN.GetValueNames())
-                                dsnList.Add(sName, eType);
+                            foreach (string name in odbcDsnKey.GetValueNames())
+                                dsnList.Add(name, type);
 
-                            rkODBCDSN.Close();
+                            odbcDsnKey.Close();
                         }
 
-                        rkODBCINI.Close();
+                        odbcIniKey.Close();
                     }
 
-                    rkODBC.Close();
+                    odbcKey.Close();
                 }
 
-                rkSoftware.Close();
+                softwareKey.Close();
             }
 
             return dsnList;
         }
 
-        public static String GetConnectionString(String sDSN, String sUsername, String sPassword)
+        public static String GetConnectionString(String dsn, String username, String password)
         {
             var odbcConnection = new OdbcConnectionStringBuilder();
 
-            odbcConnection.Add(@"DSN", sDSN);
-            odbcConnection.Add(@"UID", sUsername);
-            odbcConnection.Add(@"PWD", sPassword);
+            odbcConnection.Add(@"DSN", dsn);
+            odbcConnection.Add(@"UID", username);
+            odbcConnection.Add(@"PWD", password);
 
             return odbcConnection.ConnectionString;
         }
@@ -98,6 +98,6 @@ namespace BAUERGROUP.Shared.Desktop.DataSources
 /*
  * http://thecodeventures.blogspot.de/2012/12/c-adding-32-bit-odbc-dsn-in-windows-64.html
  * http://azuliadesigns.com/adding-odbc-system-dsn/
- * http://stackoverflow.com/questions/334939/how-do-i-create-an-odbc-dsn-entry-using-c 
+ * http://stackoverflow.com/questions/334939/how-do-i-create-an-odbc-dsn-entry-using-c
  * http://www.devtoolshed.com/content/get-list-odbc-data-source-names-programatically-using-c
 */

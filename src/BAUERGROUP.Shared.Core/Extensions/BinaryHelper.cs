@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,14 +8,14 @@ namespace BAUERGROUP.Shared.Core.Extensions
 {
     public static class BinaryHelper
     {
-        public static void WriteBytesToFile(String sFilename, Byte[] bData)
+        public static void WriteBytesToFile(String filename, Byte[] data)
         {
-            File.WriteAllBytes(sFilename, bData);
+            File.WriteAllBytes(filename, data);
         }
 
-        public static Byte[] ReadBytesFromFile(String sFilename)
+        public static Byte[] ReadBytesFromFile(String filename)
         {
-            return File.ReadAllBytes(sFilename);
+            return File.ReadAllBytes(filename);
         }
     }
 }

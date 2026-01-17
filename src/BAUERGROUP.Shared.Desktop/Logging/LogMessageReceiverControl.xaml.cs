@@ -1,4 +1,4 @@
-﻿using BAUERGROUP.Shared.Core.Logging;
+using BAUERGROUP.Shared.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -46,18 +46,18 @@ namespace BAUERGROUP.Shared.Desktop.Logging
             LogReceiver = null;
         }
 
-        private void OnLogMessageReceived(Object? oSender, PropertyChangedEventArgs e)
+        private void OnLogMessageReceived(Object? sender, PropertyChangedEventArgs e)
         {
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                tbLogging.Text += e.PropertyName;
+                loggingTextBlock.Text += e.PropertyName;
 
                 try
                 {
-                    if (tbLogging.LineCount > 1000)
-                        tbLogging.Clear();
+                    if (loggingTextBlock.LineCount > 1000)
+                        loggingTextBlock.Clear();
 
-                    tbLogging.ScrollToEnd();
+                    loggingTextBlock.ScrollToEnd();
                 }
                 catch (InvalidOperationException ex)
                 {
@@ -68,9 +68,9 @@ namespace BAUERGROUP.Shared.Desktop.Logging
 
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var bVisible = (bool)e.NewValue;
+            var visible = (bool)e.NewValue;
 
-            if (bVisible)
+            if (visible)
                 StartLogging();
             else
                 StopLogging();

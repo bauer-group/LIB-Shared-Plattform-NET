@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,28 +16,28 @@ namespace BAUERGROUP.Shared.Core.Application
 
         public static OperatingSystem OperatingSystem { get { return Environment.OSVersion; } }
         public static Boolean Is64BitOperatingSystem { get { return Environment.Is64BitOperatingSystem; } }
-        
+
         public static Int32 ProcessorCount { get { return Environment.ProcessorCount; } }
         public static String SystemDirectory { get { return Environment.SystemDirectory; } }
 
-        public static String? GetEnvironmentVariable(String sName)
+        public static String? GetEnvironmentVariable(String name)
         {
             //Returns NULL if not found
-            return Environment.GetEnvironmentVariable(sName);
+            return Environment.GetEnvironmentVariable(name);
         }
 
         public static EnvironmentSessionType SessionType
         {
             get
             {
-                var sSessionName = GetEnvironmentVariable("SESSIONNAME");
-                if (sSessionName == null || sSessionName.Length < 3)
+                var sessionName = GetEnvironmentVariable("SESSIONNAME");
+                if (sessionName == null || sessionName.Length < 3)
                     return EnvironmentSessionType.Undetermined;
 
-                switch (sSessionName.ToUpper().Substring(0, 3))
+                switch (sessionName.ToUpper().Substring(0, 3))
                 {
                     case "CON":
-                        return EnvironmentSessionType.Console;                        
+                        return EnvironmentSessionType.Console;
 
                     case "RDP":
                         return EnvironmentSessionType.RDP;

@@ -92,11 +92,11 @@ internal partial class ChromeWebbrowserControl : UserControl
     private void Initialize()
     {
         PreviewKeyDown += CloseOnEscape_Event;
-        wbMain.LifeSpanHandler = new ChromeLifeSpanHandler(this);
-        wbMain.DisplayHandler = new ChromeDisplayHandler();
-        wbMain.MenuHandler = new ChromeMenuHandler();
-        wbMain.DownloadHandler = new ChromeDownloadHandler();
-        wbMain.Focus();
+        mainBrowser.LifeSpanHandler = new ChromeLifeSpanHandler(this);
+        mainBrowser.DisplayHandler = new ChromeDisplayHandler();
+        mainBrowser.MenuHandler = new ChromeMenuHandler();
+        mainBrowser.DownloadHandler = new ChromeDownloadHandler();
+        mainBrowser.Focus();
     }
 
     /// <summary>
@@ -108,11 +108,11 @@ internal partial class ChromeWebbrowserControl : UserControl
     {
         try
         {
-            wbMain.Load(url);
+            mainBrowser.Load(url);
         }
         catch (UriFormatException ex)
         {
-            wbMain.Load($"about:<h1>{WebUtility.HtmlEncode(ex.Message)}</h1>");
+            mainBrowser.Load($"about:<h1>{WebUtility.HtmlEncode(ex.Message)}</h1>");
             return false;
         }
 
@@ -140,7 +140,7 @@ internal partial class ChromeWebbrowserControl : UserControl
 
         if (e.Key == Key.F11)
         {
-            wbMain.EvaluateScriptAsync("document.documentElement.requestFullscreen();");
+            mainBrowser.EvaluateScriptAsync("document.documentElement.requestFullscreen();");
         }
     }
 
@@ -174,9 +174,9 @@ internal partial class ChromeWebbrowserControl : UserControl
 
         if (disposing)
         {
-            wbMain.Load("about:blank");
-            wbMain.Dispose();
-            wbMain = null!;
+            mainBrowser.Load("about:blank");
+            mainBrowser.Dispose();
+            mainBrowser = null!;
         }
 
         _isDisposed = true;
@@ -221,7 +221,7 @@ internal partial class ChromeWebbrowserControl : UserControl
         }
     }
 
-    private void tbURL_GotFocus(object sender, RoutedEventArgs e)
+    private void urlTextBox_GotFocus(object sender, RoutedEventArgs e)
     {
         if (e.OriginalSource is TextBox textBox)
             textBox.SelectAll();
@@ -229,7 +229,7 @@ internal partial class ChromeWebbrowserControl : UserControl
             passwordBox.SelectAll();
     }
 
-    private void tbURL_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    private void urlTextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (sender is not FrameworkElement element || element.IsKeyboardFocusWithin)
             return;

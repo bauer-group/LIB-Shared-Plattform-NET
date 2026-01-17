@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace BAUERGROUP.Shared.Core.Images
     {
         public IndependentImage()
         {
-            Content = null;            
+            Content = null;
             Timestamp = DateTime.UtcNow;
         }
 
@@ -20,63 +20,63 @@ namespace BAUERGROUP.Shared.Core.Images
         public IndependentImageFormat Format { get { return GetFormat(Content); } }
         public Int32 Size { get { return Content == null ? 0 : Content.Length; } }
 
-        public static IndependentImage FromFile(String sFilename)
+        public static IndependentImage FromFile(String filename)
         {
             throw new NotImplementedException();
         }
 
-        public static IndependentImage FromStream(Stream oStream)
+        public static IndependentImage FromStream(Stream stream)
         {
             throw new NotImplementedException();
         }
 
-        public static IndependentImage FromURL(String sURL)
+        public static IndependentImage FromURL(String url)
         {
             throw new NotImplementedException();
         }
 
-        public void Save(Stream oStream, IndependentImageFormat eFormat = IndependentImageFormat.PNG)
+        public void Save(Stream stream, IndependentImageFormat format = IndependentImageFormat.PNG)
         {
             throw new NotImplementedException();
         }
 
-        public void Save(String sFilename, IndependentImageFormat eFormat = IndependentImageFormat.PNG)
+        public void Save(String filename, IndependentImageFormat format = IndependentImageFormat.PNG)
         {
             throw new NotImplementedException();
         }
 
-        private static IndependentImageFormat GetFormat(Byte[]? oRawData)
+        private static IndependentImageFormat GetFormat(Byte[]? rawData)
         {
-            if (oRawData == null || oRawData.Length == 0)
+            if (rawData == null || rawData.Length == 0)
                 return IndependentImageFormat.Unkown;
 
-            var bBitmap = Encoding.ASCII.GetBytes("BM");
-            var bGIF = Encoding.ASCII.GetBytes("GIF");
-            var PNG = new Byte[] { 137, 80, 78, 71 };
-            var bTIFF1 = new Byte[] { 73, 73, 42 };
-            var bTIFF2 = new Byte[] { 77, 77, 42 };
-            var bJPEG1 = new Byte[] { 255, 216, 255, 224 };
-            var bJPEG2 = new Byte[] { 255, 216, 255, 225 };
+            var bitmap = Encoding.ASCII.GetBytes("BM");
+            var gif = Encoding.ASCII.GetBytes("GIF");
+            var png = new Byte[] { 137, 80, 78, 71 };
+            var tiff1 = new Byte[] { 73, 73, 42 };
+            var tiff2 = new Byte[] { 77, 77, 42 };
+            var jpeg1 = new Byte[] { 255, 216, 255, 224 };
+            var jpeg2 = new Byte[] { 255, 216, 255, 225 };
 
-            if (bBitmap.SequenceEqual(oRawData.Take(bBitmap.Length)))
+            if (bitmap.SequenceEqual(rawData.Take(bitmap.Length)))
                 return IndependentImageFormat.BMP;
 
-            if (bGIF.SequenceEqual(oRawData.Take(bGIF.Length)))
+            if (gif.SequenceEqual(rawData.Take(gif.Length)))
                 return IndependentImageFormat.GIF;
 
-            if (PNG.SequenceEqual(oRawData.Take(PNG.Length)))
+            if (png.SequenceEqual(rawData.Take(png.Length)))
                 return IndependentImageFormat.PNG;
 
-            if (bTIFF1.SequenceEqual(oRawData.Take(bTIFF1.Length)))
+            if (tiff1.SequenceEqual(rawData.Take(tiff1.Length)))
                 return IndependentImageFormat.TIFF;
 
-            if (bTIFF2.SequenceEqual(oRawData.Take(bTIFF2.Length)))
+            if (tiff2.SequenceEqual(rawData.Take(tiff2.Length)))
                 return IndependentImageFormat.TIFF;
 
-            if (bJPEG1.SequenceEqual(oRawData.Take(bJPEG1.Length)))
+            if (jpeg1.SequenceEqual(rawData.Take(jpeg1.Length)))
                 return IndependentImageFormat.JPEG;
 
-            if (bJPEG2.SequenceEqual(oRawData.Take(bJPEG2.Length)))
+            if (jpeg2.SequenceEqual(rawData.Take(jpeg2.Length)))
                 return IndependentImageFormat.JPEG;
 
             return IndependentImageFormat.Unkown;

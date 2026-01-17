@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,8 +22,8 @@ namespace BAUERGROUP.Shared.Core.Logging
 
         private BGLogger()
         {
-            var oAssembly = Assembly.GetEntryAssembly();
-            if (oAssembly == null)
+            var assembly = Assembly.GetEntryAssembly();
+            if (assembly == null)
             {
                 if (String.IsNullOrWhiteSpace(BGLoggerConfiguration.ApplicationName))
                     Backend = LogManager.GetCurrentClassLogger();
@@ -32,8 +32,8 @@ namespace BAUERGROUP.Shared.Core.Logging
             }
             else
             {
-                var sName = Path.GetFileNameWithoutExtension(oAssembly.Location);
-                Backend = LogManager.GetLogger(sName);
+                var name = Path.GetFileNameWithoutExtension(assembly.Location);
+                Backend = LogManager.GetLogger(name);
             }
         }
 
@@ -60,7 +60,7 @@ namespace BAUERGROUP.Shared.Core.Logging
         public static void Error(object value) { Instance.Backend.Error(value); }
         public static void Error(string message) { Instance.Backend.Error(message); }
         public static void Error<T>(T value) { Instance.Backend.Error<T>(value); }
-        public static void Error(Exception exception, string message) { Instance.Backend.Error(exception, message); }        
+        public static void Error(Exception exception, string message) { Instance.Backend.Error(exception, message); }
         public static void Error(IFormatProvider formatProvider, object value) { Instance.Backend.Error(formatProvider, value); }
         public static void Error<T>(IFormatProvider formatProvider, T value) { Instance.Backend.Error<T>(formatProvider, value); }
         public static void Error(string message, bool argument) { Instance.Backend.Error(message, argument); }
@@ -100,7 +100,7 @@ namespace BAUERGROUP.Shared.Core.Logging
         public static void Error<TArgument1, TArgument2>(string message, TArgument1 argument1, TArgument2 argument2) { Instance.Backend.Error(message, argument1, argument2); }
         public static void Error<TArgument1, TArgument2, TArgument3>(string message, TArgument1 argument1, TArgument2 argument2, TArgument3 argument3) { Instance.Backend.Error(message, argument1, argument2, argument3); }
         public static void Error<TArgument1, TArgument2>(IFormatProvider formatProvider, string message, TArgument1 argument1, TArgument2 argument2) { Instance.Backend.Error(formatProvider, message, argument1, argument2); }
-        public static void Error<TArgument1, TArgument2, TArgument3>(IFormatProvider formatProvider, string message, TArgument1 argument1, TArgument2 argument2, TArgument3 argument3) { Instance.Backend.Error(formatProvider, message, argument1, argument2, argument3); }        
+        public static void Error<TArgument1, TArgument2, TArgument3>(IFormatProvider formatProvider, string message, TArgument1 argument1, TArgument2 argument2, TArgument3 argument3) { Instance.Backend.Error(formatProvider, message, argument1, argument2, argument3); }
 
         public static void Fatal(object value) { Instance.Backend.Fatal(value); }
         public static void Fatal(string message) { Instance.Backend.Fatal(message); }
@@ -329,12 +329,12 @@ namespace BAUERGROUP.Shared.Core.Logging
         #endregion
 
         #region ApplicationHandler
-        public static void UnhandledExceptionReporting(Boolean bEnabled = true)
+        public static void UnhandledExceptionReporting(Boolean enabled = true)
         {
-            if (bEnabled)
-            {                
+            if (enabled)
+            {
                 AppDomain.CurrentDomain.UnhandledException += ReportUnhandledException;
-                TaskScheduler.UnobservedTaskException += ReportUnobservedTaskException;                
+                TaskScheduler.UnobservedTaskException += ReportUnobservedTaskException;
             }
             else
             {
@@ -345,13 +345,13 @@ namespace BAUERGROUP.Shared.Core.Logging
 
         private static void ReportUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
         {
-            Fatal(e.Exception, String.Format("UnobservedTaskException => Observed = {0}", e.Observed));            
+            Fatal(e.Exception, String.Format("UnobservedTaskException => Observed = {0}", e.Observed));
             Environment.Exit(0);
         }
 
         private static void ReportUnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {           
-            Fatal((Exception)e.ExceptionObject, String.Format("UnhandledException => IsTerminating = {0}", e.IsTerminating));            
+        {
+            Fatal((Exception)e.ExceptionObject, String.Format("UnhandledException => IsTerminating = {0}", e.IsTerminating));
             Environment.Exit(0);
         }
         #endregion

@@ -51,11 +51,11 @@ internal partial class IEWebbrowserControl : UserControl, IDisposable
     private void Initialize()
     {
         PreviewKeyDown += CloseOnEscape_Event;
-        wbMain.MessageHook += wbMain_MessageHook;
-        wbMain.Focus();
+        mainBrowser.MessageHook += mainBrowser_MessageHook;
+        mainBrowser.Focus();
     }
 
-    private IntPtr wbMain_MessageHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    private IntPtr mainBrowser_MessageHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
         switch (msg)
         {
@@ -93,10 +93,10 @@ internal partial class IEWebbrowserControl : UserControl, IDisposable
         CloseWindowByUserInterface?.Invoke(this, EventArgs.Empty);
     }
 
-    private void tbURL_KeyUp(object sender, KeyEventArgs e)
+    private void urlTextBox_KeyUp(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
-            Navigate(tbURL.Text);
+            Navigate(urlTextBox.Text);
     }
 
     /// <summary>
@@ -108,11 +108,11 @@ internal partial class IEWebbrowserControl : UserControl, IDisposable
     {
         try
         {
-            wbMain.Navigate(url);
+            mainBrowser.Navigate(url);
         }
         catch (UriFormatException ex)
         {
-            wbMain.Navigate($"about:<h1>{WebUtility.HtmlEncode(ex.Message)}</h1>");
+            mainBrowser.Navigate($"about:<h1>{WebUtility.HtmlEncode(ex.Message)}</h1>");
             return false;
         }
 
@@ -127,32 +127,32 @@ internal partial class IEWebbrowserControl : UserControl, IDisposable
 
     private void Print()
     {
-        wbMain.InvokeScript("execScript", new object[] { "window.print();", "JavaScript" });
+        mainBrowser.InvokeScript("execScript", new object[] { "window.print();", "JavaScript" });
     }
 
     private void NavigateBack_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        wbMain.GoBack();
+        mainBrowser.GoBack();
     }
 
     private void NavigateForward_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        wbMain.GoForward();
+        mainBrowser.GoForward();
     }
 
     private void Navigate_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        Navigate(tbURL.Text);
+        Navigate(urlTextBox.Text);
     }
 
     private void NavigateBack_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
-        e.CanExecute = wbMain != null && wbMain.CanGoBack;
+        e.CanExecute = mainBrowser != null && mainBrowser.CanGoBack;
     }
 
     private void NavigateForward_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
-        e.CanExecute = wbMain != null && wbMain.CanGoForward;
+        e.CanExecute = mainBrowser != null && mainBrowser.CanGoForward;
     }
 
     private void Navigate_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -160,9 +160,9 @@ internal partial class IEWebbrowserControl : UserControl, IDisposable
         e.CanExecute = true;
     }
 
-    private void wbMain_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
+    private void mainBrowser_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
     {
-        tbURL.Text = e.Uri.OriginalString;
+        urlTextBox.Text = e.Uri.OriginalString;
     }
 
     private void Print_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -172,10 +172,10 @@ internal partial class IEWebbrowserControl : UserControl, IDisposable
 
     private void Print_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
-        e.CanExecute = !string.IsNullOrWhiteSpace(tbURL.Text);
+        e.CanExecute = !string.IsNullOrWhiteSpace(urlTextBox.Text);
     }
 
-    private void wbMain_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
+    private void mainBrowser_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
     {
         // Site is completely loaded
     }
@@ -199,9 +199,9 @@ internal partial class IEWebbrowserControl : UserControl, IDisposable
         if (disposing)
         {
             // BGSHIP-126, Crash der Anwendung seit 16.08.2016
-            wbMain.Navigate("about:blank");
-            wbMain.Dispose();
-            wbMain = null!;
+            mainBrowser.Navigate("about:blank");
+            mainBrowser.Dispose();
+            mainBrowser = null!;
         }
 
         _isDisposed = true;

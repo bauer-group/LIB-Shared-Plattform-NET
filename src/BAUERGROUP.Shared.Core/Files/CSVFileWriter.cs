@@ -1,4 +1,4 @@
-﻿using CsvHelper;
+using CsvHelper;
 using CsvHelper.Configuration;
 using System;
 using System.Collections;
@@ -15,24 +15,24 @@ namespace BAUERGROUP.Shared.Core.Files
         protected StreamWriter? _sw;
         protected CsvWriter? _cw;
 
-        public CSVFileWriter(String sFileName, Encoding? oEncoding = null, Boolean bAppendFile = false, String sDelimiter = @";", Char sQuote = '"', Boolean bQuoteAllFields = true, CultureInfo? oCulture = null, Boolean bHasHeader = true)
+        public CSVFileWriter(String fileName, Encoding? encoding = null, Boolean appendFile = false, String delimiter = @";", Char quote = '"', Boolean quoteAllFields = true, CultureInfo? culture = null, Boolean hasHeader = true)
         {
-            _sw = new StreamWriter(sFileName, bAppendFile, oEncoding == null ? Encoding.Unicode : oEncoding);
-            _cw = new CsvWriter(_sw, new CsvConfiguration(oCulture == null ? CultureInfo.CurrentCulture : oCulture)
+            _sw = new StreamWriter(fileName, appendFile, encoding == null ? Encoding.Unicode : encoding);
+            _cw = new CsvWriter(_sw, new CsvConfiguration(culture == null ? CultureInfo.CurrentCulture : culture)
             {
-                HasHeaderRecord = bHasHeader,                
+                HasHeaderRecord = hasHeader,
                 Comment = '#',
                 AllowComments = false,
-                Delimiter = sDelimiter,
-                Encoding = oEncoding == null ? Encoding.Unicode : oEncoding,
-                Quote = sQuote,
-                ShouldQuote = (quote) => bQuoteAllFields,                
+                Delimiter = delimiter,
+                Encoding = encoding == null ? Encoding.Unicode : encoding,
+                Quote = quote,
+                ShouldQuote = (q) => quoteAllFields,
                 ShouldSkipRecord = (record) => record.Row.Parser.Record?.All(String.IsNullOrWhiteSpace) ?? false,
                 TrimOptions = TrimOptions.Trim | TrimOptions.InsideQuotes,
                 IgnoreBlankLines = true,
             });
         }
-        
+
         public void Dispose()
         {
             if (_sw == null)
@@ -57,19 +57,19 @@ namespace BAUERGROUP.Shared.Core.Files
             _cw?.WriteHeader<T>();
         }
 
-        public void WriteRecord<T>(T oEntry)
+        public void WriteRecord<T>(T entry)
         {
-            _cw?.WriteRecord(oEntry);
+            _cw?.WriteRecord(entry);
         }
 
-        public void WriteRecords(IEnumerable oEntries)
+        public void WriteRecords(IEnumerable entries)
         {
-            _cw?.WriteRecords(oEntries);
+            _cw?.WriteRecords(entries);
         }
 
-        public void WriteField<T>(T oEnty)
+        public void WriteField<T>(T entry)
         {
-            _cw?.WriteField(oEnty);
+            _cw?.WriteField(entry);
         }
 
         public void NextRecord()

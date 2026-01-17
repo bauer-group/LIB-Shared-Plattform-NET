@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,13 +6,13 @@ namespace BAUERGROUP.Shared.Cloud.CloudinaryClient
 {
     public class CloudinaryImageManagerConfiguration
     {
-        public CloudinaryImageManagerConfiguration(String sName, String sAPIKey, String sAPISecret, String sProject)
+        public CloudinaryImageManagerConfiguration(String name, String apiKey, String apiSecret, String project)
         {
-            Name = sName;
-            APIKey = sAPIKey;
-            APISecret = sAPISecret;
+            Name = name;
+            APIKey = apiKey;
+            APISecret = apiSecret;
 
-            Project = sProject;
+            Project = project;
         }
 
         public CloudinaryImageManagerConfiguration()

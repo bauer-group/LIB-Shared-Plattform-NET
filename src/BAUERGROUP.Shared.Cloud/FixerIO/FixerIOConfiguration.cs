@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
@@ -7,11 +7,11 @@ namespace BAUERGROUP.Shared.Cloud.FixerIO
 {
     public class FixerIOConfiguration
     {
-        public FixerIOConfiguration(String sAPIKey, Int32 iTimeout = 3 * 1000, IWebProxy? oProxy = null)
+        public FixerIOConfiguration(String apiKey, Int32 timeout = 3 * 1000, IWebProxy? proxy = null)
         {
-            APIKey = sAPIKey;
-            Proxy = oProxy;
-            Timeout = iTimeout;
+            APIKey = apiKey;
+            Proxy = proxy;
+            Timeout = timeout;
         }
 
         public FixerIOConfiguration()

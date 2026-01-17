@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,33 +26,33 @@ namespace BAUERGROUP.Shared.Core.Streams
         public static Byte[] CopyToBytes(this Stream inputStream)
         {
             var fileBytes = new byte[inputStream.Length];
-            inputStream.Read(fileBytes, 0, (int)inputStream.Length);            
+            inputStream.Read(fileBytes, 0, (int)inputStream.Length);
 
             return fileBytes;
         }
 
-        public static Stream? GetRessourceAsStream(String sRessource, Type oType, String sRessourcePath = @"Resources")
+        public static Stream? GetRessourceAsStream(String ressource, Type type, String ressourcePath = @"Resources")
         {
-            var oAssembly = Assembly.GetAssembly(oType);
-            if (oAssembly == null) return null;
-            var sRessourceName = String.Format(@"{0}.{1}.{2}", oAssembly.GetName().Name, sRessourcePath, sRessource);
+            var assembly = Assembly.GetAssembly(type);
+            if (assembly == null) return null;
+            var ressourceName = String.Format(@"{0}.{1}.{2}", assembly.GetName().Name, ressourcePath, ressource);
 
-            return oAssembly.GetManifestResourceStream(sRessourceName);
+            return assembly.GetManifestResourceStream(ressourceName);
         }
 
-        public static Boolean CopyRessourceToFile(String sRessource, String sFilename, Type oType, Boolean bAlwaysOverwriteFile = false, String sRessourcePath = @"Resources")
+        public static Boolean CopyRessourceToFile(String ressource, String filename, Type type, Boolean alwaysOverwriteFile = false, String ressourcePath = @"Resources")
         {
-            if (File.Exists(sFilename) && !bAlwaysOverwriteFile)
+            if (File.Exists(filename) && !alwaysOverwriteFile)
                 return true;
 
-            using (var rs = GetRessourceAsStream(sRessource, oType, sRessourcePath))
+            using (var resourceStream = GetRessourceAsStream(ressource, type, ressourcePath))
             {
-                if (rs == null)
+                if (resourceStream == null)
                     return false;
 
-                FileStream fs = new FileStream(sFilename, FileMode.Create);
-                rs.CopyTo(fs);
-                fs.Close();
+                FileStream fileStream = new FileStream(filename, FileMode.Create);
+                resourceStream.CopyTo(fileStream);
+                fileStream.Close();
             }
 
             return true;

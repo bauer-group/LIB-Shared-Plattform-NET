@@ -1,4 +1,4 @@
-﻿using SQLite;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +10,17 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase.Internal
     [Table("PersistentDictionary")]
     internal class ConcurrentPersistentDictionaryStorage
     {
-        public ConcurrentPersistentDictionaryStorage() : 
+        public ConcurrentPersistentDictionaryStorage() :
             this (@"", @"", @"")
         {
 
         }
 
-        public ConcurrentPersistentDictionaryStorage(String sContainer, String sKey, String sValue)
+        public ConcurrentPersistentDictionaryStorage(String container, String key, String value)
         {
-            Container = sContainer;
-            Key = sKey;
-            Value = sValue;
+            Container = container;
+            Key = key;
+            Value = value;
 
             Timestamp = DateTime.UtcNow;
         }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,15 +11,15 @@ namespace BAUERGROUP.Shared.Core.Extensions
 {
     public static class XMLHelper
     {
-        public static String? SerializeToXML<T>(this T oValue)
+        public static String? SerializeToXML<T>(this T value)
         {
-            if (oValue == null)
+            if (value == null)
             {
                 return null;
             }
 
             XmlSerializer serializer = new XmlSerializer(typeof(T));
-            
+
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Encoding = new UnicodeEncoding(false, false);
             settings.Indent = false;
@@ -29,16 +29,16 @@ namespace BAUERGROUP.Shared.Core.Extensions
             {
                 using (XmlWriter xmlWriter = XmlWriter.Create(textWriter, settings))
                 {
-                    serializer.Serialize(xmlWriter, oValue);
+                    serializer.Serialize(xmlWriter, value);
                 }
                 return textWriter.ToString();
             }
         }
 
-        public static T? DeserializeFromXML<T>(this String sXML)
+        public static T? DeserializeFromXML<T>(this String xml)
         {
 
-            if (String.IsNullOrEmpty(sXML))
+            if (String.IsNullOrEmpty(xml))
             {
                 return default;
             }
@@ -47,7 +47,7 @@ namespace BAUERGROUP.Shared.Core.Extensions
 
             XmlReaderSettings settings = new XmlReaderSettings();
 
-            using (StringReader textReader = new StringReader(sXML))
+            using (StringReader textReader = new StringReader(xml))
             {
                 using (XmlReader xmlReader = XmlReader.Create(textReader, settings))
                 {
@@ -57,10 +57,10 @@ namespace BAUERGROUP.Shared.Core.Extensions
             }
         }
 
-        public static string XMLEscape(this String sValue)
+        public static string XMLEscape(this String value)
         {
             //Hint: http://msdn.microsoft.com/de-de/library/system.security.securityelement.escape(v=vs.110).aspx
-            return SecurityElement.Escape(sValue);
+            return SecurityElement.Escape(value);
         }
     }
 }
