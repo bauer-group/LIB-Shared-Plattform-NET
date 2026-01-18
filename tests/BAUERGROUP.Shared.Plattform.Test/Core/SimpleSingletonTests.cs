@@ -82,7 +82,7 @@ public class SimpleSingletonTests
         var instance = SimpleSingleton<LazyTestClass>.Instance;
 
         instance.Should().NotBeNull();
-        LazyTestClass.InstanceCount.Should().BeGreaterOrEqualTo(1);
+        LazyTestClass.InstanceCount.Should().BeGreaterThanOrEqualTo(1);
     }
 
     public class LazyTestClass
