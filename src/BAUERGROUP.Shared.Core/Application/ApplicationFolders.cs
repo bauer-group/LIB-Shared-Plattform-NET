@@ -3,8 +3,14 @@ using System.IO;
 
 namespace BAUERGROUP.Shared.Core.Application
 {
+    /// <summary>
+    /// Provides access to common application folder paths.
+    /// </summary>
     public static class ApplicationFolders
     {
+        /// <summary>
+        /// Gets the roaming application data folder path for the current user.
+        /// </summary>
         public static String ApplicationData
         {
             get
@@ -13,6 +19,9 @@ namespace BAUERGROUP.Shared.Core.Application
             }
         }
 
+        /// <summary>
+        /// Gets the directory containing the application binary.
+        /// </summary>
         public static String? ApplicationBinary
         {
             get
@@ -21,6 +30,9 @@ namespace BAUERGROUP.Shared.Core.Application
             }
         }
 
+        /// <summary>
+        /// Gets the application file name without the extension.
+        /// </summary>
         public static String ApplicationFileNameWithoutExtension
         {
             get
@@ -29,6 +41,9 @@ namespace BAUERGROUP.Shared.Core.Application
             }
         }
 
+        /// <summary>
+        /// Gets the application-specific folder within the roaming application data directory.
+        /// </summary>
         public static String ExecutionApplicationDataFolder
         {
             get
@@ -37,6 +52,9 @@ namespace BAUERGROUP.Shared.Core.Application
             }
         }
 
+        /// <summary>
+        /// Gets the common application data folder path shared by all users.
+        /// </summary>
         public static String CommonApplicationData
         {
             get
@@ -45,6 +63,9 @@ namespace BAUERGROUP.Shared.Core.Application
             }
         }
 
+        /// <summary>
+        /// Gets the application-specific folder within the common application data directory.
+        /// </summary>
         public static String ExecutionCommonApplicationDataFolder
         {
             get
@@ -53,6 +74,9 @@ namespace BAUERGROUP.Shared.Core.Application
             }
         }
 
+        /// <summary>
+        /// Gets the directory containing the currently executing assembly.
+        /// </summary>
         public static String? ApplicationExecuting
         {
             get
@@ -61,6 +85,9 @@ namespace BAUERGROUP.Shared.Core.Application
             }
         }
 
+        /// <summary>
+        /// Gets the local (non-roaming) application data folder path for the current user.
+        /// </summary>
         public static String LocalApplicationData
         {
             get
@@ -69,6 +96,9 @@ namespace BAUERGROUP.Shared.Core.Application
             }
         }
 
+        /// <summary>
+        /// Gets the current working directory of the application.
+        /// </summary>
         public static String CurrentDirectory
         {
             get
@@ -77,6 +107,12 @@ namespace BAUERGROUP.Shared.Core.Application
             }
         }
 
+        /// <summary>
+        /// Gets the name of the environment variable that forces data storage in the user's roaming profile.
+        /// </summary>
+        /// <remarks>
+        /// When this environment variable is set to "TRUE", application data is stored in the roaming profile.
+        /// </remarks>
         public static String ForceApplicationDataFolderInUserProfileEnvironmentVariable
         {
             get
@@ -85,6 +121,13 @@ namespace BAUERGROUP.Shared.Core.Application
             }
         }
 
+        /// <summary>
+        /// Gets the appropriate application data folder based on the BAUERGROUP_ROAMINGAPPLICATIONDATA environment variable.
+        /// </summary>
+        /// <remarks>
+        /// Returns <see cref="ExecutionApplicationDataFolder"/> if the environment variable is set to "TRUE",
+        /// otherwise returns <see cref="ExecutionCommonApplicationDataFolder"/>.
+        /// </remarks>
         public static String ExecutionAutomaticApplicationDataFolder
         {
             get
@@ -98,6 +141,9 @@ namespace BAUERGROUP.Shared.Core.Application
             }
         }
 
+        /// <summary>
+        /// Gets the user's personal documents directory (My Documents).
+        /// </summary>
         public static String UserPersonalDocumentsDirectory
         {
             get

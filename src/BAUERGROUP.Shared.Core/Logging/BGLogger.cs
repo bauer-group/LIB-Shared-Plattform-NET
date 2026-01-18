@@ -12,12 +12,18 @@ using System.Threading.Tasks;
 namespace BAUERGROUP.Shared.Core.Logging
 {
     /// <summary>
-    /// Logging Implementation
+    /// Provides a centralized, singleton-based logging implementation using NLog.
     /// </summary>
-
+    /// <remarks>
+    /// This class wraps NLog functionality and provides static methods for logging at various levels:
+    /// Error, Fatal, Debug, Warn, Trace, and Info. It also supports automatic unhandled exception reporting.
+    /// </remarks>
     public sealed class BGLogger
     {
         #region Instance
+        /// <summary>
+        /// Gets the underlying NLog Logger instance.
+        /// </summary>
         public Logger Backend { get; private set; }
 
         private BGLogger()
@@ -50,9 +56,17 @@ namespace BAUERGROUP.Shared.Core.Logging
         }
 
         private static readonly BGLogger InstanceInternal = new BGLogger();
+
+        /// <summary>
+        /// Gets the singleton instance of the BGLogger.
+        /// </summary>
         public static BGLogger Instance { get { return InstanceInternal; } }
 
         private static readonly BGLoggerConfiguration InstanceConfiguration = new BGLoggerConfiguration();
+
+        /// <summary>
+        /// Gets the configuration settings for the logger.
+        /// </summary>
         public static BGLoggerConfiguration Configuration { get { return InstanceConfiguration; } }
         #endregion
 
@@ -329,6 +343,13 @@ namespace BAUERGROUP.Shared.Core.Logging
         #endregion
 
         #region ApplicationHandler
+        /// <summary>
+        /// Enables or disables automatic logging of unhandled exceptions and unobserved task exceptions.
+        /// </summary>
+        /// <param name="enabled">If <c>true</c>, enables exception reporting; otherwise, disables it.</param>
+        /// <remarks>
+        /// When enabled, unhandled exceptions are logged at Fatal level before the application exits.
+        /// </remarks>
         public static void UnhandledExceptionReporting(Boolean enabled = true)
         {
             if (enabled)

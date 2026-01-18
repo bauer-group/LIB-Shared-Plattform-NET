@@ -5,8 +5,18 @@ using System.Text;
 
 namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
 {
+    /// <summary>
+    /// An in-memory relational database implementation using NMemory.
+    /// </summary>
+    /// <remarks>
+    /// Derive from this class to create custom in-memory databases with tables and relations.
+    /// See https://nmemory.net/online-examples for usage examples.
+    /// </remarks>
     public class InMemoryRelationalDatabase : Database
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InMemoryRelationalDatabase"/> class.
+        /// </summary>
         public InMemoryRelationalDatabase()
         {
 

@@ -7,14 +7,31 @@ using System.Text;
 
 namespace BAUERGROUP.Shared.Desktop.DataSources
 {
+    /// <summary>
+    /// Provides utilities for managing ODBC data source connections on Windows.
+    /// </summary>
     public class OdbcConnectionManager
     {
+        /// <summary>
+        /// Specifies the type of ODBC data source.
+        /// </summary>
         public enum DataSourceType
         {
+            /// <summary>
+            /// System DSN, available to all users on the machine.
+            /// </summary>
             System = 0,
+
+            /// <summary>
+            /// User DSN, available only to the current user.
+            /// </summary>
             User = 1
         }
 
+        /// <summary>
+        /// Gets all ODBC data source names (both User and System DSNs).
+        /// </summary>
+        /// <returns>A sorted list of DSN names and their types.</returns>
         public static SortedList GetDataSourceNames()
         {
             SortedList userDSNList = GetDataSourceNames(DataSourceType.User);
@@ -43,6 +60,11 @@ namespace BAUERGROUP.Shared.Desktop.DataSources
             return userDSNList;
         }
 
+        /// <summary>
+        /// Gets ODBC data source names of the specified type.
+        /// </summary>
+        /// <param name="type">The type of DSN to retrieve (User or System).</param>
+        /// <returns>A sorted list of DSN names and their types.</returns>
         public static SortedList GetDataSourceNames(DataSourceType type)
         {
             SortedList dsnList = new SortedList();
@@ -81,6 +103,13 @@ namespace BAUERGROUP.Shared.Desktop.DataSources
             return dsnList;
         }
 
+        /// <summary>
+        /// Builds an ODBC connection string for the specified DSN with credentials.
+        /// </summary>
+        /// <param name="dsn">The data source name.</param>
+        /// <param name="username">The username for authentication.</param>
+        /// <param name="password">The password for authentication.</param>
+        /// <returns>A formatted ODBC connection string.</returns>
         public static String GetConnectionString(String dsn, String username, String password)
         {
             var odbcConnection = new OdbcConnectionStringBuilder();

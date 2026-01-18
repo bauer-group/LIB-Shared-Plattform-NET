@@ -10,12 +10,34 @@ using System.Linq;
 
 namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
 {
+    /// <summary>
+    /// A thread-safe, persistent key-value dictionary backed by SQLite storage.
+    /// </summary>
+    /// <typeparam name="TKey">The type of keys in the dictionary. Must implement <see cref="IComparable{TKey}"/>.</typeparam>
+    /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
     public class ConcurrentPersistentDictionary<TKey, TValue> : IDisposable where TKey : IComparable<TKey>
     {
+        /// <summary>
+        /// Gets the file path of the SQLite database.
+        /// </summary>
         protected string FileName { get; private set; } = null!;
+
+        /// <summary>
+        /// Gets the name of the table within the database.
+        /// </summary>
         protected string TableName { get; private set; } = null!;
+
+        /// <summary>
+        /// Gets the SQLite database connection.
+        /// </summary>
         protected SQLiteConnection? Connection { get; private set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentPersistentDictionary{TKey, TValue}"/> class.
+        /// </summary>
+        /// <param name="dataStorageDirectory">Optional directory for the database file. Defaults to the application database folder.</param>
+        /// <param name="databaseName">Optional name for the database file. Defaults to "Database".</param>
+        /// <param name="tableName">Optional name for the table. Defaults to the database name.</param>
         public ConcurrentPersistentDictionary(string? dataStorageDirectory = null, string? databaseName = null, string? tableName = null)
         {
             string directory = dataStorageDirectory ?? ApplicationDatabaseFolder;
@@ -31,6 +53,9 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
             }
         }
 
+        /// <summary>
+        /// Releases all resources used by the <see cref="ConcurrentPersistentDictionary{TKey, TValue}"/>.
+        /// </summary>
         public void Dispose()
         {
             lock (ConcurrentPersistentDictionaryShared.GlobalLock)
@@ -58,17 +83,31 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
                 Directory.CreateDirectory(path);
         }
 
+        /// <summary>
+        /// Creates or overwrites an entry with the specified key and value.
+        /// </summary>
+        /// <param name="key">The key of the entry.</param>
+        /// <param name="value">The value to store.</param>
         public void Create(TKey key, TValue value)
         {
             Delete(key);
             Connection!.Insert(new ConcurrentPersistentDictionaryStorage(TableName, ConvertKey2StorageFormat(key), ConvertValue2StorageFormat(value)));
         }
 
+        /// <summary>
+        /// Updates an existing entry or creates a new one with the specified key and value.
+        /// </summary>
+        /// <param name="key">The key of the entry.</param>
+        /// <param name="value">The value to store.</param>
         public void Update(TKey key, TValue value)
         {
             Create(key, value);
         }
 
+        /// <summary>
+        /// Deletes the entry with the specified key.
+        /// </summary>
+        /// <param name="key">The key of the entry to delete.</param>
         public void Delete(TKey key)
         {
             var storageKey = ConvertKey2StorageFormat(key);
@@ -77,6 +116,11 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
                 Connection!.Delete<ConcurrentPersistentDictionaryStorage>(item.ID);
         }
 
+        /// <summary>
+        /// Reads the value associated with the specified key.
+        /// </summary>
+        /// <param name="key">The key to look up.</param>
+        /// <returns>The value if found; otherwise, the default value for <typeparamref name="TValue"/>.</returns>
         public TValue? Read(TKey key)
         {
             try
@@ -92,6 +136,10 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
             }
         }
 
+        /// <summary>
+        /// Reads all values in the dictionary.
+        /// </summary>
+        /// <returns>A list of all values.</returns>
         public List<TValue> Read()
         {
             var resultList = new List<TValue>();
@@ -106,6 +154,10 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
             return resultList;
         }
 
+        /// <summary>
+        /// Reads all entries as a dictionary of key-value pairs.
+        /// </summary>
+        /// <returns>A dictionary containing all key-value pairs.</returns>
         public Dictionary<TKey, TValue> ReadWithKeys()
         {
             var resultDictionary = new Dictionary<TKey, TValue>();
@@ -119,12 +171,20 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
             return resultDictionary;
         }
 
+        /// <summary>
+        /// Determines whether the dictionary contains an entry with the specified key.
+        /// </summary>
+        /// <param name="key">The key to check.</param>
+        /// <returns>True if the key exists; otherwise, false.</returns>
         public bool Exists(TKey key)
         {
             var storageKey = ConvertKey2StorageFormat(key);
             return Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == storageKey).Count() > 0;
         }
 
+        /// <summary>
+        /// Gets the number of entries in the dictionary.
+        /// </summary>
         public Int64 Count
         {
             get
