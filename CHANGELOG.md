@@ -1,3 +1,9 @@
+## [2.3.0](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v2.2.0...v2.3.0) (2026-01-18)
+
+### 🚀 Features
+
+* Enhanced Codecoverage ([c7b87a5](https://github.com/bauer-group/LIB-Shared-Plattform-NET/commit/c7b87a5a4340f1993bbd137c02a6d6c642e406c6))
+
 ## [2.2.0](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v2.1.9...v2.2.0) (2026-01-18)
 
 ### 🚀 Features
