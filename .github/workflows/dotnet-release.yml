@@ -110,7 +110,7 @@ jobs:
       sign-assembly: true
 
       # Publishing
-      push-to-nuget: false
+      push-to-nuget: true
       push-to-github: true
       nuget-auth-method: "api-key"
 
