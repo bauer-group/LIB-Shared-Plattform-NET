@@ -1,3 +1,9 @@
+## [3.0.2](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v3.0.1...v3.0.2) (2026-01-28)
+
+### 🐛 Bug Fixes
+
+* Update CloudinaryDotNet and WebView2 package versions; upgrade System.Text.Json and AsyncInterfaces ([f684962](https://github.com/bauer-group/LIB-Shared-Plattform-NET/commit/f68496201ec112d60e3b2401cea01b17320534cb))
+
 ## [3.0.1](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v3.0.0...v3.0.1) (2026-01-28)
 
 ### 🐛 Bug Fixes
