@@ -20,7 +20,7 @@ The BAUER GROUP Shared Platform is a modular, multi-project solution designed to
 - **Modular Architecture**: Pick only the packages you need
 - **Enterprise-Ready Logging**: NLog-based logging with Sentry integration for error tracking
 - **Data Layer**: Support for SQLite (encrypted), LiteDB, and in-memory databases
-- **API Integrations**: Pre-built connectors for e-commerce platforms and shipping providers
+- **API Integrations**: Pre-built API integrations for generic use
 - **Cloud Services**: Cloudinary integration for media management
 - **Desktop Components**: WPF/WinForms utilities with embedded Chromium browser support
 - **Reporting**: Stimulsoft Reports integration for professional reporting
@@ -33,7 +33,7 @@ The BAUER GROUP Shared Platform is a modular, multi-project solution designed to
 |---------|-------------------|-------------|
 | `BAUERGROUP.Shared.Core` | net10.0, net8.0, netstandard2.0 | Core utilities, extensions, logging (NLog + Sentry), error tracking |
 | `BAUERGROUP.Shared.Data` | net10.0, net8.0, netstandard2.0 | Data persistence: SQLite, LiteDB, in-memory database, caching |
-| `BAUERGROUP.Shared.API` | net10.0, net8.0, netstandard2.0 | E-commerce integrations: Shopify, Shopware 5/6, WooCommerce |
+| `BAUERGROUP.Shared.API` | net10.0, net8.0, netstandard2.0 | Generic API integrations |
 | `BAUERGROUP.Shared.API.Shipping` | net10.0, net8.0, netstandard2.0 | Shipping providers: DHL, DPD, GLS, Deutsche Post, UPS |
 | `BAUERGROUP.Shared.Cloud` | net10.0, net8.0 | Cloud services: Cloudinary media management |
 | `BAUERGROUP.Shared.Desktop` | net10.0-windows, net8.0-windows | WPF/WinForms utilities, behaviors, converters |
@@ -155,14 +155,13 @@ WPFToolboxBrowser.ChromeEmbeddedWebbrowserWindow(
 ```
 BAUERGROUP.Shared.Plattform/
 ├── src/
-│   ├── BAUERGROUP.Shared.Core/           # Core utilities & logging
-│   ├── BAUERGROUP.Shared.Data/           # Data persistence layer
-│   ├── BAUERGROUP.Shared.API/            # E-commerce integrations
-│   ├── BAUERGROUP.Shared.API.Shipping/   # Shipping provider APIs
-│   ├── BAUERGROUP.Shared.Cloud/          # Cloud service integrations
-│   ├── BAUERGROUP.Shared.Desktop/        # WPF/WinForms utilities
-│   ├── BAUERGROUP.Shared.Desktop.Browser/     # Embedded browser
-│   └── BAUERGROUP.Shared.Desktop.Reporting/   # Reporting components
+│   ├── BAUERGROUP.Shared.Core/                 # Core utilities & logging
+│   ├── BAUERGROUP.Shared.Data/                 # Data persistence layer
+│   ├── BAUERGROUP.Shared.API/                  # Generic API integrations
+│   ├── BAUERGROUP.Shared.Cloud/                # Cloud service integrations
+│   ├── BAUERGROUP.Shared.Desktop/              # WPF/WinForms utilities
+│   ├── BAUERGROUP.Shared.Desktop.Browser/      # Embedded browser
+│   └── BAUERGROUP.Shared.Desktop.Reporting/    # Reporting components
 ├── tests/
 │   └── BAUERGROUP.Shared.Tests/          # Unit tests
 ├── assets/
