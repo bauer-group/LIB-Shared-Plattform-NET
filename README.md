@@ -19,9 +19,9 @@ The BAUER GROUP Shared Platform is a modular, multi-project solution designed to
 - **Multi-Target Support**: .NET 10, .NET 8, and .NET Standard 2.0 for broad compatibility
 - **Modular Architecture**: Pick only the packages you need
 - **Enterprise-Ready Logging**: NLog-based logging with Sentry integration for error tracking
-- **Data Layer**: Support for SQLite (encrypted), LiteDB, and in-memory databases
-- **API Integrations**: Pre-built API integrations for generic use
-- **Cloud Services**: Cloudinary integration for media management
+- **Data Layer**: Support for SQLite (persistent key-value storage), LiteDB, and in-memory databases
+- **API Integrations**: Generic REST API client with RestSharp
+- **Cloud Services**: Cloudinary media management, RemoveBG background removal, Fixer.io currency exchange
 - **Desktop Components**: WPF/WinForms utilities with embedded Chromium browser support
 - **Reporting**: Stimulsoft Reports integration for professional reporting
 
@@ -31,13 +31,12 @@ The BAUER GROUP Shared Platform is a modular, multi-project solution designed to
 
 | Package | Target Frameworks | Description |
 |---------|-------------------|-------------|
-| `BAUERGROUP.Shared.Core` | net10.0, net8.0, netstandard2.0 | Core utilities, extensions, logging (NLog + Sentry), error tracking |
-| `BAUERGROUP.Shared.Data` | net10.0, net8.0, netstandard2.0 | Data persistence: SQLite, LiteDB, in-memory database, caching |
-| `BAUERGROUP.Shared.API` | net10.0, net8.0, netstandard2.0 | Generic API integrations |
-| `BAUERGROUP.Shared.API.Shipping` | net10.0, net8.0, netstandard2.0 | Shipping providers: DHL, DPD, GLS, Deutsche Post, UPS |
-| `BAUERGROUP.Shared.Cloud` | net10.0, net8.0 | Cloud services: Cloudinary media management |
-| `BAUERGROUP.Shared.Desktop` | net10.0-windows, net8.0-windows | WPF/WinForms utilities, behaviors, converters |
-| `BAUERGROUP.Shared.Desktop.Browser` | net10.0-windows, net8.0-windows | Embedded Chromium browser (CefSharp) for WPF |
+| `BAUERGROUP.Shared.Core` | net10.0, net8.0, netstandard2.0 | Core utilities, extensions, logging (NLog + Sentry), resilience patterns (Polly) |
+| `BAUERGROUP.Shared.Data` | net10.0, net8.0, netstandard2.0 | Data persistence: SQLite key-value storage, LiteDB, in-memory database (NMemory) |
+| `BAUERGROUP.Shared.API` | net10.0, net8.0, netstandard2.0 | Generic REST API client (RestSharp) with JSON serialization |
+| `BAUERGROUP.Shared.Cloud` | net10.0, net8.0 | Cloud services: Cloudinary, RemoveBG, Fixer.io currency exchange |
+| `BAUERGROUP.Shared.Desktop` | net10.0-windows, net8.0-windows | WPF/WinForms utilities, behaviors, reactive extensions |
+| `BAUERGROUP.Shared.Desktop.Browser` | net10.0-windows, net8.0-windows | Embedded Chromium browser (CefSharp) and WebView2 for WPF |
 | `BAUERGROUP.Shared.Desktop.Reporting` | net10.0-windows, net8.0-windows | Stimulsoft Reports integration* |
 
 *\*Requires separate Stimulsoft license*
@@ -55,7 +54,6 @@ Install-Package BAUERGROUP.Shared.Core
 # Optional packages
 Install-Package BAUERGROUP.Shared.Data
 Install-Package BAUERGROUP.Shared.API
-Install-Package BAUERGROUP.Shared.API.Shipping
 Install-Package BAUERGROUP.Shared.Cloud
 Install-Package BAUERGROUP.Shared.Desktop
 Install-Package BAUERGROUP.Shared.Desktop.Browser
@@ -77,35 +75,48 @@ dotnet add package BAUERGROUP.Shared.Core
 ```csharp
 using BAUERGROUP.Shared.Core.Logging;
 
-// Configure logging
-var config = new BGLoggerConfiguration
-{
-    ApplicationName = "MyApplication",
-    LogDirectory = @"C:\Logs",
-    SentryDsn = "https://your-sentry-dsn@sentry.io/project",
-    SentryEnvironment = "production"
-};
+// Configure logging (settings are applied through the Configuration property)
+BGLogger.Configuration.ApplicationName = "MyApplication";
+BGLogger.Configuration.LogDirectory = @"C:\Logs";
 
-BGLogger.Configure(config);
-BGLogger.Reload();
+// Enable Sentry error tracking (optional)
+BGLogger.Configuration.SentryDsn = "https://your-sentry-dsn@sentry.io/project";
+BGLogger.Configuration.SentryEnvironment = "production";
+BGLogger.Configuration.ErrorTracking = true;
+
+// Enable additional targets as needed
+BGLogger.Configuration.Console = true;
+BGLogger.Configuration.File = true; // Enabled by default
 
 // Use the logger
 BGLogger.Info("Application started");
 BGLogger.Error(exception, "An error occurred");
+
+// Enable automatic unhandled exception reporting
+BGLogger.UnhandledExceptionReporting(true);
 ```
 
 ### Data Persistence with SQLite
 
 ```csharp
-using BAUERGROUP.Shared.Data.Connection;
+using BAUERGROUP.Shared.Data.EmbeddedDatabase;
 
-// Open encrypted SQLite database
-var connection = SQLiteConnectionFactory.CreateConnection(
-    "mydata.db",
-    "encryption-key"
+// Create a thread-safe, persistent key-value dictionary backed by SQLite
+using var storage = new ConcurrentPersistentDictionary<string, MyData>(
+    dataStorageDirectory: @"C:\Data",
+    databaseName: "MyDatabase",
+    tableName: "MyTable"
 );
 
-// Use with your preferred ORM or raw SQL
+// Store and retrieve data
+storage.Create("key1", new MyData { Name = "Example" });
+var data = storage.Read("key1");
+bool exists = storage.Exists("key1");
+storage.Delete("key1");
+
+// Read all entries
+var allData = storage.Read();
+var allWithKeys = storage.ReadWithKeys();
 ```
 
 ### Embedded Browser (WPF)
@@ -113,11 +124,26 @@ var connection = SQLiteConnectionFactory.CreateConnection(
 ```csharp
 using BAUERGROUP.Shared.Desktop.Browser;
 
-// Show embedded Chrome browser window
+// Show embedded Chrome browser window (non-blocking)
 WPFToolboxBrowser.ChromeEmbeddedWebbrowserWindow(
     title: "Web View",
     url: "https://example.com",
-    owner: this
+    owner: this,
+    wait: false
+);
+
+// Show browser and wait for it to close (modal dialog)
+WPFToolboxBrowser.ChromeEmbeddedWebbrowserWindow(
+    title: "Web View",
+    url: "https://example.com",
+    owner: this,
+    wait: true
+);
+
+// Take a screenshot of a website
+await WPFToolboxBrowser.MakeWebsiteScreenshot(
+    "https://example.com",
+    "screenshot.png"
 );
 ```
 
@@ -144,23 +170,24 @@ BAUERGROUP.Shared.Plattform/
 ├── src/
 │   ├── BAUERGROUP.Shared.Core/                 # Core utilities & logging
 │   ├── BAUERGROUP.Shared.Data/                 # Data persistence layer
-│   ├── BAUERGROUP.Shared.API/                  # Generic API integrations
+│   ├── BAUERGROUP.Shared.API/                  # Generic REST API client
 │   ├── BAUERGROUP.Shared.Cloud/                # Cloud service integrations
 │   ├── BAUERGROUP.Shared.Desktop/              # WPF/WinForms utilities
 │   ├── BAUERGROUP.Shared.Desktop.Browser/      # Embedded browser
 │   └── BAUERGROUP.Shared.Desktop.Reporting/    # Reporting components
 ├── tests/
-│   └── BAUERGROUP.Shared.Tests/          # Unit tests
-├── assets/
-│   └── icons/                            # Shared icons
+│   └── BAUERGROUP.Shared.Plattform.Test/       # Unit tests
+├── assets/                                     # Application icons
 ├── docs/
-│   ├── BUILD.md                          # Build documentation
-│   ├── CHANGELOG.md                      # Version history
-│   ├── DEPENDENCY-LICENSES.md            # License analysis
-│   └── INSTALLATION.md                   # Installation guide
-├── Directory.Build.props                 # Shared build configuration
-├── Directory.Packages.props              # Central package management
-└── BAUERGROUP.Shared.Plattform.sln      # Solution file
+│   ├── BUILD.md                                # Build documentation
+│   ├── DEPENDENCY-LICENSES.md                  # License analysis
+│   ├── DOCUMENTATION-PLATFORM-SPEC.md          # Platform specification
+│   ├── INSTALLATION.md                         # Installation guide
+│   └── VERSIONING.md                           # Version management
+├── CHANGELOG.md                                # Version history
+├── Directory.Build.props                       # Shared build configuration
+├── Directory.Packages.props                    # Central package management
+└── BAUERGROUP.Shared.Plattform.sln             # Solution file
 ```
 
 ---
@@ -203,19 +230,40 @@ Packages will be output to `bin/Release/*.nupkg`
 
 ### NLog Configuration
 
-The library uses NLog for logging. Configuration can be done programmatically via `BGLoggerConfiguration` or through `nlog.config`.
+The library uses NLog for logging. Configuration is done programmatically via `BGLogger.Configuration`:
+
+```csharp
+// Available logging targets (can be enabled/disabled at runtime)
+BGLogger.Configuration.File = true;           // File logging (default: enabled)
+BGLogger.Configuration.Console = true;        // Console output
+BGLogger.Configuration.ConsoleColored = true; // Colored console output
+BGLogger.Configuration.Network = true;        // UDP network logging
+BGLogger.Configuration.NLogViewer = true;     // NLog Viewer (Log4J XML format)
+BGLogger.Configuration.Memory = true;         // In-memory log storage
+BGLogger.Configuration.Debugger = true;       // VS Debugger output
+BGLogger.Configuration.Eventlog = true;       // Windows Event Log (.NET only)
+BGLogger.Configuration.ErrorTracking = true;  // Sentry integration
+```
 
 ### Sentry Integration
 
-Two Sentry integration options are available:
+Sentry error tracking is integrated via the official `Sentry.NLog` package:
 
-1. **Official Sentry.NLog** (Recommended for BGLogger)
-   - Automatic integration with NLog pipeline
-   - Breadcrumbs, context, and event capture
+```csharp
+// Configure Sentry (must set DSN before enabling ErrorTracking)
+BGLogger.Configuration.SentryDsn = "https://...@sentry.io/...";
+BGLogger.Configuration.SentryEnvironment = "production";
+BGLogger.Configuration.SentryMinimumEventLevel = NLog.LogLevel.Error;
+BGLogger.Configuration.SentryMinimumBreadcrumbLevel = NLog.LogLevel.Debug;
+BGLogger.Configuration.ErrorTracking = true;
+```
 
-2. **BGErrorTracking** (Standalone)
-   - Independent Sentry wrapper
-   - Direct API access for custom scenarios
+Features:
+
+- Automatic integration with NLog pipeline
+- Breadcrumbs, context, and event capture
+- User tracking with Windows identity
+- Tags for ApplicationName, MachineName, ProcessName
 
 ---
 
