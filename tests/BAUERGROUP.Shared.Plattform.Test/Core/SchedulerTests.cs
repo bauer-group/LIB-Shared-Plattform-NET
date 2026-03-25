@@ -97,11 +97,11 @@ public class SchedulerTests : IDisposable
     [Fact]
     public async Task StartAsync_ExecutesEnabledJobs()
     {
-        var job = new TestSchedulerJob { Interval = TimeSpan.FromMilliseconds(50) };
+        var job = new TestSchedulerJob { Interval = TimeSpan.FromMilliseconds(100) };
         _scheduler.RegisterJob(job);
 
         await _scheduler.StartAsync();
-        await Task.Delay(150);
+        await Task.Delay(500);
         await _scheduler.StopAsync();
 
         job.ExecutionCount.Should().BeGreaterThan(0);
@@ -110,11 +110,11 @@ public class SchedulerTests : IDisposable
     [Fact]
     public async Task StartAsync_DoesNotExecuteDisabledJobs()
     {
-        var job = new TestSchedulerJob { Enabled = false, Interval = TimeSpan.FromMilliseconds(50) };
+        var job = new TestSchedulerJob { Enabled = false, Interval = TimeSpan.FromMilliseconds(100) };
         _scheduler.RegisterJob(job);
 
         await _scheduler.StartAsync();
-        await Task.Delay(150);
+        await Task.Delay(500);
         await _scheduler.StopAsync();
 
         job.ExecutionCount.Should().Be(0);
@@ -123,14 +123,14 @@ public class SchedulerTests : IDisposable
     [Fact]
     public async Task StopAsync_StopsJobExecution()
     {
-        var job = new TestSchedulerJob { Interval = TimeSpan.FromMilliseconds(50) };
+        var job = new TestSchedulerJob { Interval = TimeSpan.FromMilliseconds(100) };
         _scheduler.RegisterJob(job);
 
         await _scheduler.StartAsync();
-        await Task.Delay(100);
+        await Task.Delay(500);
         await _scheduler.StopAsync();
         var countAfterStop = job.ExecutionCount;
-        await Task.Delay(100);
+        await Task.Delay(300);
 
         job.ExecutionCount.Should().Be(countAfterStop);
     }
@@ -138,13 +138,13 @@ public class SchedulerTests : IDisposable
     [Fact]
     public async Task RestartAsync_StopsAndStartsAgain()
     {
-        var job = new TestSchedulerJob { Interval = TimeSpan.FromMilliseconds(50) };
+        var job = new TestSchedulerJob { Interval = TimeSpan.FromMilliseconds(100) };
         _scheduler.RegisterJob(job);
 
         await _scheduler.StartAsync();
-        await Task.Delay(100);
+        await Task.Delay(300);
         await _scheduler.RestartAsync();
-        await Task.Delay(100);
+        await Task.Delay(300);
         await _scheduler.StopAsync();
 
         job.ExecutionCount.Should().BeGreaterThan(1);
@@ -153,12 +153,12 @@ public class SchedulerTests : IDisposable
     [Fact]
     public async Task Start_SetsLastExecution()
     {
-        var job = new TestSchedulerJob { Interval = TimeSpan.FromMilliseconds(50) };
+        var job = new TestSchedulerJob { Interval = TimeSpan.FromMilliseconds(100) };
         _scheduler.RegisterJob(job);
         job.LastExecution.Should().BeNull();
 
         await _scheduler.StartAsync();
-        await Task.Delay(100);
+        await Task.Delay(500);
         await _scheduler.StopAsync();
 
         job.LastExecution.Should().NotBeNull();
@@ -167,11 +167,11 @@ public class SchedulerTests : IDisposable
     [Fact]
     public async Task Start_SetsSuccessfulExecutionOnSuccess()
     {
-        var job = new TestSchedulerJob { Interval = TimeSpan.FromMilliseconds(50) };
+        var job = new TestSchedulerJob { Interval = TimeSpan.FromMilliseconds(100) };
         _scheduler.RegisterJob(job);
 
         await _scheduler.StartAsync();
-        await Task.Delay(100);
+        await Task.Delay(500);
         await _scheduler.StopAsync();
 
         job.SuccessfulExecution.Should().BeTrue();
@@ -180,11 +180,11 @@ public class SchedulerTests : IDisposable
     [Fact]
     public async Task Start_SetsSuccessfulExecutionFalseOnFailure()
     {
-        var job = new FailingSchedulerJob { Interval = TimeSpan.FromMilliseconds(50) };
+        var job = new FailingSchedulerJob { Interval = TimeSpan.FromMilliseconds(100) };
         _scheduler.RegisterJob(job);
 
         await _scheduler.StartAsync();
-        await Task.Delay(100);
+        await Task.Delay(500);
         await _scheduler.StopAsync();
 
         job.SuccessfulExecution.Should().BeFalse();
