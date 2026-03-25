@@ -25,10 +25,10 @@ namespace BAUERGROUP.Shared.Desktop.Logging
         {
             InitializeComponent();
 
-            //Initalize();
+            //Initialize();
         }
 
-        private void Initalize()
+        private void Initialize()
         {
             LogReceiver = new BGLoggerNetworkListener(true);
             LogReceiver.PropertyChanged += OnLogMessageReceived;

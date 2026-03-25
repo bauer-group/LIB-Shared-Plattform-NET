@@ -49,6 +49,7 @@ namespace BAUERGROUP.Shared.Core.Files
         public void Dispose()
         {
             ZIP.Close();
+            GC.SuppressFinalize(this);
         }
     }
 }

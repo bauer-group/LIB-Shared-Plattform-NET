@@ -25,6 +25,11 @@ namespace BAUERGROUP.Shared.Cloud.CloudinaryClient
         protected Cloudinary Client { get; private set; } = null!;
 
         /// <summary>
+        /// Gets or sets the maximum number of results returned by list operations. Default is 500.
+        /// </summary>
+        public int MaxListResults { get; set; } = 500;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CloudinaryImageManager"/> class.
         /// </summary>
         /// <param name="configuration">The configuration containing Cloudinary credentials and project settings.</param>
@@ -32,10 +37,10 @@ namespace BAUERGROUP.Shared.Cloud.CloudinaryClient
         {
             Configuration = configuration;
 
-            Initalize();
+            Initialize();
         }
 
-        private void Initalize()
+        private void Initialize()
         {
             var account = new Account(Configuration.Name, Configuration.APIKey, Configuration.APISecret);
             Client = new Cloudinary(account);
@@ -46,7 +51,7 @@ namespace BAUERGROUP.Shared.Cloud.CloudinaryClient
         /// </summary>
         public void Dispose()
         {
-
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -183,7 +188,7 @@ namespace BAUERGROUP.Shared.Cloud.CloudinaryClient
         {
             var listParameters = new ListResourcesParams()
             {
-                MaxResults = 500,
+                MaxResults = MaxListResults,
                 ResourceType = contentType == CloudinaryContentType.Image ? ResourceType.Image : ResourceType.Video
             };
 

@@ -51,9 +51,9 @@ namespace BAUERGROUP.Shared.Desktop.DataSources
                 {
                     userDSNList.Add(dsnName, dsnType);
                 }
-                catch
+                catch (ArgumentException)
                 {
-                    // An exception can be thrown if the key being added is a duplicate. So we just catch it here and have to ignore it.
+                    // Duplicate key — DSN exists in both User and System DSNs, safe to ignore.
                 }
             }
 

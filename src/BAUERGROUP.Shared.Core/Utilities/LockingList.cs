@@ -34,6 +34,7 @@ namespace BAUERGROUP.Shared.Core.Utilities
         public void Dispose()
         {
             _mc.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>

@@ -69,7 +69,7 @@ namespace BAUERGROUP.Shared.Cloud.FixerIO
                 })
             );
 
-            Initalize();
+            Initialize();
         }
 
         private void Validate()
@@ -78,7 +78,7 @@ namespace BAUERGROUP.Shared.Cloud.FixerIO
                 throw new FixerIOClientException($"Invalid API URL '{Configuration.URL}'.", new ArgumentException("Invalid URL"));
         }
 
-        private void Initalize()
+        private void Initialize()
         {
             Client.AddDefaultHeader(KnownHeaders.Accept, "application/json");
         }
@@ -97,6 +97,7 @@ namespace BAUERGROUP.Shared.Cloud.FixerIO
         public void Dispose()
         {
             Client.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         protected async Task<T> ExceptionHandlerAsync<T>(Func<Task<T>> action)

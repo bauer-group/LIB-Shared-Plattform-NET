@@ -101,7 +101,7 @@ namespace BAUERGROUP.Shared.Core.ErrorTracking
                 var version = assembly.GetName().Version;
                 return $"{name}@{version}";
             }
-            catch
+            catch (Exception)
             {
                 return "unknown";
             }

@@ -17,11 +17,22 @@ namespace BAUERGROUP.Shared.Core.Files
             if (sourceDirectory == destinationDirectory)
                 throw new ArgumentException("Source and destination cannot be the same directory.");
 
+            // Normalize paths to ensure consistent trailing separator
+            var normalizedSource = Path.GetFullPath(sourceDirectory)
+                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                + Path.DirectorySeparatorChar;
+
             foreach (var path in Directory.GetDirectories(sourceDirectory, "*", SearchOption.AllDirectories))
-                Directory.CreateDirectory(path.Replace(sourceDirectory, destinationDirectory));
+            {
+                var relativePath = path.Substring(normalizedSource.Length);
+                Directory.CreateDirectory(Path.Combine(destinationDirectory, relativePath));
+            }
 
             foreach (var path in Directory.GetFiles(sourceDirectory, "*.*", SearchOption.AllDirectories))
-                File.Copy(path, path.Replace(sourceDirectory, destinationDirectory), true);
+            {
+                var relativePath = path.Substring(normalizedSource.Length);
+                File.Copy(path, Path.Combine(destinationDirectory, relativePath), true);
+            }
         }
     }
 }

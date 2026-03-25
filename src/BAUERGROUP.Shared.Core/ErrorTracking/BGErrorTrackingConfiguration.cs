@@ -17,7 +17,7 @@ namespace BAUERGROUP.Shared.Core.ErrorTracking
                 var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
                 ApplicationName = Path.GetFileNameWithoutExtension(assembly.Location);
             }
-            catch
+            catch (Exception)
             {
                 ApplicationName = "Unknown";
             }
