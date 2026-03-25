@@ -161,6 +161,7 @@ internal partial class ChromeWebbrowserControl : UserControl
     public void Dispose()
     {
         Dispose(true);
+        GC.SuppressFinalize(this);
     }
 
     /// <summary>

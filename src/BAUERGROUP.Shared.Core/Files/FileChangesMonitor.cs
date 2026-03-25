@@ -36,6 +36,7 @@ namespace BAUERGROUP.Shared.Core.Files
         public void Dispose()
         {
             _fsw.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

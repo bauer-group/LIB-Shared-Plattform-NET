@@ -18,7 +18,8 @@ namespace BAUERGROUP.Shared.Core.Files
                 throw new ArgumentException("Source and destination cannot be the same directory.");
 
             // Normalize paths to ensure consistent trailing separator
-            var normalizedSource = sourceDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+            var normalizedSource = Path.GetFullPath(sourceDirectory)
+                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
                 + Path.DirectorySeparatorChar;
 
             foreach (var path in Directory.GetDirectories(sourceDirectory, "*", SearchOption.AllDirectories))

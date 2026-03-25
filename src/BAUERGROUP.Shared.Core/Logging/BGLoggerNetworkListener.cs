@@ -48,6 +48,7 @@ namespace BAUERGROUP.Shared.Core.Logging
         {
             _cts.Cancel();
             _cts.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
