@@ -1,3 +1,9 @@
+## [3.0.3](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v3.0.2...v3.0.3) (2026-03-25)
+
+### 🐛 Bug Fixes
+
+* Non-breaking bug fixes, code quality improvements, and dead dependency removal ([#41](https://github.com/bauer-group/LIB-Shared-Plattform-NET/issues/41)) ([7978dd2](https://github.com/bauer-group/LIB-Shared-Plattform-NET/commit/7978dd2eb1575d3391b844b6eeacd3dcc9442f0c))
+
 ## [3.0.2](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v3.0.1...v3.0.2) (2026-01-28)
 
 ### 🐛 Bug Fixes
