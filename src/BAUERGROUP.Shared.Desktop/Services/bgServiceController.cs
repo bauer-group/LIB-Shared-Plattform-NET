@@ -23,11 +23,11 @@ namespace BAUERGROUP.Shared.Desktop.Services
 
             _cts = new CancellationTokenSource();
 
-            InitalizeStatusMonitor();
+            InitializeStatusMonitor();
             OnPropertyChanged("ServiceStatus");
         }
 
-        private void InitalizeStatusMonitor()
+        private void InitializeStatusMonitor()
         {
             Task.Factory.StartNew(() =>
             {

@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.Win32.SystemEvents" />
     <PackageReference Include="System.Configuration.ConfigurationManager" />
     <PackageReference Include="System.Data.Odbc" />
-    <PackageReference Include="System.Data.SqlClient" />
+
     <PackageReference Include="System.ServiceProcess.ServiceController" />
     <PackageReference Include="System.Text.Encoding.CodePages" />
     <PackageReference Include="System.Collections.Immutable" />

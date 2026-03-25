@@ -9,22 +9,22 @@ namespace BAUERGROUP.Shared.Core.Application
     /// <summary>
     /// Base class for application lifecycle management.
     /// </summary>
-    public class ApplicationController: IDisposable
+    public class ApplicationController : IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationController"/> class.
         /// </summary>
         public ApplicationController()
         {
-
         }
 
         /// <summary>
         /// Releases all resources used by the <see cref="ApplicationController"/>.
+        /// Subclasses should override this method to release managed resources.
         /// </summary>
-        public void Dispose()
+        public virtual void Dispose()
         {
-
+            GC.SuppressFinalize(this);
         }
     }
 }

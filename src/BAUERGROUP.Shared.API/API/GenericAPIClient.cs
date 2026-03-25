@@ -61,11 +61,11 @@ namespace BAUERGROUP.Shared.API.API
                 })
             );
 
-            Initalize();
+            Initialize();
             Authenticate();
         }
 
-        private void Initalize()
+        private void Initialize()
         {
             Client.AddDefaultHeader(KnownHeaders.Accept, "application/json");
         }
@@ -102,6 +102,7 @@ namespace BAUERGROUP.Shared.API.API
         public void Dispose()
         {
             Client?.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         protected async Task<T> ExceptionHandlerAsync<T>(Func<Task<T>> action)

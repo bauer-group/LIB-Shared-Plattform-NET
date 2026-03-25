@@ -37,8 +37,8 @@ namespace BAUERGROUP.Shared.Core.Logging
                     "Logging");
 
             //Instances
-            InitalizeTargets();
-            InitalizeRules();
+            InitializeTargets();
+            InitializeRules();
 
             //Set default Ports
             NetworkPort = DefaultNetworkPort;
@@ -69,7 +69,7 @@ namespace BAUERGROUP.Shared.Core.Logging
             Debug = true;
             #endif
 
-            InitalizeCustomTargets();
+            InitializeCustomTargets();
         }
 
         public static String ApplicationName
@@ -538,7 +538,7 @@ namespace BAUERGROUP.Shared.Core.Logging
             Network = Mail = File = Console = Debug = NLogViewer = enable;
         }
 
-        private void InitalizeTargets()
+        private void InitializeTargets()
         {
             Targets = new LoggingConfiguration();
 
@@ -648,7 +648,7 @@ namespace BAUERGROUP.Shared.Core.Logging
             TargetErrorTracking.ContextProperties.Add(new TargetPropertyWithContext("CallSite", "${callsite:includeNamespace=true}"));
         }
 
-        private void InitalizeRules()
+        private void InitializeRules()
         {
             LoggingRuleFile = new LoggingRule("*", LogLevel.Debug, TargetFile);
             LoggingRuleDebug = new LoggingRule("*", LogLevel.Debug, TargetDebug);
@@ -707,7 +707,7 @@ namespace BAUERGROUP.Shared.Core.Logging
             LogManager.ReconfigExistingLoggers();
         }
 
-        protected virtual void InitalizeCustomTargets()
+        protected virtual void InitializeCustomTargets()
         {
             /*
             var x = new WebServiceTarget();

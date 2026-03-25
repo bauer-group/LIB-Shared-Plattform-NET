@@ -43,7 +43,7 @@
     <PackageVersion Include="Microsoft.Win32.SystemEvents" Version="10.0.2" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="10.0.2" />
     <PackageVersion Include="System.Data.Odbc" Version="10.0.2" />
-    <PackageVersion Include="System.Data.SqlClient" Version="4.9.0" />
+
     <PackageVersion Include="System.ServiceProcess.ServiceController" Version="10.0.2" />
     <PackageVersion Include="System.Text.Encoding.CodePages" Version="10.0.2" />
     <PackageVersion Include="System.Collections.Immutable" Version="10.0.2" />

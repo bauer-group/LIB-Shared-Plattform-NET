@@ -45,6 +45,8 @@ namespace BAUERGROUP.Shared.Core.Files
 
             _cw = null;
             _sw = null;
+
+            GC.SuppressFinalize(this);
         }
 
         public void Close()

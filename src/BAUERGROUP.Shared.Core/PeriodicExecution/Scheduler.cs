@@ -15,6 +15,11 @@ public class Scheduler : IScheduler
     private readonly object _lock = new();
     private bool _disposed;
 
+    /// <summary>
+    /// Gets or sets the timeout for waiting on running jobs during stop. Default is 30 seconds.
+    /// </summary>
+    public TimeSpan ShutdownTimeout { get; set; } = TimeSpan.FromSeconds(30);
+
     /// <inheritdoc />
     public IReadOnlyList<ISchedulerObject> Jobs => _jobs.AsReadOnly();
 
@@ -102,10 +107,10 @@ public class Scheduler : IScheduler
             try
             {
 #if NET6_0_OR_GREATER
-                await Task.WhenAll(tasksToWait).WaitAsync(TimeSpan.FromSeconds(30), cancellationToken);
+                await Task.WhenAll(tasksToWait).WaitAsync(ShutdownTimeout, cancellationToken);
 #else
                 var allTasks = Task.WhenAll(tasksToWait);
-                var completedTask = await Task.WhenAny(allTasks, Task.Delay(TimeSpan.FromSeconds(30), cancellationToken));
+                var completedTask = await Task.WhenAny(allTasks, Task.Delay(ShutdownTimeout, cancellationToken));
                 if (completedTask != allTasks)
                 {
                     BGLogger.Warn("Scheduler stop timed out waiting for jobs to complete");

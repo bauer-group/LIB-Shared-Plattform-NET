@@ -50,9 +50,8 @@ namespace BAUERGROUP.Shared.Core.Streams
                 if (resourceStream == null)
                     return false;
 
-                FileStream fileStream = new FileStream(filename, FileMode.Create);
+                using var fileStream = new FileStream(filename, FileMode.Create);
                 resourceStream.CopyTo(fileStream);
-                fileStream.Close();
             }
 
             return true;

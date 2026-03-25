@@ -17,6 +17,8 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
     /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
     public class ConcurrentPersistentDictionary<TKey, TValue> : IDisposable where TKey : IComparable<TKey>
     {
+        private readonly object _lock = new object();
+
         /// <summary>
         /// Gets the file path of the SQLite database.
         /// </summary>
@@ -58,7 +60,7 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
         /// </summary>
         public void Dispose()
         {
-            lock (ConcurrentPersistentDictionaryShared.GlobalLock)
+            lock (_lock)
             {
                 if (Connection == null)
                     return;
@@ -67,6 +69,8 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
                 Connection.Dispose();
                 Connection = null;
             }
+
+            GC.SuppressFinalize(this);
         }
 
         protected static String ApplicationDatabaseFolder
@@ -90,8 +94,11 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
         /// <param name="value">The value to store.</param>
         public void Create(TKey key, TValue value)
         {
-            Delete(key);
-            Connection!.Insert(new ConcurrentPersistentDictionaryStorage(TableName, ConvertKey2StorageFormat(key), ConvertValue2StorageFormat(value)));
+            lock (_lock)
+            {
+                DeleteInternal(key);
+                Connection!.Insert(new ConcurrentPersistentDictionaryStorage(TableName, ConvertKey2StorageFormat(key), ConvertValue2StorageFormat(value)));
+            }
         }
 
         /// <summary>
@@ -101,7 +108,11 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
         /// <param name="value">The value to store.</param>
         public void Update(TKey key, TValue value)
         {
-            Create(key, value);
+            lock (_lock)
+            {
+                DeleteInternal(key);
+                Connection!.Insert(new ConcurrentPersistentDictionaryStorage(TableName, ConvertKey2StorageFormat(key), ConvertValue2StorageFormat(value)));
+            }
         }
 
         /// <summary>
@@ -109,6 +120,14 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
         /// </summary>
         /// <param name="key">The key of the entry to delete.</param>
         public void Delete(TKey key)
+        {
+            lock (_lock)
+            {
+                DeleteInternal(key);
+            }
+        }
+
+        private void DeleteInternal(TKey key)
         {
             var storageKey = ConvertKey2StorageFormat(key);
             var query = Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == storageKey);
@@ -123,16 +142,19 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
         /// <returns>The value if found; otherwise, the default value for <typeparamref name="TValue"/>.</returns>
         public TValue? Read(TKey key)
         {
-            try
+            lock (_lock)
             {
-                var storageKey = ConvertKey2StorageFormat(key);
-                var result = Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == storageKey).Single();
+                try
+                {
+                    var storageKey = ConvertKey2StorageFormat(key);
+                    var result = Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == storageKey).Single();
 
-                return JsonSerializer.Deserialize<TValue>(result.Value);
-            }
-            catch (InvalidOperationException)
-            {
-                return default;
+                    return JsonSerializer.Deserialize<TValue>(result.Value);
+                }
+                catch (InvalidOperationException)
+                {
+                    return default;
+                }
             }
         }
 
@@ -142,16 +164,19 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
         /// <returns>A list of all values.</returns>
         public List<TValue> Read()
         {
-            var resultList = new List<TValue>();
-
-            var result = Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName);
-
-            foreach (var entry in result)
+            lock (_lock)
             {
-                resultList.Add(ConvertValue2RuntimeFormat(entry.Value)!);
-            }
+                var resultList = new List<TValue>();
 
-            return resultList;
+                var result = Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName);
+
+                foreach (var entry in result)
+                {
+                    resultList.Add(ConvertValue2RuntimeFormat(entry.Value)!);
+                }
+
+                return resultList;
+            }
         }
 
         /// <summary>
@@ -160,15 +185,18 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
         /// <returns>A dictionary containing all key-value pairs.</returns>
         public Dictionary<TKey, TValue> ReadWithKeys()
         {
-            var resultDictionary = new Dictionary<TKey, TValue>();
-            var result = Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName);
-
-            foreach (var entry in result)
+            lock (_lock)
             {
-                resultDictionary.Add(ConvertKey2RuntimeFormat(entry.Key)!, ConvertValue2RuntimeFormat(entry.Value)!);
-            }
+                var resultDictionary = new Dictionary<TKey, TValue>();
+                var result = Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName);
 
-            return resultDictionary;
+                foreach (var entry in result)
+                {
+                    resultDictionary.Add(ConvertKey2RuntimeFormat(entry.Key)!, ConvertValue2RuntimeFormat(entry.Value)!);
+                }
+
+                return resultDictionary;
+            }
         }
 
         /// <summary>
@@ -178,8 +206,11 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
         /// <returns>True if the key exists; otherwise, false.</returns>
         public bool Exists(TKey key)
         {
-            var storageKey = ConvertKey2StorageFormat(key);
-            return Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == storageKey).Count() > 0;
+            lock (_lock)
+            {
+                var storageKey = ConvertKey2StorageFormat(key);
+                return Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Where(p => p.Key == storageKey).Count() > 0;
+            }
         }
 
         /// <summary>
@@ -189,7 +220,10 @@ namespace BAUERGROUP.Shared.Data.EmbeddedDatabase
         {
             get
             {
-                return Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Count();
+                lock (_lock)
+                {
+                    return Connection!.Table<ConcurrentPersistentDictionaryStorage>().Where(p => p.Container == TableName).Count();
+                }
             }
         }
 
