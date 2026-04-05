@@ -1,3 +1,11 @@
+## [3.0.4](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v3.0.3...v3.0.4) (2026-04-05)
+
+### 🐛 Bug Fixes
+
+* Increase timing margins in SchedulerTests to prevent flaky CI failures ([#42](https://github.com/bauer-group/LIB-Shared-Plattform-NET/issues/42)) ([f92c330](https://github.com/bauer-group/LIB-Shared-Plattform-NET/commit/f92c3306e34517690cb7b72cf578ea828968cb1d))
+* Increase timing margins in SchedulerTests to prevent flaky CI failures ([#42](https://github.com/bauer-group/LIB-Shared-Plattform-NET/issues/42)) ([ead5fe6](https://github.com/bauer-group/LIB-Shared-Plattform-NET/commit/ead5fe6501e1f0c411789930875cf6ade733c124))
+* make assembly signing conditional on SNK key file existence ([8492cd8](https://github.com/bauer-group/LIB-Shared-Plattform-NET/commit/8492cd8e9c5faae9778b06630c09ddcebab1edaf))
+
 ## [3.0.3](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v3.0.2...v3.0.3) (2026-03-25)
 
 ### 🐛 Bug Fixes
