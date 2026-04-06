@@ -6,14 +6,14 @@
     <!-- Build & Source Link -->
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.201" />
     <!-- Core / Utilities -->
-    <PackageVersion Include="NLog" Version="6.1.0" />
-    <PackageVersion Include="NLog.Extensions.Logging" Version="6.1.1" />
-    <PackageVersion Include="NLog.WindowsEventLog" Version="6.1.0" />
+    <PackageVersion Include="NLog" Version="6.1.2" />
+    <PackageVersion Include="NLog.Extensions.Logging" Version="6.1.2" />
+    <PackageVersion Include="NLog.WindowsEventLog" Version="6.1.2" />
     <!-- NLog 6.0 separate target packages -->
-    <PackageVersion Include="NLog.Targets.Mail" Version="6.0.3" />
+    <PackageVersion Include="NLog.Targets.Mail" Version="6.1.1" />
     <PackageVersion Include="NLog.Targets.Network" Version="6.0.4" />
     <PackageVersion Include="NLog.Targets.Trace" Version="6.0.3" />
-    <PackageVersion Include="NLog.Targets.WebService" Version="6.0.3" />
+    <PackageVersion Include="NLog.Targets.WebService" Version="6.1.1" />
     <PackageVersion Include="Polly" Version="8.6.6" />
     <PackageVersion Include="Polly.Extensions" Version="8.6.5" />
     <PackageVersion Include="Sentry" Version="6.1.0" />
