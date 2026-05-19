@@ -33,6 +33,12 @@ updates:
           - "FluentAssertions*"
           - "coverlet*"
           - "Moq*"
+    # License-pinned packages: do not update.
+    # Stimulsoft 2022.1.2 is the version covered by our license — see
+    # Directory.Packages.props ("Version bleibt wegen Lizenz!").
+    ignore:
+      - dependency-name: "Stimulsoft.Dashboards.Win"
+      - dependency-name: "Stimulsoft.Reports.Wpf"
 
   # GitHub Actions
   - package-ecosystem: "github-actions"
