@@ -142,12 +142,25 @@ public class SchedulerTests : IDisposable
         _scheduler.RegisterJob(job);
 
         await _scheduler.StartAsync();
-        await Task.Delay(300);
+        await WaitForExecutionsAsync(job, atLeast: 1, timeout: TimeSpan.FromSeconds(5));
+        var countBeforeRestart = job.ExecutionCount;
+
         await _scheduler.RestartAsync();
-        await Task.Delay(300);
+        await WaitForExecutionsAsync(job, atLeast: countBeforeRestart + 1, timeout: TimeSpan.FromSeconds(5));
         await _scheduler.StopAsync();
 
         job.ExecutionCount.Should().BeGreaterThan(1);
+    }
+
+    private static async Task WaitForExecutionsAsync(TestSchedulerJob job, int atLeast, TimeSpan timeout)
+    {
+        var deadline = DateTime.UtcNow + timeout;
+        while (job.ExecutionCount < atLeast)
+        {
+            if (DateTime.UtcNow > deadline)
+                throw new TimeoutException($"Job did not reach ExecutionCount >= {atLeast} within {timeout.TotalMilliseconds}ms (actual: {job.ExecutionCount})");
+            await Task.Delay(20);
+        }
     }
 
     [Fact]
