@@ -1,3 +1,9 @@
+## [3.0.5](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v3.0.4...v3.0.5) (2026-06-12)
+
+### 🐛 Bug Fixes
+
+* update copyright year to reflect the current year dynamically ([e040c6e](https://github.com/bauer-group/LIB-Shared-Plattform-NET/commit/e040c6e4fbeab507f9ce7c6b066e2725cfb0357e))
+
 ## [3.0.4](https://github.com/bauer-group/LIB-Shared-Plattform-NET/compare/v3.0.3...v3.0.4) (2026-04-05)
 
 ### 🐛 Bug Fixes
